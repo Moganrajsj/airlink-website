@@ -1,0 +1,91 @@
+.trustStrip {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #F7F8FA;
+    /* Light background */
+    border-top: 1px solid rgba(10, 25, 47, 0.05);
+    border-bottom: 1px solid rgba(10, 25, 47, 0.05);
+    padding: 16px 0;
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+}
+
+.trustTrack {
+    display: inline-flex;
+    align-items: center;
+    gap: 40px;
+    animation: scroll-left 40s linear infinite;
+}
+
+.trustTrack:hover {
+    animation-play-state: paused;
+}
+
+.trustItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #0A192F;
+    /* Navy text */
+    font-family: var(--font-inter);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.icon {
+    color: #FBBF24;
+    /* Yellow icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dotSeparator {
+    width: 6px;
+    height: 6px;
+    background-color: #FBBF24;
+    /* Yellow highlight dots */
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+}
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause on hover */
+.trustStrip:hover .trustTrack {
+    animation-play-state: paused;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .trustStrip {
+        padding: 12px 0;
+    }
+
+    .trustItem {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .trustTrack {
+        gap: 30px;
+    }
+
+    .dotSeparator {
+        width: 4px;
+        height: 4px;
+    }
+}

@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Part 7 — Animation & Infrastructure Management
+// ─────────────────────────────────────────────────────────────
+model BackgroundAsset {
+  id            String   @id @default(cuid())
+  sectionName   String   // e.g., "hero", "speed-test", "features"
+  imageUrl      String?  // SVG or image path for static fallbacks
+  animationType String   // e.g., "grid", "beams", "particles", "pulse", "circuit"
+  speed         Float    @default(1.0)
+  opacity       Float    @default(0.2)
+  status        Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+}
+
+model Banner {
+  id             String   @id @default(cuid())
+  title          String
+  subtitle       String?
+  offerHighlight String?
+  imageUrl       String?
+  ctaText        String?
+  ctaLink        String?
+  bannerType     String   // "hero", "promo", "announcement", "shop"
+  status         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+// ─────────────────────────────────────────────────────────────
+// Part 6 — CMS Content Models (CRUD Ready)
+// ─────────────────────────────────────────────────────────────
+model Plan {
+  id             String   @id @default(cuid())
+  title          String   // e.g., "Giga Fiber"
+  speed          Int      // speed in Mbps
+  price          Float    // monthly price
+  features       String   // JSON or comma separated string
+  tag            String?  // e.g., "Most Popular"
+  isBusiness     Boolean  @default(false)
+  status         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+model Coverage {
+  id           String   @id @default(cuid())
+  cityName     String
+  status       String   // e.g., "Live", "Coming Soon"
+  leadsCount   Int      @default(0)
+  updatedAt    DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  content   String
+  rating    Int      @default(5)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String
+  image     String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String?
+  phone      String   // legacy field kept for existing data
+  mobile     String   @default("")
+  city       String
+  pincode    String?
+  interest   String?  // "Home Broadband", "Business Internet", etc.
+  source     String   @default("contact_form") // "popup_multi_step", "contact_form", "plans_page", etc.
+  status     String   @default("new") // "new", "contacted", "interested", "converted", "closed"
+  assignedTo String?
+  notes      String?
+  planId     String?
+  message    String?
+  createdAt  DateTime @default(now())
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String
+  password          String
+  role              String    @default("customer") // "admin", "customer"
+  plan              String?   // e.g., "Giga Fiber"
+  isPaid            Boolean   @default(false)
+  billingDate       DateTime?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  createdAt         DateTime  @default(now())
+}

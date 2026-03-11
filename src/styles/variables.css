@@ -1,0 +1,132 @@
+:root {
+    /* === PRIMARY PALETTE === */
+    --color-primary: #FF6F00;
+    /* Cinematic Saffron */
+    --color-primary-rgb: 255, 111, 0;
+    --color-primary-dark: #E65100;
+    --color-primary-light: #FF9100;
+
+    /* === BACKGROUND COLORS === */
+    --color-bg: #FFFFFF;
+    --color-bg-secondary: #F8F9FA;
+    --color-surface: #FFFFFF;
+    --color-surface-hover: #F1F3F5;
+    --color-accent-dark: #0F1724;
+    --color-bg-dark: #0F1724;
+
+    /* === TEXT COLORS === */
+    --color-text: #FFFFFF;
+    --color-text-secondary: #CCCCCC;
+    --color-text-muted: #888888;
+    --color-text-disabled: #555555;
+
+    /* === ACCENT COLORS === */
+    --color-success: #00FF88;
+    --color-warning: #FFB800;
+    --color-error: #FF4444;
+    --color-info: #00D4FF;
+
+    /* === BORDERS === */
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-hover: rgba(255, 255, 255, 0.2);
+    --color-border-focus: rgba(245, 255, 0, 0.5);
+
+    /* === GLASSMORPHISM === */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg-hover: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 20px;
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+
+    /* === GRADIENTS === */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, #FFD700 100%);
+    --gradient-dark: linear-gradient(180deg, #000000 0%, #1A1A1A 100%);
+    --gradient-glow: radial-gradient(circle at center, rgba(255, 111, 0, 0.2) 0%, transparent 70%);
+    --gradient-mesh: linear-gradient(135deg, rgba(245, 255, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+
+    /* === TYPOGRAPHY === */
+    --font-main: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-size-xs: 0.75rem;
+    /* 12px */
+    --font-size-sm: 0.875rem;
+    /* 14px */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 1.125rem;
+    /* 18px */
+    --font-size-xl: 1.25rem;
+    /* 20px */
+    --font-size-2xl: 1.5rem;
+    /* 24px */
+    --font-size-3xl: 2rem;
+    /* 32px */
+    --font-size-4xl: 2.5rem;
+    /* 40px */
+    --font-size-5xl: 3.5rem;
+    /* 56px */
+    --font-size-6xl: 4.5rem;
+    /* 72px */
+
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* === SPACING === */
+    --spacing-xs: 0.5rem;
+    /* 8px */
+    --spacing-sm: 0.75rem;
+    /* 12px */
+    --spacing-md: 1rem;
+    /* 16px */
+    --spacing-lg: 1.5rem;
+    /* 24px */
+    --spacing-xl: 2rem;
+    /* 32px */
+    --spacing-2xl: 3rem;
+    /* 48px */
+    --spacing-3xl: 4rem;
+    /* 64px */
+    --spacing-4xl: 6rem;
+    /* 96px */
+    --spacing-5xl: 8rem;
+    /* 128px */
+
+    /* === BORDER RADIUS === */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* === SHADOWS === */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 30px rgba(255, 111, 0, 0.3);
+    --shadow-glow-strong: 0 0 50px rgba(255, 111, 0, 0.5);
+
+    /* === TRANSITIONS === */
+    --transition-fast: 0.15s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    --transition-bounce: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-elastic: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* === Z-INDEX LAYERS === */
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1100;
+    --z-fixed: 1200;
+    --z-modal-backdrop: 1300;
+    --z-modal: 1400;
+    --z-popover: 1500;
+    --z-tooltip: 1600;
+
+    /* === LAYOUT === */
+    --container-max-width: 1400px;
+    --navbar-height: 80px;
+    --section-padding: var(--spacing-5xl);
+}

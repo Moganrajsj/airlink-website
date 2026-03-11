@@ -1,0 +1,117 @@
+.trustMarquee {
+    overflow: hidden;
+    background: #000000;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.marqueeWrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.marqueeTrack {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: marqueeScroll 28s linear infinite;
+    align-items: center;
+    width: max-content;
+}
+
+.marqueeTrack span {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.marqueeTrack span:hover {
+    color: #FBBF24;
+    transform: scale(1.05);
+}
+
+.separator {
+    color: #FBBF24 !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    opacity: 0.4;
+    margin: 0 10px;
+}
+
+/* Pause on Hover */
+.trustMarquee:hover .marqueeTrack {
+    animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Premium Edge Fade Effect */
+.trustMarquee::before,
+.trustMarquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.trustMarquee::before {
+    left: 0;
+    background: linear-gradient(to right, #000000, transparent);
+}
+
+.trustMarquee::after {
+    right: 0;
+    background: linear-gradient(to left, #000000, transparent);
+}
+
+/* Opacity animation for entering the track items */
+.marqueeTrack span {
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.trustMarquee:hover .marqueeTrack span {
+    opacity: 1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .trustMarquee {
+        padding: 15px 0;
+    }
+
+    .marqueeTrack {
+        gap: 40px;
+        animation: marqueeScroll 22s linear infinite;
+    }
+
+    .marqueeTrack span {
+        font-size: 13.5px;
+    }
+
+    .trustMarquee::before,
+    .trustMarquee::after {
+        width: 50px;
+    }
+}

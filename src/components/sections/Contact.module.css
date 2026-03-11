@@ -1,0 +1,146 @@
+.section {
+    padding: var(--section-padding) 0;
+    background-color: #FFFFFF;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    color: #0F1724;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: var(--color-primary);
+}
+
+.text {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.contactList {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.contactItem {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.iconWrapper {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 111, 0, 0.1);
+    color: var(--color-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contactLabel {
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.contactValue {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0F1724;
+}
+
+.formCol {
+    background: #F8F9FA;
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid #EEEEEE;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F1724;
+}
+
+.input,
+.textarea {
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #DDD;
+    background: #FFF;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.1);
+}
+
+.textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submitBtn {
+    background: var(--color-primary);
+    color: #FFF;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submitBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 111, 0, 0.3);
+}
+
+@media (max-width: 968px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+}

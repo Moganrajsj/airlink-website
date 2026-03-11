@@ -1,0 +1,109 @@
+.section {
+    padding: var(--section-padding) 0;
+    background-color: #0F1724;
+    color: #FFFFFF;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: var(--color-primary);
+}
+
+.text {
+    font-size: 18px;
+    color: #A0AEC0;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.statValue {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.statLabel {
+    font-size: 14px;
+    color: #A0AEC0;
+}
+
+.rightCol {
+    position: relative;
+}
+
+.appGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.appCard {
+    aspect-ratio: 1;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.appLogoPlaceholder {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.glowOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 111, 0, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+@media (max-width: 968px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: center;
+    }
+
+    .stats {
+        justify-content: center;
+    }
+}
