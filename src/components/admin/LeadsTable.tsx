@@ -9,6 +9,7 @@ interface Lead {
     name: string;
     mobile: string;
     email?: string | null;
+    company?: string | null;
     city: string;
     pincode?: string | null;
     interest?: string | null;
@@ -63,7 +64,11 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
 
     const filtered = localLeads.filter(l => {
         const q = search.toLowerCase();
-        const matchSearch = !q || l.name.toLowerCase().includes(q) || (l.mobile || '').includes(q) || (l.email || '').toLowerCase().includes(q);
+        const matchSearch = !q || 
+            l.name.toLowerCase().includes(q) || 
+            (l.mobile || '').includes(q) || 
+            (l.email || '').toLowerCase().includes(q) ||
+            (l.company || '').toLowerCase().includes(q);
         const matchInterest = !filterInterest || l.interest === filterInterest;
         const matchStatus = !filterStatus || l.status === filterStatus;
         const matchSource = !filterSource || l.source === filterSource;
@@ -118,8 +123,8 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/10 text-[10px] uppercase tracking-widest text-white/40">
-                                <th className="text-left px-4 py-3">Name</th>
                                 <th className="text-left px-4 py-3">Mobile</th>
+                                <th className="text-left px-4 py-3 hidden md:table-cell">Company</th>
                                 <th className="text-left px-4 py-3 hidden md:table-cell">Email</th>
                                 <th className="text-left px-4 py-3 hidden lg:table-cell">Interest</th>
                                 <th className="text-left px-4 py-3 hidden lg:table-cell">Source</th>
@@ -134,8 +139,12 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
                                 const Icon = STATUS_ICONS[lead.status] || Clock;
                                 return (
                                     <tr key={lead.id} className={`border-b border-white/5 hover:bg-white/5 transition-colors ${i % 2 === 0 ? '' : 'bg-white/[0.02]'}`}>
-                                        <td className="px-4 py-3 font-semibold text-white">{lead.name}</td>
+                                        <td className="px-4 py-3 font-semibold text-white">
+                                            {lead.name}
+                                            {lead.company && <div className="text-[10px] text-primary font-bold uppercase tracking-tighter md:hidden">{lead.company}</div>}
+                                        </td>
                                         <td className="px-4 py-3 font-mono text-white/80">{lead.mobile}</td>
+                                        <td className="px-4 py-3 text-white/50 hidden md:table-cell font-bold uppercase text-[10px] tracking-widest">{lead.company || '—'}</td>
                                         <td className="px-4 py-3 text-white/50 hidden md:table-cell">{lead.email || '—'}</td>
                                         <td className="px-4 py-3 text-white/50 hidden lg:table-cell">{lead.interest || '—'}</td>
                                         <td className="px-4 py-3 text-white/40 text-xs hidden lg:table-cell">{lead.source || '—'}</td>

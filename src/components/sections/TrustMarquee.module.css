@@ -1,7 +1,7 @@
 .trustMarquee {
     overflow: hidden;
     background: #000000;
-    padding: 12px 0;
+    padding: 8px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
@@ -98,7 +98,7 @@
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .trustMarquee {
-        padding: 15px 0;
+        padding: 5px 0;
     }
 
     .marqueeTrack {
@@ -107,7 +107,7 @@
     }
 
     .marqueeTrack span {
-        font-size: 13.5px;
+        font-size: 11px;
     }
 
     .trustMarquee::before,

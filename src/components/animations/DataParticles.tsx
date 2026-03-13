@@ -80,14 +80,11 @@ const DataParticles: React.FC<DataParticlesProps> = ({
                 ctx.fillStyle = particleColor;
                 ctx.fill();
 
-                // Small glow around particle
-                const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
-                glow.addColorStop(0, particleColor);
-                glow.addColorStop(1, 'transparent');
-                ctx.fillStyle = glow;
-                ctx.globalAlpha = opacity * p.pulse;
+                // Simplified glow without expensive gradient allocations
+                ctx.globalAlpha = opacity * p.pulse * 0.5; // lower alpha for the bigger glow
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
                 ctx.fill();
                 ctx.globalAlpha = opacity; // Reset for next particle
             }

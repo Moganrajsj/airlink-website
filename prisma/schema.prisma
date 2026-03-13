@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -63,9 +63,14 @@ model Coverage {
 model Testimonial {
   id        String   @id @default(cuid())
   name      String
+  person    String?  // fallback to name
+  city      String   @default("Tamil Nadu")
   role      String?
   content   String
   rating    Int      @default(5)
+  tag       String?
+  metric    String?
+  color     String   @default("#FBBF24")
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 }
@@ -87,6 +92,7 @@ model Lead {
   email      String?
   phone      String   // legacy field kept for existing data
   mobile     String   @default("")
+  company    String?
   city       String
   pincode    String?
   interest   String?  // "Home Broadband", "Business Internet", etc.
@@ -111,4 +117,23 @@ model User {
   resetToken        String?
   resetTokenExpiry  DateTime?
   createdAt         DateTime  @default(now())
+}
+
+model SocialLink {
+  id        String   @id @default(cuid())
+  platform  String   // e.g., "Pinterest", "LinkedIn", "Instagram", "YouTube", "Facebook"
+  url       String
+  icon      String?  // name of the icon component to use
+  status    Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+    id        String   @id @default(cuid())
+    name      String
+    email     String   @unique
+    password  String
+    role      String   @default("admin")
+    createdAt DateTime @default(now())
 }

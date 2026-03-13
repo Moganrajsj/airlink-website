@@ -14,9 +14,7 @@ import {
     User,
     Phone
 } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import FiberGlobe from '@/components/three/FiberGlobe';
+import Squares from '@/components/animations/Squares';
 import { createLead } from '@/app/actions/leads';
 
 const CoveragePage = () => {
@@ -40,7 +38,7 @@ const CoveragePage = () => {
 
         const result = await createLead({
             name,
-            phone,
+            mobile: phone,
             city: location,
             message: `Availability check for: ${location}`
         });
@@ -66,14 +64,15 @@ const CoveragePage = () => {
         <div className="min-h-screen bg-[#020617] text-white font-inter overflow-hidden">
             {/* 1. 3D Hero Section */}
             <section className="relative min-h-[90vh] flex items-center pt-24 pb-20 border-b border-white/5">
-                {/* 3D Canvas Background */}
-                <div className="absolute inset-0 z-0 opacity-60">
-                    <Canvas camera={{ position: [0, 0, 7], fov: 45 }}>
-                        <ambientLight intensity={0.5} />
-                        <pointLight position={[10, 10, 10]} intensity={2} color="#FBBF24" />
-                        <FiberGlobe />
-                        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
-                    </Canvas>
+                {/* React Bits Squares Background */}
+                <div className="absolute inset-0 z-0 opacity-40">
+                    <Squares
+                        direction="diagonal"
+                        speed={1}
+                        borderColor="#FBBF24"
+                        squareSize={40}
+                        hoverFillColor="#ff8f00"
+                    />
                 </div>
 
                 {/* Dark Gradient Overlay for text readability */}

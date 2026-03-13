@@ -2,11 +2,33 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, ArrowUpRight, Wifi } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, ArrowUpRight, Wifi, Share2, Youtube, Globe, X as TwitterX, MessageCircle, Send, Music2, Ghost } from 'lucide-react';
 import { LightSectionBg } from '@/components/ui/AnimatedBackground';
+
+const platformIcons: Record<string, any> = {
+    'Facebook': Facebook,
+    'Instagram': Instagram,
+    'LinkedIn': Linkedin,
+    'YouTube': Youtube,
+    'Pinterest': Share2,
+    'Twitter': TwitterX,
+    'WhatsApp': MessageCircle,
+    'Telegram': Send,
+    'TikTok': Music2,
+    'Snapchat': Ghost,
+    'Website': Globe
+};
 
 const Footer = () => {
     const year = new Date().getFullYear();
+    const [socialLinks, setSocialLinks] = React.useState<any[]>([]);
+
+    React.useEffect(() => {
+        fetch('/api/social')
+            .then(r => r.json())
+            .then(data => setSocialLinks(data || []))
+            .catch(() => setSocialLinks([]));
+    }, []);
 
     return (
         <footer className="relative bg-[#F7F8FA] text-[#0A192F] pt-28 pb-10 overflow-hidden border-t border-[#0A192F]/06">
@@ -37,16 +59,46 @@ const Footer = () => {
                         </p>
 
                         {/* Social links */}
-                        <div className="flex gap-3">
-                            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                                <a
-                                    key={i}
-                                    href="#"
-                                    className="cursor-target w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white"
-                                >
-                                    <Icon size={16} />
-                                </a>
-                            ))}
+                        <div className="flex flex-wrap gap-3">
+                            {socialLinks.length > 0 ? (
+                                socialLinks.map((link) => {
+                                    const Icon = platformIcons[link.platform] || Globe;
+                                    const iconClass = "cursor-target w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white";
+                                    if (link.url) {
+                                        return (
+                                            <a
+                                                key={link.id}
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title={link.platform}
+                                                className={iconClass}
+                                            >
+                                                <Icon size={16} />
+                                            </a>
+                                        );
+                                    }
+                                    return (
+                                        <span
+                                            key={link.id}
+                                            title={link.platform}
+                                            className={iconClass}
+                                        >
+                                            <Icon size={16} />
+                                        </span>
+                                    );
+                                })
+                            ) : (
+                                [Facebook, TwitterX, Instagram, Linkedin].map((Icon, i) => (
+                                    <a
+                                        key={i}
+                                        href="#"
+                                        className="cursor-target w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white"
+                                    >
+                                        <Icon size={16} />
+                                    </a>
+                                ))
+                            )}
                         </div>
                     </div>
 
@@ -118,14 +170,14 @@ const Footer = () => {
                             </li>
                             <li>
                                 <a
-                                    href="tel:+919345217979"
+                                    href="tel:+919344584000"
                                     className="cursor-target flex items-start gap-3 group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center text-[#FBBF24] flex-shrink-0 group-hover:bg-[#FBBF24] group-hover:text-[#0A192F] transition-all duration-300">
                                         <Phone size={15} />
                                     </div>
                                     <span className="text-sm font-semibold text-[#0A192F]/55 group-hover:text-[#0A192F] transition-colors pt-1.5">
-                                        +91 93452 17979 | +91 93445 84000
+                                        +91 93445 84000 | +91 93452 17979
                                     </span>
                                 </a>
                             </li>

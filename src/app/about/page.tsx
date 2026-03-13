@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { DarkHeroBg, LightSectionBg, NavySectionBg, MeshBg, LightHeroBg, GraySectionBg, LightMeshBg } from '@/components/ui/AnimatedBackground';
-import Aurora from '@/components/animations/Aurora';
-import Particles from '@/components/animations/Particles';
 import {
     ShieldCheck,
     Globe,
@@ -146,11 +144,7 @@ const AboutPage = () => {
         <div className="min-h-screen bg-white text-[#0A192F] font-inter">
             {/* 1. Hero Section */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
-                <div className="absolute inset-0 bg-[url('/images/real_fiber_optics_1772908882802.png')] bg-cover bg-fixed bg-center opacity-30 mix-blend-luminosity"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A192F]/80 to-[#0A192F]"></div>
-
-                <Aurora colorStops={["#FBBF24", "#0A192F", "#1A365D"]} speed={0.5} amplitude={1.5} blend={0.4} />
-                <Particles count={300} size={0.05} color="#FBBF24" interactive={true} />
+                <div className="absolute inset-0 bg-[url('/images/indian_telecom_tower.png')] bg-cover bg-fixed bg-center opacity-80"></div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <motion.div
@@ -213,7 +207,10 @@ const AboutPage = () => {
                                     Sriram Broadband Services Pvt. Ltd. is a Government of India, Department of Telecommunications licensed Internet Service Provider serving Tamil Nadu. With over 15 years of proven excellence, we deliver high-performance internet and enterprise networking solutions.
                                 </p>
                                 <p>
-                                    We combine enterprise-grade infrastructure with a customer-centric service approach, making Sriram Broadband a trusted long-term technology partner.
+                                    Whether you're powering complex business <strong className="text-[#0A192F] font-black">interactions</strong>, indulging in high-speed, lag-free <strong className="text-[#0A192F] font-black">fun</strong>, or scaling massive enterprise operations, our infrastructure ensures your digital experience is blazing fast, ultra-reliable, and always seamless.
+                                </p>
+                                <p>
+                                    We combine enterprise-grade infrastructure with a customer-centric service approach, making Sriram Broadband a trusted long-term technology partner for both serious business operations and daily digital thrills.
                                 </p>
                             </div>
 
@@ -237,7 +234,7 @@ const AboutPage = () => {
                         >
                             <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-[0_30px_90px_rgb(0,0,0,0.08)] bg-[#F7F7F8] p-2 border border-[#E5E7EB]">
                                 <div className="bg-[#0A192F] rounded-[2.5rem] p-12 relative overflow-hidden aspect-[4/3] flex flex-col justify-center items-center group">
-                                    <div className="absolute inset-0 bg-[url('/images/real_fiber_optics_1772908882802.png')] bg-cover bg-center opacity-50 group-hover:opacity-60 transition-opacity duration-700 mix-blend-overlay"></div>
+                                    <div className="absolute inset-0 bg-[url('/images/indian_telecom_tower.png')] bg-cover bg-center opacity-50 group-hover:opacity-60 transition-opacity duration-700 mix-blend-overlay"></div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/60 to-transparent"></div>
                                     <div className="relative z-10 w-24 h-24 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-8 border border-white/20 shadow-2xl">
                                         <Award className="w-10 h-10 text-[#FBBF24]" />

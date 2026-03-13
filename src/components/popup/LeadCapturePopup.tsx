@@ -2,13 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, Zap } from 'lucide-react';
+import { X, ChevronRight, RadioTower } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { createLead } from '@/app/actions/leads';
+import Aurora from '@/components/animations/Aurora';
+import BlurText from '@/components/animations/BlurText';
 
 const INTEREST_OPTIONS = [
-    'Home Broadband',
+    'Home Broadband (Fiber)',
     'Business Internet',
-    'WiFi Router',
+    'Wireless Internet',
+    'WiFi Router Setup',
     'CCTV Security',
 ];
 
@@ -20,17 +24,21 @@ interface FormData {
 }
 
 export default function LeadCapturePopup() {
+    const pathname = usePathname();
     const [isVisible, setIsVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    
+    // Do NOT render or trigger logic if on admin or auth pages
+    const hidePopup = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+    
     const [mobileError, setMobileError] = useState('');
     const [form, setForm] = useState<FormData>({
         name: '', mobile: '', email: '', interest: INTEREST_OPTIONS[0]
     });
 
     useEffect(() => {
-        // Stop timer completely if successfully submitted
-        if (success) return;
+        if (hidePopup || success) return;
 
         let timer: NodeJS.Timeout;
 
@@ -82,6 +90,8 @@ export default function LeadCapturePopup() {
         }
     };
 
+    if (hidePopup) return null;
+
     return (
         <AnimatePresence>
             {isVisible && (
@@ -108,14 +118,15 @@ export default function LeadCapturePopup() {
                             <div className="bg-[#FBBF24] relative overflow-hidden rounded-3xl border border-white/30 shadow-[0_30px_60px_rgba(0,0,0,0.4),0_0_40px_rgba(251,191,36,0.3)]">
 
                                 {/* Background Aesthetic Patterns */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-[80px] rounded-full pointer-events-none" />
-                                <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-white/10 blur-[80px] rounded-full pointer-events-none" />
+                                <div className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-overlay">
+                                    <Aurora colorStops={["#ffffff", "#FEE12B", "#ffffff"]} speed={0.8} />
+                                </div>
 
                                 {/* Close Button */}
                                 <button
                                     type="button"
                                     onClick={closePopup}
-                                    className="absolute top-4 right-4 p-2 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-[#0A192F]/80 hover:text-[#0A192F] z-50 cursor-pointer"
+                                    className="cursor-target absolute top-4 right-4 p-2 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-[#0A192F]/80 hover:text-[#0A192F] z-50 cursor-pointer"
                                     aria-label="Close"
                                 >
                                     <X size={20} strokeWidth={3} />
@@ -123,13 +134,20 @@ export default function LeadCapturePopup() {
 
                                 {/* Header Area */}
                                 <div className="px-8 pt-10 pb-6 text-center relative z-10">
-                                    <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-5 rotate-3 border border-white/40 shadow-sm">
-                                        <Zap className="text-[#0A192F]" size={24} fill="currentColor" />
+                                    <div className="w-12 h-12 bg-[#FEF08A] rounded-full flex items-center justify-center mx-auto mb-5 border border-white/60 shadow-sm relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+                                        <RadioTower className="text-[#0A192F] relative z-10" size={24} />
                                     </div>
-                                    <h2 className="text-2xl sm:text-3xl font-black text-[#0A192F] mb-3 tracking-tight">Check Fiber <br />Availability</h2>
+                                    <h2 className="text-2xl sm:text-3xl font-black text-[#0A192F] mb-3 tracking-tight">Check Fiber / Wireless <br />Availability</h2>
                                     <p className="text-sm text-[#0A192F]/80 leading-relaxed max-w-[280px] mx-auto font-medium">
-                                        Enter your details to discover the best broadband plans in your location.
+                                        Enter your details to check if high-speed fiber or wireless internet is available in your area.
                                     </p>
+                                    <div className="mt-4 flex justify-center">
+                                        <div className="bg-green-100/90 border border-green-500/30 text-green-800 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-2 shadow-sm">
+                                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse border border-green-200"></span>
+                                            <BlurText text="Free Installation Available ." animateBy="word" delay={200} className="m-0 leading-none" />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Form Body */}
@@ -157,7 +175,7 @@ export default function LeadCapturePopup() {
                                                     placeholder="Name *"
                                                     value={form.name}
                                                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
+                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
                                                 />
                                             </div>
                                             <div>
@@ -172,7 +190,7 @@ export default function LeadCapturePopup() {
                                                         setForm(f => ({ ...f, mobile: val }));
                                                         if (mobileError) setMobileError('');
                                                     }}
-                                                    className={`w-full bg-white/50 border ${mobileError ? 'border-red-600' : 'border-white/40 focus:border-[#0A192F] focus:bg-white'} text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold`}
+                                                    className={`cursor-target w-full bg-white/50 border ${mobileError ? 'border-red-600' : 'border-white/40 focus:border-[#0A192F] focus:bg-white'} text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold`}
                                                 />
                                                 {mobileError && <p className="text-red-600 font-bold text-xs mt-1 px-2">{mobileError}</p>}
                                             </div>
@@ -182,7 +200,7 @@ export default function LeadCapturePopup() {
                                                     placeholder="Email"
                                                     value={form.email}
                                                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
+                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
                                                 />
                                             </div>
                                             <div className="relative">
@@ -190,7 +208,7 @@ export default function LeadCapturePopup() {
                                                     required
                                                     value={form.interest}
                                                     onChange={e => setForm(f => ({ ...f, interest: e.target.value }))}
-                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] rounded-xl px-5 py-3.5 text-sm outline-none transition-all appearance-none cursor-pointer font-semibold"
+                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] rounded-xl px-5 py-3.5 text-sm outline-none transition-all appearance-none font-semibold"
                                                 >
                                                     {INTEREST_OPTIONS.map(opt => (
                                                         <option key={opt} value={opt} className="bg-white text-[#0A192F]">
@@ -205,7 +223,7 @@ export default function LeadCapturePopup() {
                                             <button
                                                 type="submit"
                                                 disabled={!form.name.trim() || !form.mobile || loading}
-                                                className="w-full mt-4 py-4 rounded-xl bg-[#0A192F] hover:bg-black text-white font-black text-[13px] uppercase tracking-widest transition-all disabled:opacity-40 disabled:grayscale flex items-center justify-center gap-2 group shadow-[0_10px_20px_rgba(10,25,47,0.2)] hover:shadow-[0_10px_25px_rgba(10,25,47,0.3)] hover:-translate-y-0.5"
+                                                className="cursor-target w-full mt-4 py-4 rounded-xl bg-[#0A192F] hover:bg-black text-white font-black text-[13px] uppercase tracking-widest transition-all disabled:opacity-40 disabled:grayscale flex items-center justify-center gap-2 group shadow-[0_10px_20px_rgba(10,25,47,0.2)] hover:shadow-[0_10px_25px_rgba(10,25,47,0.3)] hover:-translate-y-0.5"
                                             >
                                                 {loading ? 'Processing...' : 'Check Availability'}
                                                 {!loading && <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform stroke-[2.5px]" />}

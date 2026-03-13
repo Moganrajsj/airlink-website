@@ -12,15 +12,27 @@ export default async function AdminDashboard() {
         take: 10
     });
 
-    const totalLeads = await prisma.lead.count();
+    const [totalLeads, totalPlans, totalCoverage, totalBanners] = await Promise.all([
+        prisma.lead.count(),
+        prisma.plan.count(),
+        prisma.coverage.count(),
+        prisma.banner.count({ where: { status: true } })
+    ]);
+
+    const activeAssets = await prisma.backgroundAsset.findMany({
+        where: { status: true },
+        take: 5
+    });
 
     // Stats for the view
     const stats = {
         totalLeads: totalLeads.toString(),
-        // Add more real metrics as needed
+        totalPlans: totalPlans.toString(),
+        totalCoverage: totalCoverage.toString(),
+        activeBanners: totalBanners.toString(),
     };
 
     return (
-        <DashboardView leads={leads} stats={stats} />
+        <DashboardView leads={leads} stats={stats} activeAssets={activeAssets} />
     );
 }

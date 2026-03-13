@@ -16,6 +16,8 @@ import AnnouncementBanner from "@/components/banners/AnnouncementBanner";
 import PromoBanner from "@/components/banners/PromoBanner";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const plans = await prisma.plan.findMany({
     where: { status: true, isBusiness: false },

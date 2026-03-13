@@ -23,12 +23,12 @@
 }
 
 .hero-section-offset {
-  padding-top: calc(var(--navbar-height) + 80px);
+  padding-top: calc(var(--navbar-height) + 100px);
 }
 
 @media (max-width: 768px) {
   .hero-section-offset {
-    padding-top: calc(var(--navbar-height) + 40px);
+    padding-top: calc(var(--navbar-height) + 60px);
   }
 }
 

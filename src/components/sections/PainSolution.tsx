@@ -27,7 +27,7 @@ export default function PainSolution() {
     const [hoveredPain, setHoveredPain] = useState<number | null>(null);
 
     return (
-        <section className="py-28 bg-[#F7F8FA] relative overflow-hidden" id="why-airlink">
+        <section className="py-12 md:py-28 bg-[#F7F8FA] relative overflow-hidden" id="why-airlink">
             <LightSectionBg variant="dots" />
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-[#FBBF24]/04 to-transparent" />
@@ -48,7 +48,7 @@ export default function PainSolution() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-6xl font-black text-[#0A192F] tracking-tight mb-4"
+                        className="text-2xl md:text-6xl font-black text-[#0A192F] tracking-tight mb-4"
                     >
                         Still Facing{' '}
                         <span className="text-[#FBBF24]">Slow Internet?</span>
@@ -58,7 +58,7 @@ export default function PainSolution() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-[#0A192F]/55 text-lg max-w-2xl mx-auto font-medium"
+                        className="text-[#0A192F]/55 text-base md:text-lg max-w-2xl mx-auto font-medium"
                     >
                         Millions of Tamil Nadu homes and businesses deserve better. Here's what you should never have to deal with again.
                     </motion.p>
@@ -84,7 +84,7 @@ export default function PainSolution() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.07 }}
-                                className="flex items-start gap-4 p-5 rounded-2xl border cursor-default transition-all duration-300"
+                                className="flex items-start gap-4 p-4 md:p-5 rounded-2xl border cursor-default transition-all duration-300"
                                 style={{
                                     background: hoveredPain === i
                                         ? 'rgba(239,68,68,0.05)'
@@ -108,7 +108,7 @@ export default function PainSolution() {
                         className="lg:sticky lg:top-32"
                     >
                         <div
-                            className="rounded-[2rem] border border-[#FBBF24]/20 p-8 md:p-10 relative overflow-hidden bg-white shadow-[0_8px_40px_rgba(251,191,36,0.08)]"
+                            className="rounded-[2rem] border border-[#FBBF24]/20 p-6 md:p-10 relative overflow-hidden bg-white shadow-[0_8px_40px_rgba(251,191,36,0.08)]"
                         >
                             {/* Yellow top accent */}
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#FBBF24] to-transparent" />

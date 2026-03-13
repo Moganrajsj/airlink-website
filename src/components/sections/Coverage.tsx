@@ -25,7 +25,7 @@ const Coverage = () => {
 
         const result = await createLead({
             name,
-            phone,
+            mobile: phone,
             city: location,
             message: `Availability check for: ${location}`
         });
@@ -39,26 +39,26 @@ const Coverage = () => {
     };
 
     return (
-        <section className="py-32 bg-white overflow-hidden" id="coverage">
+        <section className="py-12 md:py-32 bg-white overflow-hidden" id="coverage">
             <div className="container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-[#F7F7F8] rounded-[4rem] p-12 md:p-24 border border-[#E5E7EB] relative overflow-hidden shadow-[0_20px_60px_rgb(0,0,0,0.03)]"
+                    className="bg-[#F7F7F8] rounded-[2rem] md:rounded-[4rem] p-6 md:p-24 border border-[#E5E7EB] relative overflow-hidden shadow-[0_20px_60px_rgb(0,0,0,0.03)]"
                 >
                     {/* Background Accents (Updated to Navy/Yellow theme) */}
                     <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-l from-[#FBBF24]/5 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#FBBF24]/5 blur-[100px] rounded-full -ml-32 -mb-32"></div>
 
-                    <div className="relative z-10 flex flex-col lg:flex-row items-center gap-20">
+                    <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 md:gap-20">
                         <div className="lg:w-1/2 text-left">
                             <span className="text-[#FBBF24] font-black text-xs tracking-[0.3em] uppercase mb-8 block">Network Presence</span>
-                            <h2 className="text-5xl md:text-7xl font-black text-[#0A192F] mb-8 leading-[1.05] tracking-tight text-left">
+                            <h2 className="text-3xl md:text-7xl font-black text-[#0A192F] mb-6 md:mb-8 leading-[1.05] tracking-tight text-left">
                                 Check Availability <br />
                                 in <span className="text-[#FBBF24]">Your Area.</span>
                             </h2>
-                            <p className="text-[#0A192F]/50 text-xl mb-12 font-medium leading-relaxed text-left">
+                            <p className="text-[#0A192F]/50 text-lg md:text-xl mb-8 md:mb-12 font-medium leading-relaxed text-left">
                                 We are rapidly expanding our fiber footprint across Tamil Nadu. Enter your location to see if Airlink is available at your doorstep.
                             </p>
                             <div className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-white border border-[#E5E7EB] w-max shadow-sm">
@@ -75,9 +75,9 @@ const Coverage = () => {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
-                                        className="bg-white p-10 md:p-14 rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden group"
+                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden group"
                                     >
-                                        <form onSubmit={handleSearch} className="space-y-10 relative z-10">
+                                        <form onSubmit={handleSearch} className="space-y-6 md:space-y-10 relative z-10">
                                             <div className="space-y-4">
                                                 <label className="text-[10px] font-black text-[#0A192F]/40 uppercase tracking-[0.2em] ml-2 block text-left">Location Detail</label>
                                                 <div className="relative">
@@ -108,7 +108,7 @@ const Coverage = () => {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
-                                        className="bg-white p-10 md:p-14 rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden"
+                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden"
                                     >
                                         <form onSubmit={handleFinalSubmit} className="space-y-8 relative z-10">
                                             <div className="text-left mb-4">
@@ -163,7 +163,7 @@ const Coverage = () => {
                                         key="success"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className="bg-white p-10 md:p-14 rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] text-center space-y-8"
+                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] text-center space-y-6 md:space-y-8"
                                     >
                                         <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
                                             <CheckCircle2 size={48} />

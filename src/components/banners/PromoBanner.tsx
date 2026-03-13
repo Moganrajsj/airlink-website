@@ -35,7 +35,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
     const banner = banners[currentIndex];
 
     return (
-        <section className="w-full py-8 md:py-24 bg-[#F7F8FA] relative overflow-hidden">
+        <section className="w-full py-4 md:py-6 lg:py-8 bg-[#F7F8FA] relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="relative w-full z-10">
                     <AnimatePresence mode="wait">
@@ -47,7 +47,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
-                            className="w-full bg-[#FBBF24] rounded-3xl md:rounded-[3rem] overflow-hidden relative shadow-2xl flex flex-col md:flex-row items-stretch group"
+                            className="w-full bg-[#FBBF24] rounded-[20px] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group min-h-[180px] md:min-h-[220px] lg:min-h-[260px]"
                         >
                             {/* Subtle animated moving network background effect inside the text area */}
                             <div
@@ -58,7 +58,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             />
 
                             {/* Left Content Area */}
-                            <div className="w-full md:w-3/5 p-6 md:p-16 lg:p-20 relative z-20 flex flex-col items-start text-left justify-center">
+                            <div className="w-[60%] md:w-3/5 p-6 md:p-10 lg:p-12 relative z-20 flex flex-col items-start text-left justify-center max-w-[520px]">
                                 {/* Tag/Badge */}
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
@@ -73,37 +73,34 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                     <Sparkles size={14} /> Limited Time Offer
                                 </motion.div>
 
-                                {/* Title */}
                                 <motion.h2
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.3 }}
-                                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#0A192F] leading-[1.1] tracking-tight mb-4 md:mb-6"
+                                    className="text-lg md:text-xl lg:text-[28px] font-semibold text-[#0A192F] leading-[1.2] tracking-tight mb-2 md:mb-3"
                                 >
                                     {banner.title}
                                 </motion.h2>
 
-                                {/* Subtitle */}
                                 {banner.subtitle && (
                                     <motion.p
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.5, delay: 0.4 }}
-                                        className="text-[#0A192F]/80 text-base lg:text-xl font-medium leading-relaxed mb-6 md:mb-8 max-w-lg"
+                                        className="text-[#0A192F]/80 text-sm md:text-[15px] leading-relaxed mb-6 max-w-lg"
                                     >
                                         {banner.subtitle}
                                     </motion.p>
                                 )}
 
-                                {/* Offer Highlight Box */}
                                 {banner.offerHighlight && (
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.5, delay: 0.5 }}
-                                        className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-xl md:rounded-2xl p-4 md:p-5 mb-6 md:mb-10 inline-block shadow-lg"
+                                        className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-xl md:rounded-2xl p-3 md:p-4 mb-6 md:mb-8 inline-block shadow-lg"
                                     >
-                                        <span className="block text-lg md:text-2xl font-black text-[#0A192F] tracking-tight">
+                                        <span className="block text-base md:text-lg font-black text-[#0A192F] tracking-tight">
                                             {banner.offerHighlight}
                                         </span>
                                     </motion.div>
@@ -118,7 +115,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                     >
                                         <Link
                                             href={banner.ctaLink}
-                                            className="cursor-target inline-flex items-center gap-2 md:gap-3 shrink-0 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-3 md:py-5 px-6 md:px-12 rounded-full font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-300 shadow-[0_10px_30px_rgba(10,25,47,0.25)] hover:shadow-[0_10px_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 group-hover:scale-[1.02]"
+                                            className="cursor-target inline-flex items-center gap-2 md:gap-3 shrink-0 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-2 md:py-3 px-5 md:px-6 rounded-full font-black text-sm md:text-base uppercase tracking-widest transition-all duration-300 shadow-[0_10px_30px_rgba(10,25,47,0.25)] hover:shadow-[0_10px_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 group-hover:scale-[1.02]"
                                         >
                                             {banner.ctaText} <ArrowRight className="w-4 h-4 md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform" />
                                         </Link>
@@ -126,26 +123,20 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                 )}
                             </div>
 
-                            {/* Right Image Area */}
-                            <div className="w-full md:w-2/5 min-h-[200px] sm:min-h-[250px] md:min-h-full relative overflow-hidden flex-shrink-0">
-                                {/* Gradient mask to blend the image seamlessly into the left side on desktop */}
-                                <div className="hidden md:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FBBF24] to-transparent z-10" />
-
-                                {/* Gradient mask for mobile to blend top of image with text section */}
-                                <div className="md:hidden absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#FBBF24] to-transparent z-10" />
-
+                            <div className="w-[40%] md:w-2/5 relative z-10 overflow-hidden">
                                 {banner.imageUrl ? (
-                                    <motion.div
-                                        initial={{ scale: 1.1 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{ duration: 3, ease: "easeOut" }}
-                                        className="absolute inset-0 bg-cover bg-center md:bg-left z-0"
-                                        style={{ backgroundImage: `url('${banner.imageUrl}')` }}
+                                    <motion.img
+                                        key={banner.imageUrl}
+                                        initial={{ opacity: 0, scale: 1.05 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.6 }}
+                                        src={banner.imageUrl}
+                                        alt={banner.title}
+                                        className="w-full h-full object-cover"
                                     />
                                 ) : (
-                                    <div className="absolute inset-0 bg-[#FBBF24] flex items-center justify-center">
-                                        {/* Fallback abstract pattern if no image */}
-                                        <div className="absolute inset-0 opacity-[0.2]" style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #0A192F 0px, #0A192F 2px, transparent 2px, transparent 24px)' }} />
+                                    <div className="w-full h-full bg-[#0A192F]/5 flex items-center justify-center">
+                                        <Sparkles size={48} className="text-[#0A192F]/20" />
                                     </div>
                                 )}
                             </div>

@@ -37,12 +37,12 @@ const StatCard = ({ icon, label, value, trend, isUp, color }: any) => {
     );
 };
 
-export default function DashboardView({ leads, stats: serverStats }: { leads: any[], stats: any }) {
+export default function DashboardView({ leads, stats: serverStats, activeAssets = [] }: { leads: any[], stats: any, activeAssets?: any[] }) {
     const stats = [
-        { icon: <BarChart3 size={24} />, label: "Total Leads", value: serverStats.totalLeads, trend: "+100%", isUp: true, color: "text-[#FBBF24]" },
-        { icon: <Users size={24} />, label: "Active Connections", value: "10,000+", trend: "+8.2%", isUp: true, color: "text-blue-500" },
-        { icon: <TrendingUp size={24} />, label: "Network Uptime", value: "99.99%", trend: "Stable", isUp: true, color: "text-green-500" },
-        { icon: <Sparkles size={24} />, label: "Animation Layers", value: "5 Layers", trend: "Optimized", isUp: true, color: "text-purple-500" },
+        { icon: <BarChart3 size={24} />, label: "Total Leads", value: serverStats.totalLeads, trend: "Capture", isUp: true, color: "text-[#FBBF24]" },
+        { icon: <Users size={24} />, label: "Broadband Plans", value: serverStats.totalPlans, trend: "Active", isUp: true, color: "text-blue-500" },
+        { icon: <MapPin size={24} />, label: "Coverage Areas", value: serverStats.totalCoverage, trend: "Zones", isUp: true, color: "text-green-500" },
+        { icon: <Sparkles size={24} />, label: "Active Banners", value: serverStats.activeBanners, trend: "Live", isUp: true, color: "text-purple-500" },
     ];
 
     return (
@@ -133,13 +133,15 @@ export default function DashboardView({ leads, stats: serverStats }: { leads: an
                             Animation Engine
                         </h3>
                         <div className="space-y-6 relative z-10">
-                            {["Fiber Beams", "Network Grid", "Data Pulse", "Particles", "Circuit Pattern"].map((layer, idx) => (
+                            {activeAssets.length === 0 ? (
+                                <p className="text-white/40 text-xs font-bold text-center py-4 italic uppercase tracking-widest">No active layers</p>
+                            ) : activeAssets.map((asset, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-5 bg-white/05 border border-white/05 rounded-2xl">
                                     <div className="flex items-center gap-3">
                                         <div className="w-2.5 h-2.5 rounded-full bg-[#FBBF24] shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
-                                        <span className="text-sm font-bold text-white/90">{layer}</span>
+                                        <span className="text-sm font-bold text-white/90 uppercase">{asset.sectionName}</span>
                                     </div>
-                                    <span className="text-[10px] font-black text-[#FBBF24]/50">Active</span>
+                                    <span className="text-[10px] font-black text-[#FBBF24]/50">{asset.animationType}</span>
                                 </div>
                             ))}
                         </div>

@@ -88,12 +88,12 @@ const NetworkGrid: React.FC<NetworkGridProps> = ({
                         ctx.moveTo(n1.x, n1.y);
                         ctx.lineTo(n2.x, n2.y);
                         const lineAlpha = (1 - d / maxDist) * 0.5;
-                        ctx.strokeStyle = lineColor.replace(')', `, ${lineAlpha})`).replace('rgb', 'rgba'); // Hacky but works forrgba strings if needed, better to just use a fixed alpha or handle logic
-
-                        // Let's use simpler line styling
+                        
+                        ctx.globalAlpha = lineAlpha * opacity;
                         ctx.strokeStyle = lineColor;
-                        ctx.lineWidth = lineAlpha;
+                        ctx.lineWidth = 1;
                         ctx.stroke();
+                        ctx.globalAlpha = opacity; // Reset for nodes
                     }
                 }
             }

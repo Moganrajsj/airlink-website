@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import {
     Mail,
@@ -12,6 +12,7 @@ import {
     Globe
 } from 'lucide-react';
 import { LightHeroBg, LightSectionBg, GraySectionBg } from '@/components/ui/AnimatedBackground';
+import { createLead } from '@/app/actions/leads';
 
 const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -33,6 +34,53 @@ const itemVariants: Variants = {
 };
 
 const ContactPage = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [formData, setFormData] = useState({
+        fullName: '',
+        company: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            const result = await createLead({
+                name: formData.fullName,
+                email: formData.email,
+                mobile: formData.phone,
+                company: formData.company,
+                city: 'Contact Form',
+                interest: 'General Inquiry',
+                message: formData.message,
+                source: 'contact_page'
+            });
+
+            if (result.success) {
+                setSubmitStatus('success');
+                setFormData({
+                    fullName: '',
+                    company: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
+            } else {
+                setSubmitStatus('error');
+            }
+        } catch (error) {
+            console.error('Contact form submission error:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-surface text-dark font-inter">
             {/* 1. Hero Section */}
@@ -82,13 +130,13 @@ const ContactPage = () => {
                                 {
                                     icon: <Phone />,
                                     title: "Direct Support & Sales",
-                                    value: "+91 9488 44 8766",
+                                    value: <span className="block">+91 93445 84000<br />+91 93452 17979</span>,
                                     desc: "Available 24/7"
                                 },
                                 {
                                     icon: <Mail />,
                                     title: "Email Assistance",
-                                    value: "support@airlinksbs.com",
+                                    value: "info@srirambroadband.com",
                                     desc: "Quick Response Guaranteed"
                                 }
                             ].map((item, i) => (
@@ -122,13 +170,16 @@ const ContactPage = () => {
                                 <div className="relative z-10">
                                     <h3 className="text-3xl font-black text-white mb-10 tracking-tight">Send a Direct Inquiry</h3>
 
-                                    <form className="space-y-8">
+                                    <form className="space-y-8" onSubmit={handleSubmit}>
                                         <div className="grid md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
                                                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Full Name</label>
                                                 <input
+                                                    required
                                                     type="text"
                                                     placeholder="John Doe"
+                                                    value={formData.fullName}
+                                                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                                 />
                                             </div>
@@ -137,6 +188,8 @@ const ContactPage = () => {
                                                 <input
                                                     type="text"
                                                     placeholder="Acme Corp"
+                                                    value={formData.company}
+                                                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                                 />
                                             </div>
@@ -146,16 +199,22 @@ const ContactPage = () => {
                                             <div className="space-y-2">
                                                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Email Address</label>
                                                 <input
+                                                    required
                                                     type="email"
                                                     placeholder="john@acme.com"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                                 />
                                             </div>
                                             <div className="space-y-2">
                                                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Phone Number</label>
                                                 <input
+                                                    required
                                                     type="tel"
                                                     placeholder="+91 00000 00000"
+                                                    value={formData.phone}
+                                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                                 />
                                             </div>
@@ -164,17 +223,33 @@ const ContactPage = () => {
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Message</label>
                                             <textarea
+                                                required
                                                 rows={5}
                                                 placeholder="Tell us about your requirements..."
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                                 className="w-full bg-white/5 border border-white/10 rounded-[1.5rem] px-5 py-5 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none"
                                             ></textarea>
                                         </div>
 
+                                        {submitStatus === 'success' && (
+                                            <div className="p-4 bg-primary/20 text-white rounded-xl text-sm font-bold text-center border border-primary/30 uppercase tracking-widest">
+                                                Message Sent! We will get back to you soon.
+                                            </div>
+                                        )}
+
+                                        {submitStatus === 'error' && (
+                                            <div className="p-4 bg-red-500/20 text-white rounded-xl text-sm font-bold text-center border border-red-500/30 uppercase tracking-widest">
+                                                Failed to send message. Please try again.
+                                            </div>
+                                        )}
+
                                         <button
                                             type="submit"
-                                            className="w-full py-5 btn-primary flex items-center justify-center gap-3 text-lg"
+                                            disabled={isSubmitting}
+                                            className={`w-full py-5 btn-primary flex items-center justify-center gap-3 text-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                                         >
-                                            Submit Request <Send size={20} className="" />
+                                            {isSubmitting ? 'Sending...' : 'Submit Request'} <Send size={20} className="" />
                                         </button>
                                     </form>
                                 </div>

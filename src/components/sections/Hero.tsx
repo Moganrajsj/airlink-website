@@ -55,19 +55,18 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative min-h-[75vh] lg:min-h-[85vh] flex items-center pt-20 overflow-hidden bg-[#0A192F]">
+        <section className="relative min-h-[75vh] lg:min-h-[85vh] flex items-center hero-section-offset overflow-hidden bg-black">
             {/* ── Cinematic Background ── */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('/images/real_router_cables_1772908866680.png')] bg-cover bg-fixed bg-center opacity-30 grayscale mix-blend-luminosity brightness-75" />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F] via-[#0A192F]/80 to-[#0A192F]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0A192F] via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-[url('/images/home_hero_new.png')] bg-cover bg-fixed bg-center opacity-70 mix-blend-luminosity brightness-90" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/80" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-40" />
 
                 {/* Advanced Accents */}
                 <DynamicBackground layers={["grid", "particles", "beams"]} opacity={0.4} />
 
                 {/* Mesh Glows */}
                 <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#FBBF24]/10 blur-[140px] rounded-full pointer-events-none" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#0A192F]/80 blur-[100px] rounded-full pointer-events-none border border-white/05" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10 py-12 lg:py-16">
@@ -145,7 +144,7 @@ export default function Hero() {
             </div>
 
             {/* Bottom Gradient Fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A192F] to-transparent z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-10" />
         </section>
     );
 }

@@ -1,13 +1,13 @@
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
+  host: process.env.SMTP_HOST || 'localhost',
   port: Number(process.env.SMTP_PORT) || 465,
   secure: process.env.SMTP_SECURE === 'true',
-  auth: {
+  auth: process.env.SMTP_USER ? {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
-  },
+  } : undefined,
 });
 
 interface LeadData {
@@ -62,8 +62,8 @@ export async function sendLeadNotification(lead: LeadData) {
     `;
 
   await transporter.sendMail({
-    from: '"Airlink Broadband" <info@srirambroadband.com>',
-    to: 'sales@srirambroadband.com',
+    from: `"Airlink Broadband" <${process.env.MAIL_FROM}>`,
+    to: process.env.MAIL_TO || 'sales@srirambroadband.com',
     subject: 'New Website Lead – Airlink Broadband',
     html,
   });
@@ -84,7 +84,7 @@ export async function sendPasswordResetEmail(email: string, resetToken: string) 
     `;
 
   await transporter.sendMail({
-    from: `"Airlink Broadband" <${process.env.SMTP_USER}>`,
+    from: `"Airlink Broadband" <${process.env.MAIL_FROM}>`,
     to: email,
     subject: 'Password Reset — Airlink Broadband',
     html,

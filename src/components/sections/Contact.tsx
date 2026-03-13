@@ -24,7 +24,7 @@ const Contact = () => {
         const result = await createLead({
             name: formData.name,
             email: formData.email,
-            phone: formData.phone,
+            mobile: formData.phone,
             message: formData.message,
             city: formData.city
         });
@@ -55,14 +55,17 @@ const Contact = () => {
                                 <div className={styles.iconWrapper}><Phone size={20} /></div>
                                 <div>
                                     <h4 className={styles.contactLabel}>Call Us</h4>
-                                    <p className={styles.contactValue}>+91 93452 17979</p>
+                                    <p className={styles.contactValue}>
+                                        +91 93445 84000<br />
+                                        +91 93452 17979
+                                    </p>
                                 </div>
                             </div>
                             <div className={styles.contactItem}>
                                 <div className={styles.iconWrapper}><Mail size={20} /></div>
                                 <div>
                                     <h4 className={styles.contactLabel}>Email Us</h4>
-                                    <p className={styles.contactValue}>admin@airlinkbroadband.in</p>
+                                    <p className={styles.contactValue}>info@srirambroadband.com</p>
                                 </div>
                             </div>
                             <div className={styles.contactItem}>

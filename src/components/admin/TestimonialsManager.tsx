@@ -1,151 +1,276 @@
 "use client";
 
-import React, { useState, useTransition } from 'react';
-import { Plus, Star, Trash2, X, Check, ToggleLeft, ToggleRight } from 'lucide-react';
-import { createTestimonial, updateTestimonial, deleteTestimonial } from '@/app/actions/cms';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Trash2, Edit2, Check, X, Star, AlertCircle, MessageSquare } from 'lucide-react';
 
 interface Testimonial {
     id: string;
     name: string;
-    role: string | null;
+    person: string;
+    role: string;
+    city: string;
+    tag: string;
     content: string;
     rating: number;
-    isActive: boolean;
-    createdAt: Date;
+    color: string;
+    metric: string;
+    status: boolean;
 }
 
-const empty = { name: "", role: "", content: "", rating: 5, isActive: true };
+const API = '/api/admin/testimonials';
 
-export default function TestimonialsManager({ initial }: { initial: Testimonial[] }) {
-    const [items, setItems] = useState<Testimonial[]>(initial);
+const PRESET_COLORS = [
+    { label: 'Gold', value: '#FBBF24' },
+    { label: 'Blue', value: '#60a5fa' },
+    { label: 'Green', value: '#34d399' },
+    { label: 'Purple', value: '#a78bfa' },
+    { label: 'Orange', value: '#fb923c' },
+    { label: 'Red', value: '#f43f5e' },
+    { label: 'Cyan', value: '#06b6d4' },
+];
+
+const StarRating = ({ value, onChange }: { value: number; onChange: (v: number) => void }) => (
+    <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((s) => (
+            <button key={s} type="button" onClick={() => onChange(s)}>
+                <Star size={20} fill={s <= value ? '#FBBF24' : 'transparent'} className={s <= value ? 'text-[#FBBF24]' : 'text-white/20'} />
+            </button>
+        ))}
+    </div>
+);
+
+const emptyForm = { name: '', person: '', role: '', city: '', tag: '', content: '', rating: 5, color: '#FBBF24', metric: '', status: true };
+
+export default function TestimonialsManager() {
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
-    const [editingId, setEditingId] = useState<string | null>(null);
-    const [form, setForm] = useState(empty);
-    const [isPending, startTransition] = useTransition();
+    const [editId, setEditId] = useState<string | null>(null);
+    const [form, setForm] = useState({ ...emptyForm });
 
-    const openEdit = (t: Testimonial) => {
-        setForm({ name: t.name, role: t.role || "", content: t.content, rating: t.rating, isActive: t.isActive });
-        setEditingId(t.id); setShowForm(true);
+    useEffect(() => { fetchData(); }, []);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch(API);
+            setTestimonials(await res.json());
+        } catch { setError('Failed to load testimonials'); }
+        finally { setLoading(false); }
     };
-    const openCreate = () => { setForm(empty); setEditingId(null); setShowForm(true); };
 
-    const handleSave = () => {
-        startTransition(async () => {
-            const data = { name: form.name, role: form.role || null, content: form.content, rating: form.rating, isActive: form.isActive };
-            if (editingId) {
-                await updateTestimonial(editingId, data);
-                setItems(prev => prev.map(t => t.id === editingId ? { ...t, ...data } : t));
-            } else {
-                await createTestimonial({ ...data, role: data.role || undefined });
-                window.location.reload();
-            }
+    const handleSave = async () => {
+        setError(null);
+        const res = await fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(editId ? { id: editId, ...form } : form)
+        });
+        const result = await res.json();
+        if (result.success) {
             setShowForm(false);
-        });
+            setEditId(null);
+            setForm({ ...emptyForm });
+            fetchData();
+        } else {
+            setError(result.error || 'Failed to save');
+        }
     };
 
-    const handleDelete = (id: string) => {
-        if (!confirm("Delete this testimonial?")) return;
-        startTransition(async () => {
-            await deleteTestimonial(id);
-            setItems(prev => prev.filter(t => t.id !== id));
-        });
+    const handleDelete = async (id: string) => {
+        if (!confirm('Delete this testimonial?')) return;
+        await fetch(API, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+        fetchData();
     };
 
-    const handleToggle = (t: Testimonial) => {
-        startTransition(async () => {
-            await updateTestimonial(t.id, { isActive: !t.isActive });
-            setItems(prev => prev.map(x => x.id === t.id ? { ...x, isActive: !x.isActive } : x));
-        });
+    const handleToggle = async (id: string, currentStatus: boolean) => {
+        await fetch(API, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status: !currentStatus }) });
+        fetchData();
     };
+
+    const startEdit = (t: Testimonial) => {
+        setEditId(t.id);
+        setForm({ name: t.name, person: t.person || t.name, role: t.role, city: t.city || '', tag: t.tag || '', content: t.content, rating: t.rating, color: t.color || '#FBBF24', metric: t.metric || '', status: t.status });
+        setShowForm(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const cancelForm = () => {
+        setShowForm(false);
+        setEditId(null);
+        setForm({ ...emptyForm });
+    };
+
+    const field = (label: string, key: keyof typeof emptyForm, placeholder: string, type: string = 'text') => (
+        <div>
+            <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-2">{label}</label>
+            <input
+                type={type} placeholder={placeholder}
+                value={form[key] as string}
+                onChange={e => setForm({ ...form, [key]: e.target.value })}
+                className="w-full bg-[#0A192F] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#FBBF24] outline-none"
+            />
+        </div>
+    );
 
     return (
-        <div>
-            <div className="flex items-center justify-between mb-6">
+        <div className="space-y-8">
+            <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black text-[#0A192F] tracking-tight">Testimonials</h1>
-                    <p className="text-[#0A192F]/40 text-sm mt-1">Active testimonials appear on the homepage</p>
+                    <h2 className="text-2xl font-black text-white">Testimonials</h2>
+                    <p className="text-white/40 text-sm mt-1">Manage customer reviews on the homepage — changes appear live on the website</p>
                 </div>
-                <button onClick={openCreate} className="flex items-center gap-2 px-5 py-2.5 bg-[#FBBF24] hover:bg-[#0A192F] hover:text-white text-[#0A192F] font-black text-sm rounded-xl transition-all">
-                    <Plus size={16} /> Add Testimonial
-                </button>
+                {!showForm && (
+                    <button
+                        onClick={() => setShowForm(true)}
+                        className="flex items-center gap-2 bg-[#FBBF24] text-[#0A192F] px-6 py-3 rounded-xl font-bold hover:scale-105 transition-all shadow-[0_4px_12px_rgba(251,191,36,0.3)]"
+                    >
+                        <Plus size={18} /> Add Testimonial
+                    </button>
+                )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {items.map(t => (
-                    <div key={t.id} className={`bg-white rounded-2xl border p-5 ${t.isActive ? 'border-gray-200' : 'border-gray-100 opacity-60'}`}>
-                        <div className="flex items-start justify-between mb-3">
-                            <div className="flex gap-0.5">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                    <Star key={i} size={12} className={i < t.rating ? "text-[#FBBF24] fill-[#FBBF24]" : "text-gray-200 fill-gray-200"} />
-                                ))}
-                            </div>
-                            <button onClick={() => handleToggle(t)} className={`${t.isActive ? 'text-green-500' : 'text-gray-300'}`}>
-                                {t.isActive ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
-                            </button>
-                        </div>
-                        <p className="text-sm text-[#0A192F]/70 mb-4 leading-relaxed line-clamp-3">&ldquo;{t.content}&rdquo;</p>
-                        <div className="mb-3">
-                            <p className="font-black text-[#0A192F] text-sm">{t.name}</p>
-                            {t.role && <p className="text-xs text-[#0A192F]/40">{t.role}</p>}
-                        </div>
-                        <div className="flex gap-2 pt-3 border-t border-gray-100">
-                            <button onClick={() => openEdit(t)} className="flex-1 text-xs font-bold py-1.5 border border-gray-200 rounded-lg hover:bg-[#0A192F] hover:text-white hover:border-[#0A192F] transition-all">Edit</button>
-                            <button onClick={() => handleDelete(t.id)} className="p-1.5 border border-red-200 text-red-500 rounded-lg hover:bg-red-50"><Trash2 size={12} /></button>
-                        </div>
-                    </div>
-                ))}
-                {items.length === 0 && <div className="col-span-3 text-center py-16 text-[#0A192F]/40">No testimonials yet. Add your first one!</div>}
-            </div>
+            {error && (
+                <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 rounded-xl px-5 py-4 text-red-400">
+                    <AlertCircle size={16} /><span className="text-sm">{error}</span>
+                    <button onClick={() => setError(null)} className="ml-auto"><X size={14} /></button>
+                </div>
+            )}
 
-            {showForm && (
-                <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowForm(false)}>
-                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8" onClick={e => e.stopPropagation()}>
-                        <div className="flex items-center justify-between mb-5">
-                            <h2 className="text-xl font-black text-[#0A192F]">{editingId ? "Edit Testimonial" : "Add Testimonial"}</h2>
-                            <button onClick={() => setShowForm(false)} className="p-2 rounded-full hover:bg-gray-100"><X size={18} /></button>
+            <AnimatePresence>
+                {showForm && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+                        className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-5"
+                    >
+                        <h3 className="text-sm font-bold text-white/60 uppercase tracking-widest">
+                            {editId ? 'Edit Testimonial' : 'Add New Testimonial'}
+                        </h3>
+
+                        {/* Basic info */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {field('Business / Group Name', 'name', 'e.g. Murugan Textiles')}
+                            {field('Person Name (shown on card)', 'person', 'e.g. Mr. K. Muthukumar')}
                         </div>
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {field('Role / Occupation', 'role', 'e.g. Proprietor')}
+                            {field('City', 'city', 'e.g. Dharmapuri')}
+                            {field('Tag (business type)', 'tag', 'e.g. Textile Business')}
+                        </div>
+
+                        {/* Review content */}
+                        <div>
+                            <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Review Content</label>
+                            <textarea
+                                rows={4} placeholder="Write the customer testimonial here..."
+                                value={form.content} onChange={e => setForm({ ...form, content: e.target.value })}
+                                className="w-full bg-[#0A192F] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#FBBF24] outline-none resize-none"
+                            />
+                        </div>
+
+                        {/* Metric + Color */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {field('Metric / Achievement (optional)', 'metric', 'e.g. Zero downtime in 10 months')}
                             <div>
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/50 block mb-1.5">Customer Name</label>
-                                <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                                    placeholder="Ravi Kumar"
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#FBBF24]" />
-                            </div>
-                            <div>
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/50 block mb-1.5">Role / Location (optional)</label>
-                                <input value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-                                    placeholder="Home User, Dharmapuri"
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#FBBF24]" />
-                            </div>
-                            <div>
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/50 block mb-1.5">Review</label>
-                                <textarea rows={4} value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-                                    placeholder="Excellent fiber connection with zero downtime..."
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#FBBF24] resize-none" />
-                            </div>
-                            <div>
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/50 block mb-1.5">Star Rating</label>
-                                <div className="flex gap-2">
-                                    {[1, 2, 3, 4, 5].map(n => (
-                                        <button key={n} type="button" onClick={() => setForm(f => ({ ...f, rating: n }))}>
-                                            <Star size={24} className={n <= form.rating ? "text-[#FBBF24] fill-[#FBBF24]" : "text-gray-200 fill-gray-200"} />
-                                        </button>
+                                <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Card Accent Color</label>
+                                <div className="flex gap-2 flex-wrap">
+                                    {PRESET_COLORS.map(c => (
+                                        <button
+                                            key={c.value} type="button"
+                                            onClick={() => setForm({ ...form, color: c.value })}
+                                            className="w-8 h-8 rounded-full transition-all border-2"
+                                            style={{ background: c.value, borderColor: form.color === c.value ? 'white' : 'transparent' }}
+                                            title={c.label}
+                                        />
                                     ))}
                                 </div>
                             </div>
-                            <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-[#0A192F]/60">
-                                <input type="checkbox" checked={form.isActive} onChange={e => setForm(f => ({ ...f, isActive: e.target.checked }))} className="accent-[#FBBF24] w-4 h-4" />
-                                Show on website
-                            </label>
                         </div>
-                        <div className="flex gap-3 mt-6">
-                            <button onClick={handleSave} disabled={isPending || !form.name || !form.content}
-                                className="flex-1 py-3 bg-[#0A192F] text-white font-black text-sm rounded-xl hover:bg-[#FBBF24] hover:text-[#0A192F] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-                                <Check size={16} /> {isPending ? "Saving..." : "Save Testimonial"}
+
+                        {/* Rating + Toggle */}
+                        <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div>
+                                <label className="block text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Rating</label>
+                                <StarRating value={form.rating} onChange={v => setForm({ ...form, rating: v })} />
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <label className="text-sm text-white/60 font-semibold">Show on website</label>
+                                <button
+                                    onClick={() => setForm({ ...form, status: !form.status })}
+                                    className={`w-12 h-6 rounded-full transition-all relative ${form.status ? 'bg-[#FBBF24]' : 'bg-white/10'}`}
+                                >
+                                    <span className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${form.status ? 'left-7' : 'left-1'}`} />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                onClick={handleSave}
+                                disabled={!form.name || !form.content}
+                                className="flex items-center gap-2 bg-[#FBBF24] text-[#0A192F] px-6 py-3 rounded-xl font-bold hover:scale-105 transition-all disabled:opacity-40"
+                            >
+                                <Check size={18} /> {editId ? 'Save Changes' : 'Add Testimonial'}
                             </button>
-                            <button onClick={() => setShowForm(false)} className="px-5 py-3 border border-gray-200 font-bold text-sm rounded-xl hover:bg-gray-50">Cancel</button>
+                            <button onClick={cancelForm} className="px-6 py-3 bg-white/5 text-white rounded-xl font-bold hover:bg-white/10 transition-all">
+                                Cancel
+                            </button>
                         </div>
-                    </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* List */}
+            {loading ? (
+                <div className="py-20 text-center">
+                    <div className="animate-spin w-8 h-8 border-2 border-[#FBBF24] border-t-transparent rounded-full mx-auto mb-4" />
+                    <p className="text-white/40">Loading...</p>
+                </div>
+            ) : testimonials.length === 0 ? (
+                <div className="py-20 text-center bg-white/5 border border-dashed border-white/10 rounded-3xl">
+                    <MessageSquare size={40} className="text-white/10 mx-auto mb-4" />
+                    <h3 className="text-lg font-bold text-white/60">No testimonials yet</h3>
+                    <p className="text-white/30 text-sm mt-1">Click "Add Testimonial" to create one</p>
+                </div>
+            ) : (
+                <div className="space-y-3">
+                    {testimonials.map((t) => (
+                        <motion.div key={t.id} layout
+                            className={`bg-white/5 border rounded-2xl p-5 transition-all ${t.status ? 'border-white/10' : 'border-white/5 opacity-60'}`}
+                        >
+                            <div className="flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-4 flex-1 min-w-0">
+                                    <div
+                                        className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-black text-lg flex-shrink-0"
+                                        style={{ background: t.color || '#FBBF24' }}
+                                    >
+                                        {(t.person || t.name)[0]}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                            <span className="font-bold text-white text-sm">{t.person || t.name}</span>
+                                            {t.city && <span className="text-xs text-white/40">· {t.city}</span>}
+                                            {t.tag && <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full" style={{ background: `${t.color || '#FBBF24'}20`, color: t.color || '#FBBF24' }}>{t.tag}</span>}
+                                            <div className="flex gap-0.5">
+                                                {[...Array(5)].map((_, i) => <Star key={i} size={11} fill={i < t.rating ? '#FBBF24' : 'transparent'} className={i < t.rating ? 'text-[#FBBF24]' : 'text-white/20'} />)}
+                                            </div>
+                                            <span className={`text-[10px] font-bold uppercase ${t.status ? 'text-green-500' : 'text-white/30'}`}>
+                                                {t.status ? '● Visible' : '○ Hidden'}
+                                            </span>
+                                        </div>
+                                        <p className="text-white/50 text-xs mt-1 truncate">"{t.content}"</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-1 flex-shrink-0">
+                                    <button onClick={() => handleToggle(t.id, t.status)} className={`p-2 rounded-lg transition-all ${t.status ? 'text-green-500 bg-green-500/10' : 'text-white/20 hover:text-green-500 hover:bg-green-500/10'}`}><Check size={15} /></button>
+                                    <button onClick={() => startEdit(t)} className="p-2 text-white/20 hover:text-white hover:bg-white/10 rounded-lg transition-all"><Edit2 size={15} /></button>
+                                    <button onClick={() => handleDelete(t.id)} className="p-2 text-white/20 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"><Trash2 size={15} /></button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
             )}
         </div>

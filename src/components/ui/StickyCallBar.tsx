@@ -75,22 +75,17 @@ export default function StickyCallBar() {
                         {/* Top accent */}
                         <div className="absolute top-0 left-0 right-0 h-1 bg-[#FBBF24]" />
 
-                        {/* Dismiss */}
-                        <button
-                            onClick={handleDismiss}
-                            className="cursor-target absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors"
-                        >
-                            <X size={12} />
-                        </button>
-
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-[#FBBF24] flex items-center justify-center text-[#0A192F] font-black text-xs">
-                                AIR
-                            </div>
+                        <div className="flex justify-between items-center mb-4 mt-1">
                             <div>
-                                <p className="text-white font-black text-sm">Airlink Broadband</p>
-                                <p className="text-[#FBBF24] text-[10px] font-bold uppercase tracking-widest">Free Installation Available!</p>
+                                <h3 className="text-[18px] font-semibold text-white leading-tight">Airlink Broadband</h3>
+                                <span className="text-[12px] text-[#FFD54F] font-bold tracking-widest mt-0.5 block">FREE INSTALLATION AVAILABLE</span>
                             </div>
+                            <button
+                                onClick={handleDismiss}
+                                className="cursor-target w-7 h-7 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors flex-shrink-0 self-start"
+                            >
+                                <X size={14} />
+                            </button>
                         </div>
 
                         <p className="text-gray-400 text-xs font-medium leading-relaxed mb-4">

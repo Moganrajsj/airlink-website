@@ -1,12 +1,11 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { DarkHeroBg, LightSectionBg, NavySectionBg, MeshBg, LightHeroBg, GraySectionBg } from '@/components/ui/AnimatedBackground';
-import Aurora from '@/components/animations/Aurora';
-import Particles from '@/components/animations/Particles';
 import BlurText from '@/components/animations/BlurText';
 import TiltedCard from '@/components/animations/TiltedCard';
+import { createLead } from '@/app/actions/leads';
 import {
     Server,
     Wifi,
@@ -32,6 +31,55 @@ import {
 } from 'lucide-react';
 
 const InfrastructurePage = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [formData, setFormData] = useState({
+        companyName: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        interest: 'Dedicated Internet Leased Line (ILL / DIA)',
+        details: ''
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            const result = await createLead({
+                name: formData.contactPerson,
+                email: formData.email,
+                mobile: formData.phone,
+                company: formData.companyName,
+                city: 'Corporate/Enterprise', // Specific marker for enterprise leads
+                interest: formData.interest,
+                message: formData.details,
+                source: 'infrastructure_enterprise_form'
+            });
+
+            if (result.success) {
+                setSubmitStatus('success');
+                setFormData({
+                    companyName: '',
+                    contactPerson: '',
+                    email: '',
+                    phone: '',
+                    interest: 'Dedicated Internet Leased Line (ILL / DIA)',
+                    details: ''
+                });
+            } else {
+                setSubmitStatus('error');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     const features = [
         {
             icon: <Server className="w-8 h-8" />,
@@ -77,12 +125,8 @@ const InfrastructurePage = () => {
             {/* Hero Section */}
             <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A192F]">
 
-                <div className="absolute inset-0 bg-[url('/images/real_server_rack_1772908849996.png')] bg-cover bg-fixed bg-center opacity-30 mix-blend-luminosity"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/60 via-[#0A192F]/80 to-[#0A192F]"></div>
-
-                {/* Interactive Aurora & Particles */}
-                <Aurora colorStops={["#FBBF24", "#0A192F", "#1A365D"]} speed={0.8} />
-                <Particles count={400} size={0.06} color="#FBBF24" interactive={true} />
+                <div className="absolute inset-0 bg-[url('/images/real_server_rack_1772908849996.png')] bg-cover bg-fixed bg-center opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/40 via-transparent to-[#0A192F]/70"></div>
 
                 <div className="container mx-auto px-6 relative z-20 pt-10">
                     <div className="max-w-6xl mx-auto text-center">
@@ -184,7 +228,7 @@ const InfrastructurePage = () => {
                             text="ENTERPRISE SERVICE PORTFOLIO"
                             delay={150}
                             animateBy="character"
-                            className="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight uppercase underline decoration-white/30 decoration-8 underline-offset-[12px] inline-block"
+                            className="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight uppercase underline decoration-white/30 decoration-8 underline-offset-[12px] inline-block text-white"
                         />
                         <p className="text-[#0A192F]/70 text-xl font-medium">
                             Mission-critical solutions with guaranteed SLA performance.
@@ -247,23 +291,23 @@ const InfrastructurePage = () => {
                                 className={`h-full w-full ${arr.length === 7 && idx === 6 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2 max-w-lg mx-auto lg:max-w-none' : ''}`}
                             >
                                 <TiltedCard
-                                    className="bg-white/90 backdrop-blur-xl border border-white/40 p-10 rounded-[2.5rem] flex flex-col items-start h-full"
+                                    className="bg-[#0A192F] backdrop-blur-xl border border-[#FBBF24]/20 p-10 rounded-[2.5rem] flex flex-col items-start h-full shadow-2xl"
                                     containerClassName="h-full"
                                     rotateAmplitude={8}
                                 >
-                                    <div className="w-16 h-16 rounded-2xl bg-[#0A192F]/5 flex items-center justify-center text-[#0A192F] mb-8 border border-[#0A192F]/10 transition-transform duration-500">
+                                    <div className="w-16 h-16 rounded-2xl bg-[#FBBF24] flex items-center justify-center text-[#0A192F] mb-8 border border-[#FBBF24]/10 transition-transform duration-500 shadow-lg shadow-[#FBBF24]/10">
                                         {item.icon}
                                     </div>
-                                    <h3 className="text-2xl font-black text-[#0A192F] mb-4 uppercase tracking-tighter leading-tight">
+                                    <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tighter leading-tight">
                                         {item.title}
                                     </h3>
-                                    <p className="text-[#0A192F]/60 text-sm mb-8 font-medium leading-relaxed">
+                                    <p className="text-white/60 text-sm mb-8 font-medium leading-relaxed">
                                         {item.subtitle}
                                     </p>
-                                    <div className="mt-auto space-y-3 pt-6 border-t border-[#0A192F]/10 w-full">
+                                    <div className="mt-auto space-y-3 pt-6 border-t border-white/10 w-full">
                                         {item.features.map((feature, fidx) => (
-                                            <div key={fidx} className="flex items-start gap-2 text-xs font-bold text-[#0A192F]/80 uppercase tracking-widest">
-                                                <CheckCircle2 size={14} className="text-[#0ea5e9] shrink-0 mt-0.5" />
+                                            <div key={fidx} className="flex items-start gap-2 text-xs font-bold text-white/80 uppercase tracking-widest">
+                                                <CheckCircle2 size={14} className="text-[#FBBF24] shrink-0 mt-0.5" />
                                                 {feature}
                                             </div>
                                         ))}
@@ -368,30 +412,62 @@ const InfrastructurePage = () => {
                                 viewport={{ once: true }}
                                 className="bg-white p-12 rounded-[3.5rem] shadow-[0_40px_100px_rgba(10,25,47,0.1)] border border-[#0A192F]/08"
                             >
-                                <form className="space-y-6">
+                                <form className="space-y-6" onSubmit={handleSubmit}>
                                     <div className="grid sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Company Name</label>
-                                            <input type="text" placeholder="Acme Corp" className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" />
+                                            <input 
+                                                required
+                                                type="text" 
+                                                placeholder="Acme Corp" 
+                                                value={formData.companyName}
+                                                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                                                className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" 
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Contact Person</label>
-                                            <input type="text" placeholder="Jane Doe" className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" />
+                                            <input 
+                                                required
+                                                type="text" 
+                                                placeholder="Jane Doe" 
+                                                value={formData.contactPerson}
+                                                onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
+                                                className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" 
+                                            />
                                         </div>
                                     </div>
                                     <div className="grid sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Work Email</label>
-                                            <input type="email" placeholder="jane@acmecorp.com" className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" />
+                                            <input 
+                                                required
+                                                type="email" 
+                                                placeholder="jane@acmecorp.com" 
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" 
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Phone Number</label>
-                                            <input type="text" placeholder="+91 90000 00000" className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" />
+                                            <input 
+                                                required
+                                                type="text" 
+                                                placeholder="+91 90000 00000" 
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20" 
+                                            />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Solutions of Interest</label>
-                                        <select className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold text-[#0A192F]/60">
+                                        <select 
+                                            value={formData.interest}
+                                            onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+                                            className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold text-[#0A192F]/60"
+                                        >
                                             <option>Dedicated Internet Leased Line (ILL / DIA)</option>
                                             <option>Managed Secure ILL</option>
                                             <option>Point-to-Point Leased Lines</option>
@@ -402,10 +478,32 @@ const InfrastructurePage = () => {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 ml-2">Additional Details</label>
-                                        <textarea placeholder="Briefly describe your requirements or current challenges..." rows={4} className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20 resize-none"></textarea>
+                                        <textarea 
+                                            placeholder="Briefly describe your requirements or current challenges..." 
+                                            rows={4} 
+                                            value={formData.details}
+                                            onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                                            className="w-full bg-[#F7F8FA] border border-[#0A192F]/08 rounded-2xl px-6 py-4 outline-none focus:border-[#FBBF24] transition-all font-bold placeholder:text-[#0A192F]/20 resize-none"
+                                        ></textarea>
                                     </div>
-                                    <button className="w-full bg-[#FBBF24] text-[#0A192F] font-black py-6 rounded-2xl uppercase tracking-widest hover:bg-[#0A192F] hover:text-[#FBBF24] transition-all duration-300 shadow-xl flex items-center justify-center gap-3">
-                                        Submit Inquiry <ArrowRight size={20} />
+                                    
+                                    {submitStatus === 'success' && (
+                                        <div className="p-4 bg-green-50 text-green-700 rounded-xl text-sm font-bold text-center border border-green-100 uppercase tracking-widest">
+                                            Thank you! We'll contact you shortly.
+                                        </div>
+                                    )}
+
+                                    {submitStatus === 'error' && (
+                                        <div className="p-4 bg-red-50 text-red-700 rounded-xl text-sm font-bold text-center border border-red-100 uppercase tracking-widest">
+                                            Something went wrong. Please try again.
+                                        </div>
+                                    )}
+
+                                    <button 
+                                        disabled={isSubmitting}
+                                        className={`w-full ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0A192F] hover:text-[#FBBF24]'} bg-[#FBBF24] text-[#0A192F] font-black py-6 rounded-2xl uppercase tracking-widest transition-all duration-300 shadow-xl flex items-center justify-center gap-3`}
+                                    >
+                                        {isSubmitting ? 'Processing...' : 'Submit Inquiry'} <ArrowRight size={20} />
                                     </button>
                                 </form>
                             </motion.div>

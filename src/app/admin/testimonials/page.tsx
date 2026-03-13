@@ -1,13 +1,11 @@
-import { getTestimonials } from '@/app/actions/cms';
-import TestimonialsManager from '@/components/admin/TestimonialsManager';
+import TestimonialsManager from "@/components/admin/TestimonialsManager";
 
-export const dynamic = 'force-dynamic';
-
-export default async function AdminTestimonialsPage() {
-    const items = await getTestimonials();
+export default function AdminTestimonialsPage() {
     return (
-        <div className="min-h-screen bg-[#F7F8FA] p-6 lg:p-10">
-            <TestimonialsManager initial={items} />
+        <div className="min-h-screen bg-[#0A192F] text-white p-6 lg:p-10">
+            <div className="max-w-5xl mx-auto">
+                <TestimonialsManager />
+            </div>
         </div>
     );
 }

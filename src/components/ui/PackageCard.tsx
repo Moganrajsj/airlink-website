@@ -174,7 +174,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
                     {/* CTA */}
                     <div className="relative z-10 mt-auto">
                         <a
-                            href="/plans#booking"
+                            href="/contact"
                             className={`cursor-target w-full py-4 block rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 text-center shadow-lg relative overflow-hidden group/btn ${isHighlight
                                 ? 'bg-[#0A192F] text-white hover:bg-[#0A192F]/80'
                                 : 'bg-[#FBBF24] text-[#0A192F] hover:bg-white'

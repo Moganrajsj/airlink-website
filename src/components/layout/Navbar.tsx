@@ -34,8 +34,8 @@ const Navbar = () => {
       <div className={`w-full bg-secondary text-white/80 py-1.5 transition-all duration-500 overflow-hidden ${scrolled ? 'h-0 opacity-0 py-0' : 'h-auto opacity-100'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center text-xs font-medium tracking-wide">
           <div className="flex items-center gap-6">
-            <a href="tel:+919345217979" className="flex items-center gap-2 hover:text-primary transition-colors">
-              <Phone size={12} className="text-primary" /> +91 93452 17979 | +91 93445 84000
+            <a href="tel:+919344584000" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <Phone size={12} className="text-primary" /> +91 93445 84000 | +91 93452 17979
             </a>
             <a href="mailto:sales@srirambroadband.com" className="hidden sm:flex items-center gap-2 hover:text-primary transition-colors">
               <Mail size={12} className="text-primary" /> sales@srirambroadband.com

@@ -9,31 +9,43 @@ import { sendLeadNotification } from "@/lib/mailer";
 
 export async function createLead(formData: {
     name: string;
-    mobile: string;
+    mobile?: string;
+    phone?: string;
     email?: string;
+    company?: string;
     city: string;
     pincode?: string;
     interest?: string;
     source?: string;
-    phone?: string;
+    message?: string;
 }) {
-    // Mobile validation: Indian numbers starting with 6-9, exactly 10 digits
-    const mobileRegex = /^[6-9]\d{9}$/;
-    if (!mobileRegex.test(formData.mobile)) {
-        return { success: false, error: "Please enter a valid 10-digit Indian mobile number." };
+    // Determine the phone number, allowing for either mobile or phone field
+    const rawMobile = formData.mobile || formData.phone || "";
+    
+    // Sanitize: Remove all non-digit characters
+    const sanitizedMobile = rawMobile.replace(/\D/g, "");
+
+    // Mobile validation: Indian numbers should ideally be 10 digits
+    // Relaxed validation: Check if it has at least 10 digits
+    if (sanitizedMobile.length < 10) {
+        return { success: false, error: "Please enter a valid 10-digit mobile number." };
     }
+
+    // Take the last 10 digits if it's longer (e.g. includes country code)
+    const finalMobile = sanitizedMobile.slice(-10);
 
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const lead = await (prisma.lead.create as any)({
             data: {
                 name: formData.name,
-                mobile: formData.mobile,
-                phone: formData.mobile,
+                mobile: finalMobile,
+                phone: finalMobile,
                 email: formData.email,
+                company: formData.company,
                 city: formData.city,
                 pincode: formData.pincode,
-                interest: formData.interest,
+                interest: formData.interest || formData.message,
                 source: formData.source || "contact_form",
                 status: "new",
             },
@@ -43,11 +55,11 @@ export async function createLead(formData: {
         try {
             await sendLeadNotification({
                 name: formData.name,
-                mobile: formData.mobile,
+                mobile: finalMobile,
                 email: formData.email,
                 city: formData.city,
                 pincode: formData.pincode,
-                interest: formData.interest,
+                interest: formData.interest || formData.message,
                 source: formData.source,
             });
         } catch (emailError) {

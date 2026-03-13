@@ -18,7 +18,7 @@ export async function getAllPlans() {
 
 export async function createPlan(data: {
     title: string; speed: number; price: number;
-    features: string; tag?: string; isBusiness: boolean; status: boolean;
+    features: string; tag?: string | null; isBusiness: boolean; status: boolean;
 }) {
     await prisma.plan.create({ data });
     revalidatePath("/plans");
@@ -28,7 +28,7 @@ export async function createPlan(data: {
 
 export async function updatePlan(id: string, data: {
     title?: string; speed?: number; price?: number;
-    features?: string; tag?: string; isBusiness?: boolean; status?: boolean;
+    features?: string; tag?: string | null; isBusiness?: boolean; status?: boolean;
 }) {
     await prisma.plan.update({ where: { id }, data });
     revalidatePath("/plans");
@@ -78,6 +78,7 @@ export async function getTestimonials(activeOnly = false) {
 
 export async function createTestimonial(data: {
     name: string; role?: string; content: string; rating: number; isActive: boolean;
+    person?: string; city?: string; tag?: string; metric?: string; color?: string;
 }) {
     await prisma.testimonial.create({ data });
     revalidatePath("/admin/testimonials");
@@ -87,6 +88,7 @@ export async function createTestimonial(data: {
 
 export async function updateTestimonial(id: string, data: {
     name?: string; role?: string | null; content?: string; rating?: number; isActive?: boolean;
+    person?: string; city?: string; tag?: string | null; metric?: string | null; color?: string;
 }) {
     await prisma.testimonial.update({ where: { id }, data });
     revalidatePath("/admin/testimonials");

@@ -1,9 +1,9 @@
 "use client";
-
-import { useEffect, useRef, useCallback, useMemo } from 'react';
+ 
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
 import './TargetCursor.css';
-
+ 
 interface TargetCursorProps {
     targetSelector?: string;
     spinDuration?: number;
@@ -11,7 +11,7 @@ interface TargetCursorProps {
     hoverDuration?: number;
     parallaxOn?: boolean;
 }
-
+ 
 const TargetCursor = ({
     targetSelector = '.cursor-target',
     spinDuration = 2,
@@ -19,10 +19,16 @@ const TargetCursor = ({
     hoverDuration = 0.2,
     parallaxOn = true
 }: TargetCursorProps) => {
+    const [mounted, setMounted] = useState(false);
     const cursorRef = useRef<HTMLDivElement>(null);
     const cornersRef = useRef<NodeListOf<Element> | null>(null);
     const spinTl = useRef<gsap.core.Timeline | null>(null);
     const dotRef = useRef<HTMLDivElement>(null);
+ 
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+ 
 
     const isActiveRef = useRef(false);
     const targetCornerPositionsRef = useRef<{ x: number; y: number }[] | null>(null);
@@ -324,7 +330,7 @@ const TargetCursor = ({
         }
     }, [spinDuration, isMobile]);
 
-    if (isMobile) {
+    if (!mounted || isMobile) {
         return null;
     }
 

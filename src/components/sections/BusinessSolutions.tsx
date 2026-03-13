@@ -96,38 +96,49 @@ export default function BusinessSolutions() {
 
                 {/* Segments grid */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-14">
-                    {segments.map((seg, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 25 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.08 }}
-                            whileHover={{ y: -8 }}
-                            className="bg-white rounded-[2rem] p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
-                        >
-                            {/* Top color accent */}
-                            <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[2rem]" style={{ background: seg.color }} />
-
-                            {/* Icon */}
-                            <div
-                                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
-                                style={{ background: `${seg.color}15`, color: seg.color }}
+                    {segments.map((seg, i) => {
+                        const isBlueCard = ["Textile Units", "Corporate Offices", "Hospitals & Clinics", "Retail Shops", "Schools & Colleges"].includes(seg.name);
+                        return (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 25 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.08 }}
+                                whileHover={{ y: -8 }}
+                                className={`rounded-[2rem] p-7 border shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden ${
+                                    isBlueCard
+                                    ? "bg-[#0A192F] border-[#FBBF24]/30 shadow-[0_10px_30px_rgba(251,191,36,0.15)] hover:border-[#FBBF24]"
+                                    : "bg-white border-gray-100"
+                                }`}
                             >
-                                {seg.icon}
-                            </div>
+                                {/* Top color accent */}
+                                <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[2rem]" style={{ background: isBlueCard ? '#FBBF24' : seg.color }} />
 
-                            <h3 className="font-black text-[#0A192F] text-lg mb-3">{seg.name}</h3>
-                            <p className="text-[#0A192F]/50 text-sm font-medium leading-relaxed mb-5">{seg.description}</p>
+                                {/* Icon */}
+                                <div
+                                    className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 ${
+                                        isBlueCard ? "bg-[#FBBF24] text-[#0A192F] shadow-[0_0_15px_rgba(251,191,36,0.5)]" : ""
+                                    }`}
+                                    style={!isBlueCard ? { background: `${seg.color}15`, color: seg.color } : {}}
+                                >
+                                    {seg.icon}
+                                </div>
 
-                            <div
-                                className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full"
-                                style={{ background: `${seg.color}15`, color: seg.color }}
-                            >
-                                <Wifi size={10} /> {seg.stat}
-                            </div>
-                        </motion.div>
-                    ))}
+                                <h3 className={`font-black text-lg mb-3 ${isBlueCard ? "text-white" : "text-[#0A192F]"}`}>{seg.name}</h3>
+                                <p className={`text-sm font-medium leading-relaxed mb-5 ${isBlueCard ? "text-white/80" : "text-[#0A192F]/50"}`}>{seg.description}</p>
+
+                                <div
+                                    className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${
+                                        isBlueCard ? "bg-[#FBBF24]/20 text-[#FBBF24]" : ""
+                                    }`}
+                                    style={!isBlueCard ? { background: `${seg.color}15`, color: seg.color } : {}}
+                                >
+                                    <Wifi size={10} /> {seg.stat}
+                                </div>
+                            </motion.div>
+                        );
+                    })}
                 </div>
 
                 {/* Bottom CTA banner */}

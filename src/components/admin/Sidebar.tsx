@@ -7,7 +7,7 @@ import {
     LayoutDashboard, Wifi, MapPin,
     Users, MessageSquare, Newspaper,
     Settings, Image as ImageIcon, Sparkles,
-    LogOut, ChevronRight, BarChart3
+    LogOut, ChevronRight, BarChart3, Share2
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -23,6 +23,7 @@ const Sidebar = () => {
         { icon: <BarChart3 size={20} />, label: "Leads", href: "/admin/leads" },
         { icon: <ImageIcon size={20} />, label: "Media Library", href: "/admin/media" },
         { icon: <ImageIcon size={20} />, label: "Banners", href: "/admin/banners" },
+        { icon: <Share2 size={20} />, label: "Social Media", href: "/admin/social" },
         { icon: <Settings size={20} />, label: "SEO Settings", href: "/admin/settings" },
     ];
 
@@ -71,7 +72,12 @@ const Sidebar = () => {
                     </div>
                 </div>
                 <button
-                    onClick={() => console.log('logout')}
+                    onClick={async () => {
+                        if (confirm('Verify system logout?')) {
+                            const res = await fetch('/api/admin/logout', { method: 'POST' });
+                            if (res.ok) window.location.href = '/auth';
+                        }
+                    }}
                     className="w-full flex items-center gap-3 px-4 py-3 text-white/50 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
                 >
                     <LogOut size={18} />

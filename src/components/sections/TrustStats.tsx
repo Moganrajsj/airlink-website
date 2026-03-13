@@ -51,14 +51,14 @@ const stats: Stat[] = [
 
 const TrustStats = () => {
     return (
-        <section className="py-32 bg-white relative overflow-hidden" id="trust">
+        <section className="py-12 md:py-32 bg-white relative overflow-hidden" id="trust">
             {/* Decorative shapes - Unified to Navy/Yellow shadow */}
             <div className="absolute top-0 left-0 w-80 h-80 bg-[#FBBF24]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#0A192F]/05 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-20">
+                <div className="text-center mb-10 md:mb-20">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -71,7 +71,7 @@ const TrustStats = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-5xl md:text-7xl font-black text-[#0A192F] tracking-tighter"
+                        className="text-3xl md:text-7xl font-black text-[#0A192F] tracking-tighter"
                     >
                         Numbers That <span className="text-[#FBBF24]">Speak.</span>
                     </motion.h2>
@@ -80,7 +80,7 @@ const TrustStats = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.15 }}
-                        className="text-[#0A192F]/50 mt-6 max-w-2xl mx-auto text-xl font-medium"
+                        className="text-[#0A192F]/50 mt-4 md:mt-6 max-w-2xl mx-auto text-lg md:text-xl font-medium"
                     >
                         15+ years of powering Tamil Nadu's most demanding homes and businesses with rock-solid fiber infrastructure.
                     </motion.p>
@@ -95,7 +95,7 @@ const TrustStats = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white rounded-[3rem] p-10 border border-gray-100 shadow-[0_8px_32px_rgba(10,25,47,0.04)] group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:border-[#FBBF24]/30"
+                            className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-gray-100 shadow-[0_8px_32px_rgba(10,25,47,0.04)] group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:border-[#FBBF24]/30"
                         >
                             {/* Icon */}
                             <div
@@ -105,7 +105,7 @@ const TrustStats = () => {
                             </div>
 
                             {/* Animated number */}
-                            <div className="text-5xl font-black mb-3 leading-none tracking-tighter text-[#0A192F]">
+                            <div className="text-3xl md:text-5xl font-black mb-3 leading-none tracking-tighter text-[#0A192F]">
                                 <CountUp
                                     to={stat.value}
                                     decimals={stat.value < 10 ? 2 : 0}

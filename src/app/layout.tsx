@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-import TargetCursor from "@/components/animations/TargetCursor";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import PageTransition from "@/components/layout/PageTransition";
 
@@ -17,14 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body className="bg-background text-dark">
-        <TargetCursor
-          spinDuration={2}
-          hideDefaultCursor
-          parallaxOn
-          hoverDuration={0.2}
-        />
         <AuthProvider>
           <ConditionalLayout>
             <PageTransition>

@@ -12,7 +12,7 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ banner }: HeroBannerProps) {
     // Default background if none provided
-    const bgImage = banner.imageUrl || "/backgrounds/network-bg.jpg"; // You can use a real image later
+    const bgImage = banner.imageUrl || "/backgrounds/network-bg.jpg"; 
 
     return (
         <div className="relative w-full h-full flex items-center">
