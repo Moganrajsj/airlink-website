@@ -19,7 +19,8 @@ async function main() {
                 ottApps: [],
                 bestFor: 'Light Users',
                 benefits: ['Unlimited Data', 'Perfect for browsing', 'Social media'],
-                isPopular: false, isPremium: false
+                positioningLine: 'Affordable Fiber for Everyday Internet Needs.',
+                support: '24/7 Online Support', isPopular: false, isPremium: false
             })
         },
         {
@@ -28,16 +29,18 @@ async function main() {
                 ottApps: ['Sun NXT', 'Sony Liv', 'OM TV', 'Dollywood Play', 'Friday'],
                 bestFor: 'Entertainment',
                 benefits: ['HD Streaming', 'OTT Bundle', '3 Users'],
-                isPopular: false, isPremium: false
+                positioningLine: 'Affordable Fiber + OTT Entertainment Pack.',
+                support: '24/7 Online Support', isPopular: false, isPremium: false
             })
         },
         {
             title: '100 Mbps', speed: 100, price: 799, tag: null, isBusiness: false, status: true,
             features: JSON.stringify({
-                ottApps: ['Sun Next', 'Zee5', 'SonyLIV', 'Aha', 'Dollywood Play', 'Fridaay', 'Om TV'],
+                ottApps: ['Sun NXT', 'Zee5', 'Sony Liv', 'Aha', 'Dollywood Play', 'Friday', 'OM TV'],
                 bestFor: 'Families',
                 benefits: ['4K Streaming', 'Zoom Ready', 'Multiple Users'],
-                isPopular: false, isPremium: false
+                positioningLine: 'Balanced Speed & Premium Streaming Experience.',
+                support: '24/7 Online Support', isPopular: false, isPremium: false
             })
         },
         {
@@ -46,7 +49,8 @@ async function main() {
                 ottApps: ['Jio Hotstar', 'Sun NXT', 'Zee5', 'Sony Liv', 'OM TV', 'Dollywood Play', 'Aha'],
                 bestFor: 'Heavy Users',
                 benefits: ['Live Sports', 'Gaming', 'Fast Downloads'],
-                isPopular: true, isPremium: false
+                positioningLine: 'Power Packed Fiber for Sports & Entertainment Lovers.',
+                support: '24/7 Online Support', isPopular: true, isPremium: false
             })
         },
         {
@@ -55,7 +59,8 @@ async function main() {
                 ottApps: ['Jio Hotstar', 'Sun NXT', 'Zee5', 'Sony Liv', 'OM TV', 'PlayFlix', 'Dollywood Play', 'Aha'],
                 bestFor: 'Power Gamers',
                 benefits: ['Zero Lag', 'Large Downloads', '8 OTTs'],
-                isPopular: false, isPremium: false
+                positioningLine: 'Ultra-Speed Fiber with Maximum Entertainment.',
+                support: '24/7 Online Support', isPopular: false, isPremium: false
             })
         },
         {
@@ -64,7 +69,8 @@ async function main() {
                 ottApps: ['Amazon Prime', 'Sun NXT', 'Zee5', 'Sony Liv', 'Aha', 'OM TV', 'Dollywood Play', 'Fancode', 'Distro TV', 'PlayFlix', 'Hubhopper', 'Jio Hotstar'],
                 bestFor: 'Ultra Homes',
                 benefits: ['8K Streaming', 'Ultimate Bundle', 'Priority Support'],
-                isPopular: false, isPremium: true
+                positioningLine: 'The Ultimate Fiber Experience.',
+                support: '24/7 Priority Support', isPopular: false, isPremium: true
             })
         }
     ];
@@ -78,7 +84,7 @@ async function main() {
             title: 'Experience Blazing Fast Fiber',
             subtitle: 'Starting from just ₹499/month with unlimited data.',
             offerHighlight: 'Get 1 Month Free on Yearly Plans',
-            imageUrl: '/images/plans_hero_background.webp',
+            imageUrl: '/images/plans_hero_background.png',
             bannerType: 'hero',
             ctaText: 'View Plans',
             ctaLink: '#plans',
@@ -88,7 +94,7 @@ async function main() {
             title: 'Unlimited Entertainment v2',
             subtitle: 'Stream your favorite shows and movies with high-speed fiber quality.',
             offerHighlight: 'OTT Included in Premium Plans',
-            imageUrl: '/images/banners/unlimited-entertainment-v2.webp',
+            imageUrl: '/images/banners/unlimited-entertainment-v2.png',
             bannerType: 'promo',
             ctaText: 'Explore Plans',
             ctaLink: '#plans',
@@ -98,7 +104,7 @@ async function main() {
             title: 'Enterprise Leased Lines',
             subtitle: 'Secure, reliable and high-speed connectivity for your business infrastructure.',
             offerHighlight: '99.9% Uptime Guarantee',
-            imageUrl: '/images/broadband_ad_hero.webp',
+            imageUrl: '/images/broadband_ad_hero.png',
             bannerType: 'promo',
             ctaText: 'Enquire Now',
             ctaLink: '#contact',
@@ -108,7 +114,7 @@ async function main() {
             title: 'Premium Dual-Band WiFi',
             subtitle: 'Experience seamless coverage across your entire home with our latest WiFi 6 gear.',
             offerHighlight: 'Optimized for Gaming & 4K',
-            imageUrl: '/images/offers/premium_wifi_bg.webp',
+            imageUrl: '/images/offers/premium_wifi_bg.png',
             bannerType: 'promo',
             ctaText: 'Learn More',
             ctaLink: '#features',
