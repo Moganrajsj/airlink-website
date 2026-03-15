@@ -113,10 +113,27 @@ const Packages = ({ plans }: { plans?: Plan[] }) => {
 
                         const isPopularFlag = plan.tag === "Most Popular" || features.isPopular;
                         const isPremiumFlag = plan.isBusiness || features.isPremium;
-                        const benefitsList =
-                            features.benefits && features.benefits.length > 0
-                                ? features.benefits
-                                : plan.features.split(',').map((f: string) => f.trim()).filter(Boolean);
+
+                        // Improved benefits extraction
+                        let benefitsList: string[] = [];
+                        if (Array.isArray(features.benefits) && features.benefits.length > 0) {
+                            benefitsList = features.benefits;
+                        } else {
+                            // Only split if it doesn't look like JSON
+                            const raw = plan.features || "";
+                            if (!raw.trim().startsWith('{')) {
+                                benefitsList = raw.split(',').map((f: string) => f.trim()).filter(Boolean);
+                            }
+                        }
+                        
+                        // Default fallback
+                        if (benefitsList.length === 0) {
+                            benefitsList = [
+                                "Symmetrical Unlimited Data",
+                                "Free Router Included",
+                                "Zero Installation Cost"
+                            ];
+                        }
 
                         return (
                             <motion.div

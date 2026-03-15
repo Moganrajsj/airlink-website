@@ -37,6 +37,25 @@ export default function ResidentialPlans({ plans }: { plans: DbPlan[] }) {
                         const isPopular = plan.tag === "Most Popular" || f.isPopular;
                         const isPremium = plan.isBusiness || f.isPremium;
 
+                        // Improved benefits extraction
+                        let benefitsList: string[] = [];
+                        if (Array.isArray(f.benefits) && f.benefits.length > 0) {
+                            benefitsList = f.benefits;
+                        } else {
+                            const raw = plan.features || "";
+                            if (!raw.trim().startsWith('{')) {
+                                benefitsList = raw.split(',').map((f: string) => f.trim()).filter(Boolean);
+                            }
+                        }
+
+                        if (benefitsList.length === 0) {
+                            benefitsList = [
+                                "Symmetrical Unlimited Data",
+                                "Free Router Included",
+                                "Zero Installation Cost"
+                            ];
+                        }
+
                         return (
                             <div key={plan.id}>
                                 <PackageCard
@@ -47,7 +66,7 @@ export default function ResidentialPlans({ plans }: { plans: DbPlan[] }) {
                                     isPremium={isPremium}
                                     ottApps={f.ottApps}
                                     bonus={f.bestFor}
-                                    benefits={f.benefits}
+                                    benefits={benefitsList}
                                     bestFor={f.bestFor}
                                     positioningLine={f.positioningLine}
                                     support={f.support}
