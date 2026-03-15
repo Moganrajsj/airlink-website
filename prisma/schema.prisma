@@ -45,7 +45,7 @@ model Plan {
   title          String   // e.g., "Giga Fiber"
   speed          Int      // speed in Mbps
   price          Float    // monthly price
-  features       String   // JSON or comma separated string
+  features       String   @db.Text   // JSON or comma separated string
   tag            String?  // e.g., "Most Popular"
   isBusiness     Boolean  @default(false)
   status         Boolean  @default(true)

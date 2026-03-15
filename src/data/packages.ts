@@ -39,7 +39,7 @@ export const packages: Package[] = [
         speed: "100",
         price: 799,
         support: "24/7 Online Support",
-        ottApps: ["Sun Next", "Zee5", "SonyLIV", "Aha", "Dollywood Play", "Fridaay", "Om TV"],
+        ottApps: ["Sun NXT", "Zee5", "Sony Liv", "Aha", "Dollywood Play", "Friday", "OM TV"],
         bestFor: "Families + Work From Home",
         benefits: ["Buffer-free 4K streaming", "Smooth Zoom / Teams calls", "Online gaming (casual)", "3–4 users simultaneously"],
         positioningLine: "Balanced Speed & Premium Streaming Experience.",
