@@ -76,14 +76,42 @@ async function main() {
     const banners = [
         {
             title: 'Experience Blazing Fast Fiber',
-            subtitle: 'Starting from ₹499/month.',
+            subtitle: 'Starting from just ₹499/month with unlimited data.',
+            offerHighlight: 'Get 1 Month Free on Yearly Plans',
+            imageUrl: '/images/plans_hero_background.webp',
             bannerType: 'hero',
+            ctaText: 'View Plans',
+            ctaLink: '#plans',
             status: true
         },
         {
-            title: 'Unlimited Entertainment',
-            subtitle: '15+ OTT Apps included.',
+            title: 'Unlimited Entertainment v2',
+            subtitle: 'Stream your favorite shows and movies with high-speed fiber quality.',
+            offerHighlight: 'OTT Included in Premium Plans',
+            imageUrl: '/images/banners/unlimited-entertainment-v2.webp',
             bannerType: 'promo',
+            ctaText: 'Explore Plans',
+            ctaLink: '#plans',
+            status: true
+        },
+        {
+            title: 'Enterprise Leased Lines',
+            subtitle: 'Secure, reliable and high-speed connectivity for your business infrastructure.',
+            offerHighlight: '99.9% Uptime Guarantee',
+            imageUrl: '/images/broadband_ad_hero.webp',
+            bannerType: 'promo',
+            ctaText: 'Enquire Now',
+            ctaLink: '#contact',
+            status: true
+        },
+        {
+            title: 'Premium Dual-Band WiFi',
+            subtitle: 'Experience seamless coverage across your entire home with our latest WiFi 6 gear.',
+            offerHighlight: 'Optimized for Gaming & 4K',
+            imageUrl: '/images/offers/premium_wifi_bg.webp',
+            bannerType: 'promo',
+            ctaText: 'Learn More',
+            ctaLink: '#features',
             status: true
         }
     ];

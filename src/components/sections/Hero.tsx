@@ -58,7 +58,7 @@ export default function Hero() {
         <section className="relative min-h-[75vh] lg:min-h-[85vh] flex items-center hero-section-offset overflow-hidden bg-black">
             {/* ── Cinematic Background ── */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('/images/home_hero_new.png')] bg-cover bg-fixed bg-center opacity-70 mix-blend-luminosity brightness-90" />
+                <div className="absolute inset-0 bg-[url('/images/home_hero_new.webp')] bg-cover bg-fixed bg-center opacity-70 mix-blend-luminosity brightness-90" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/80" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-40" />
 

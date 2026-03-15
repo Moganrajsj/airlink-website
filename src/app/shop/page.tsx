@@ -21,7 +21,7 @@ const cctvProducts = [
         id: 'cctv-1',
         name: 'Hikvision DS-2CE16H0T-ITPFS 5MP Bullet Camera',
         price: '2,595',
-        image: '/images/products/Hikvision DS-2CE16H0T-ITPFS Bullet Camera.png',
+        image: '/images/products/Hikvision DS-2CE16H0T-ITPFS Bullet Camera.webp',
         description: 'Ultra-clear outdoor security camera with built-in microphone and night vision.',
         features: [
             '5MP high-resolution video (2560 × 1944)',
@@ -35,7 +35,7 @@ const cctvProducts = [
         id: 'cctv-2',
         name: 'Hikvision DS-2CE76H0T-ITPFS 5MP Dome Camera',
         price: '2,450',
-        image: '/images/products/Hikvision DS-2CE76H0T-ITPFS Dome Camera.png',
+        image: '/images/products/Hikvision DS-2CE76H0T-ITPFS Dome Camera.webp',
         description: 'Compact indoor dome camera ideal for home and office surveillance.',
         features: [
             '5MP resolution',
@@ -49,7 +49,7 @@ const cctvProducts = [
         id: 'cctv-3',
         name: 'Hikvision DS-2CD1023G0-I IP Camera',
         price: '3,800',
-        image: '/images/products/Hikvision DS-2CE16D0T-IRP Bullet Camera.png',
+        image: '/images/products/Hikvision DS-2CE16D0T-IRP Bullet Camera.webp',
         description: 'High-performance IP network camera designed for advanced surveillance systems.',
         features: [
             'Full HD 1080p video',
@@ -63,7 +63,7 @@ const cctvProducts = [
         id: 'cctv-4',
         name: 'Hikvision DS-2CE16D0T-IRP HD Bullet Camera',
         price: '1,950',
-        image: '/images/products/Hikvision DS-2CE16D0T-IRP Bullet Camera (2).png',
+        image: '/images/products/Hikvision DS-2CE16D0T-IRP Bullet Camera (2).webp',
         description: 'Affordable outdoor security camera with clear night monitoring.',
         features: [
             'HD 1080p resolution',
@@ -77,7 +77,7 @@ const cctvProducts = [
         id: 'cctv-5',
         name: 'Hikvision DS-2CE76D0T-ITMF Turret Camera',
         price: '2,750',
-        image: '/images/products/Hikvision DS-2CE76D0T-ITMF Turret Camera.png',
+        image: '/images/products/Hikvision DS-2CE76D0T-ITMF Turret Camera.webp',
         description: 'Wide-angle surveillance camera for indoor & outdoor monitoring.',
         features: [
             '2MP Full HD camera',
@@ -94,7 +94,7 @@ const routerProducts = [
         id: 'router-1',
         name: 'TP-Link Archer C6 AC1200 Dual Band Router',
         price: '2,599',
-        image: '/images/products/TP-Link Archer C6 Router.png',
+        image: '/images/products/TP-Link Archer C6 Router.webp',
         description: 'High-performance dual-band router designed for high-speed broadband connections.',
         features: [
             'AC1200 Dual-Band WiFi',
@@ -108,7 +108,7 @@ const routerProducts = [
         id: 'router-2',
         name: 'TP-Link Archer C20 AC750 Dual Band Router',
         price: '2,299',
-        image: '/images/products/TP-Link Archer C20 Router.png',
+        image: '/images/products/TP-Link Archer C20 Router.webp',
         description: 'Reliable dual-band router for homes and small offices.',
         features: [
             'AC750 WiFi speed',
@@ -121,7 +121,7 @@ const routerProducts = [
         id: 'router-3',
         name: 'TP-Link Archer C64 AC1200 Router',
         price: '3,199',
-        image: '/images/products/TP-Link Archer C64 Router.png',
+        image: '/images/products/TP-Link Archer C64 Router.webp',
         description: 'Modern high-performance router with wide coverage and strong signals.',
         features: [
             'AC1200 high-speed WiFi',
@@ -134,7 +134,7 @@ const routerProducts = [
         id: 'router-4',
         name: 'TP-Link Archer A6 Gigabit Router',
         price: '2,999',
-        image: '/images/products/TP-Link Archer A6 Router.png',
+        image: '/images/products/TP-Link Archer A6 Router.webp',
         description: 'Fast and reliable router designed for streaming, gaming, and high-speed internet.',
         features: [
             'Dual band WiFi',
@@ -147,7 +147,7 @@ const routerProducts = [
         id: 'router-5',
         name: 'TP-Link TL-WR841N Wireless Router',
         price: '1,699',
-        image: '/images/products/TP-Link TL-WR841N Router.png',
+        image: '/images/products/TP-Link TL-WR841N Router.webp',
         description: 'Budget friendly router ideal for small homes.',
         features: [
             '300 Mbps wireless speed',
