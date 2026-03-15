@@ -34,14 +34,17 @@ export default function ResidentialPlans({ plans }: { plans: DbPlan[] }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {activePlans.map((plan) => {
                         const f = parseFeatures(plan.features);
+                        const isPopular = plan.tag === "Most Popular" || f.isPopular;
+                        const isPremium = plan.isBusiness || f.isPremium;
+
                         return (
                             <div key={plan.id}>
                                 <PackageCard
                                     speed={String(plan.speed)}
                                     price={plan.price}
                                     name={plan.title}
-                                    isPopular={f.isPopular}
-                                    isPremium={f.isPremium}
+                                    isPopular={isPopular}
+                                    isPremium={isPremium}
                                     ottApps={f.ottApps}
                                     bonus={f.bestFor}
                                     benefits={f.benefits}
