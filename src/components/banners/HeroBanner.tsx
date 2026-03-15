@@ -15,7 +15,7 @@ export default function HeroBanner({ banner }: HeroBannerProps) {
     const bgImage = banner.imageUrl || "/backgrounds/network-bg.jpg"; 
 
     return (
-        <div className="relative w-full h-full flex items-center">
+        <div className="relative w-full h-full flex items-center banner-slide">
             {/* Background Image & Overlay */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"

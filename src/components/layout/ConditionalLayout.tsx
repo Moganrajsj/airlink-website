@@ -19,6 +19,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
     return (
         <>
             <TargetCursor
+                targetSelector="button, a, .cursor-target, .banner-slide, .hero-visual-area, [role='button']"
                 spinDuration={2}
                 hideDefaultCursor
                 parallaxOn

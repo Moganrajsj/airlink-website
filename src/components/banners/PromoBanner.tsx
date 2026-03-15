@@ -47,7 +47,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
-                            className="w-full bg-[#FBBF24] rounded-[20px] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group min-h-[180px] md:min-h-[220px] lg:min-h-[260px]"
+                            className="w-full bg-[#FBBF24] rounded-[20px] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group min-h-[180px] md:min-h-[220px] lg:min-h-[260px] banner-slide"
                         >
                             {/* Subtle animated moving network background effect inside the text area */}
                             <div
