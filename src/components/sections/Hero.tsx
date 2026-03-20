@@ -8,7 +8,7 @@ import DynamicBackground from '@/components/animations/DynamicBackground';
 import BlurText from '@/components/animations/BlurText';
 import Magnet from '@/components/animations/Magnet';
 
-const words = ["Homes", "Business", "Gamers", "Creators"];
+const words = ["Homes", "Business", "Enterprise", "Gamers", "Creators"];
 
 const WordCycle = () => {
     const [index, setIndex] = useState(0);
@@ -57,7 +57,7 @@ export default function Hero() {
     return (
         <section className="relative min-h-[75vh] lg:min-h-[85vh] flex items-center hero-section-offset overflow-hidden bg-black">
             {/* ── Cinematic Background ── */}
-            <div className="absolute inset-0 z-0 hero-visual-area">
+            <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-[url('/images/home_hero_new.png')] bg-cover bg-fixed bg-center opacity-70 mix-blend-luminosity brightness-90" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/80" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-40" />
@@ -95,7 +95,7 @@ export default function Hero() {
                                 className="font-black tracking-tighter leading-[0.9] uppercase flex items-center flex-wrap"
                                 style={{ fontSize: 'clamp(3.5rem, 8.5vw, 8.5rem)' }}
                             >
-                                <span className="text-white/20 stroke-text mr-0 sm:mr-4">FIBER FOR</span> <WordCycle />
+                                <span className="text-white/70 mr-0 sm:mr-4">FIBER FOR</span> <WordCycle />
                             </motion.h1>
                         </div>
 
@@ -113,7 +113,7 @@ export default function Hero() {
                             <Magnet padding={30} magnetStrength={0.3}>
                                 <Link
                                     href="/coverage"
-                                    className="cursor-target group w-full sm:w-auto bg-[#FBBF24] text-[#0A192F] font-black py-6 px-12 rounded-3xl text-lg uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-[0_20px_40px_rgba(251,191,36,0.3)] flex items-center justify-center gap-3 relative overflow-hidden"
+                                    className="group w-full sm:w-auto bg-[#FBBF24] text-[#0A192F] font-black py-6 px-12 rounded-3xl text-lg uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-[0_20px_40px_rgba(251,191,36,0.3)] flex items-center justify-center gap-3 relative overflow-hidden"
                                 >
                                     <span className="relative z-10 flex items-center gap-3">
                                         Check Availability <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
@@ -124,7 +124,7 @@ export default function Hero() {
 
                             <Link
                                 href="/plans"
-                                className="cursor-target group w-full sm:w-auto border-2 border-white/10 text-white font-black py-6 px-12 rounded-3xl text-lg uppercase tracking-widest hover:bg-white hover:text-[#0A192F] transition-all duration-300 flex items-center justify-center gap-3 bg-white/05 backdrop-blur-md"
+                                className="group w-full sm:w-auto border-2 border-white/10 text-white font-black py-6 px-12 rounded-3xl text-lg uppercase tracking-widest hover:bg-white hover:text-[#0A192F] transition-all duration-300 flex items-center justify-center gap-3 bg-white/05 backdrop-blur-md"
                             >
                                 Explore Plans <Play size={20} className="fill-current" />
                             </Link>

@@ -3,30 +3,30 @@ import React, { useState } from 'react';
 
 // Using direct reliable SVG/PNG urls to avoid ad-blocker or clearbit issues
 const partners = [
-    { name: "HPE Aruba", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/HPE_Aruba_Networking_logo.svg" },
-    { name: "Ubiquiti", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Ubiquiti_Networks_logo.svg" },
-    { name: "Cisco", logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" },
-    { name: "Equinix", logo: "https://upload.wikimedia.org/wikipedia/commons/1/15/Equinix_logo.svg" },
-    { name: "ST Telemedia", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/90/ST_Telemedia_logo.svg/512px-ST_Telemedia_logo.svg.png" },
-    { name: "Broadcom", logo: "https://upload.wikimedia.org/wikipedia/commons/0/03/Broadcom_Logo.svg" },
-    { name: "Zscaler", logo: "https://upload.wikimedia.org/wikipedia/commons/1/11/Zscaler_logo.svg" },
-    { name: "Cloudflare", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg" },
-    { name: "Microsoft 365", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" },
-    { name: "Google Workspace", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" },
-    { name: "Dell Technologies", logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg" },
-    { name: "HPE", logo: "https://upload.wikimedia.org/wikipedia/commons/4/46/Hewlett_Packard_Enterprise_logo.svg" },
-    { name: "Extreme Networks", logo: "https://upload.wikimedia.org/wikipedia/commons/d/df/Extreme_Networks_logo.svg" },
-    { name: "D-Link", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/D-Link_logo.svg" },
-    { name: "Fortinet", logo: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Fortinet_logo.svg" },
-    { name: "SonicWall", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/SonicWall_Logo.svg" },
-    { name: "Cloud Cube", logo: "https://cdn-icons-png.flaticon.com/512/9338/9338006.png" }
+    { name: "HPE Aruba", logo: "/images/partners/HPE aruba networking.png" },
+    { name: "Ubiquiti", logo: "/images/partners/u.png" },
+    { name: "Cisco", logo: "/images/partners/cisco.png" },
+    { name: "Equinix", logo: "/images/partners/equinix.png" },
+    { name: "ST Telemedia", logo: "/images/partners/st telemedia global data centres.png" },
+    { name: "Broadcom", logo: "/images/partners/broadcom.png" },
+    { name: "Zscaler", logo: "/images/partners/zsaler.png" },
+    { name: "Microsoft 365", logo: "/images/partners/microsoft 365.png" },
+    { name: "Google Workspace", logo: "/images/partners/google workspace.png" },
+    { name: "Observium", logo: "/images/partners/observium.png" },
+    { name: "Cloudstack", logo: "/images/partners/cloudstack.png" },
+    { name: "Dell", logo: "/images/partners/DELL technologies.png" },
+    { name: "HPE", logo: "/images/partners/HPE.png" },
+    { name: "D-Link", logo: "/images/partners/d link .png" },
+    { name: "Fortinet", logo: "/images/partners/fortinet.png" },
+    { name: "SonicWall", logo: "/images/partners/Sonicwall.png" },
+    { name: "Cloud Cube", logo: "/images/partners/cloud cube .png" }
 ];
 
 const LogoCard = ({ partner }: { partner: { name: string, logo: string } }) => {
     const [imgError, setImgError] = useState(false);
 
     return (
-        <div className="cursor-target flex items-center justify-center min-w-[200px] h-24 mx-4 bg-white rounded-2xl border border-gray-100 grayscale hover:grayscale-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group p-6">
+        <div className="flex items-center justify-center min-w-[200px] h-24 mx-4 bg-white rounded-2xl border border-gray-100 grayscale hover:grayscale-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group p-6">
             {!imgError ? (
                 <img
                     src={partner.logo}

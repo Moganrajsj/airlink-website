@@ -57,7 +57,7 @@ function StarRow({ count, color }: { count: number; color: string }) {
 
 const TestimonialCard = ({ t }: { t: Testimonial }) => (
     <div
-        className="bg-white rounded-[2rem] p-7 border relative overflow-hidden group transition-all duration-300 w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-between cursor-target"
+        className="bg-white rounded-[2rem] p-7 border relative overflow-hidden group transition-all duration-300 w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-between"
         style={{ borderColor: `${t.color}30` }}
     >
         {/* Color top accent */}
@@ -151,7 +151,7 @@ export default function LocalTestimonials() {
             </div>
 
             {/* Infinite Marquee Container */}
-            <div className="relative w-full overflow-hidden flex flex-col py-4 group/marquee cursor-target">
+            <div className="relative w-full overflow-hidden flex flex-col py-4 group/marquee">
                 {/* Fade edges */}
                 <div className="absolute top-0 left-0 w-32 md:w-64 h-full bg-gradient-to-r from-[#F7F8FA] via-[#F7F8FA]/90 to-transparent z-10 pointer-events-none" />
                 <div className="absolute top-0 right-0 w-32 md:w-64 h-full bg-gradient-to-l from-[#F7F8FA] via-[#F7F8FA]/90 to-transparent z-10 pointer-events-none" />

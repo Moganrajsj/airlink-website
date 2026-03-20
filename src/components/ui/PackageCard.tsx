@@ -52,7 +52,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             <motion.div
                 whileHover={{ y: -8, scale: 1.01 }}
                 transition={{ type: 'spring', stiffness: 300 }}
-                className={`cursor-target rounded-3xl flex flex-col h-full relative overflow-hidden group border transition-all duration-300 ${isHighlight
+                className={`rounded-3xl flex flex-col h-full relative overflow-hidden group border transition-all duration-300 ${isHighlight
                     ? 'border-[#FBBF24] shadow-[0_8px_40px_rgba(251,191,36,0.35)] hover:shadow-[0_16px_60px_rgba(251,191,36,0.5)]'
                     : 'border-white/10 shadow-md hover:shadow-xl text-white'
                     }`}
@@ -143,7 +143,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
                                     {ottApps.length > 5 && (
                                         <button
                                             onClick={() => setShowAllOTT(true)}
-                                            className={`cursor-target w-10 h-10 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors shadow-sm relative z-0 border-white cursor-pointer ${isHighlight
+                                            suppressHydrationWarning
+                                            className={`w-10 h-10 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors shadow-sm relative z-0 border-white cursor-pointer ${isHighlight
                                                 ? 'bg-[#0A192F] hover:bg-[#0A192F]/80 text-[#FBBF24]'
                                                 : 'bg-[#FBBF24] hover:bg-white text-[#0A192F]'
                                                 }`}
@@ -175,7 +176,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
                     <div className="relative z-10 mt-auto">
                         <a
                             href="/contact"
-                            className={`cursor-target w-full py-4 block rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 text-center shadow-lg relative overflow-hidden group/btn ${isHighlight
+                            suppressHydrationWarning
+                            className={`w-full py-4 block rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 text-center shadow-lg relative overflow-hidden group/btn ${isHighlight
                                 ? 'bg-[#0A192F] text-white hover:bg-[#0A192F]/80'
                                 : 'bg-[#FBBF24] text-[#0A192F] hover:bg-white'
                                 }`}
@@ -199,7 +201,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
                         >
                             <button
                                 onClick={() => setShowAllOTT(false)}
-                                className="cursor-target absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-[#0A192F]"
+                                suppressHydrationWarning
+                                className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-[#0A192F]"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             </button>
@@ -235,7 +238,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
                                 </div>
                                 <button
                                     onClick={() => setShowAllOTT(false)}
-                                    className="cursor-target px-6 py-2.5 bg-[#0A192F] text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-[#FBBF24] hover:text-[#0A192F] transition-all"
+                                    suppressHydrationWarning
+                                    className="px-6 py-2.5 bg-[#0A192F] text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-[#FBBF24] hover:text-[#0A192F] transition-all"
                                 >
                                     Close View
                                 </button>

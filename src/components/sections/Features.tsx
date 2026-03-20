@@ -7,7 +7,7 @@ import DynamicBackground from '@/components/animations/DynamicBackground';
 const features = [
     {
         icon: <Award className="text-[#0A192F] group-hover:text-[#0A192F]" size={32} />,
-        title: "Govt Licensed ISP",
+        title: "India Govt Licensed ISP",
         description: "Department of Telecom licensed Internet Service Provider for Tamil Nadu offering trusted and regulatory compliant connectivity."
     },
     {

@@ -221,11 +221,11 @@ const ContactPage = () => {
                                         </div>
 
                                         <div className="space-y-2">
-                                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Message</label>
+                                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Address</label>
                                             <textarea
                                                 required
                                                 rows={5}
-                                                placeholder="Tell us about your requirements..."
+                                                placeholder="Enter your complete address..."
                                                 value={formData.message}
                                                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                                 className="w-full bg-white/5 border border-white/10 rounded-[1.5rem] px-5 py-5 text-white placeholder:text-white/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none"

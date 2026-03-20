@@ -126,7 +126,8 @@ export default function LeadCapturePopup() {
                                 <button
                                     type="button"
                                     onClick={closePopup}
-                                    className="cursor-target absolute top-4 right-4 p-2 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-[#0A192F]/80 hover:text-[#0A192F] z-50 cursor-pointer"
+                                    suppressHydrationWarning
+                                    className="absolute top-4 right-4 p-2 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-[#0A192F]/80 hover:text-[#0A192F] z-50 cursor-pointer"
                                     aria-label="Close"
                                 >
                                     <X size={20} strokeWidth={3} />
@@ -175,7 +176,7 @@ export default function LeadCapturePopup() {
                                                     placeholder="Name *"
                                                     value={form.name}
                                                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
+                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
                                                 />
                                             </div>
                                             <div>
@@ -190,7 +191,7 @@ export default function LeadCapturePopup() {
                                                         setForm(f => ({ ...f, mobile: val }));
                                                         if (mobileError) setMobileError('');
                                                     }}
-                                                    className={`cursor-target w-full bg-white/50 border ${mobileError ? 'border-red-600' : 'border-white/40 focus:border-[#0A192F] focus:bg-white'} text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold`}
+                                                    className={`w-full bg-white/50 border ${mobileError ? 'border-red-600' : 'border-white/40 focus:border-[#0A192F] focus:bg-white'} text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold`}
                                                 />
                                                 {mobileError && <p className="text-red-600 font-bold text-xs mt-1 px-2">{mobileError}</p>}
                                             </div>
@@ -200,7 +201,7 @@ export default function LeadCapturePopup() {
                                                     placeholder="Email"
                                                     value={form.email}
                                                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
+                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
                                                 />
                                             </div>
                                             <div className="relative">
@@ -208,7 +209,7 @@ export default function LeadCapturePopup() {
                                                     required
                                                     value={form.interest}
                                                     onChange={e => setForm(f => ({ ...f, interest: e.target.value }))}
-                                                    className="cursor-target w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] rounded-xl px-5 py-3.5 text-sm outline-none transition-all appearance-none font-semibold"
+                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] rounded-xl px-5 py-3.5 text-sm outline-none transition-all appearance-none font-semibold"
                                                 >
                                                     {INTEREST_OPTIONS.map(opt => (
                                                         <option key={opt} value={opt} className="bg-white text-[#0A192F]">
@@ -223,7 +224,8 @@ export default function LeadCapturePopup() {
                                             <button
                                                 type="submit"
                                                 disabled={!form.name.trim() || !form.mobile || loading}
-                                                className="cursor-target w-full mt-4 py-4 rounded-xl bg-[#0A192F] hover:bg-black text-white font-black text-[13px] uppercase tracking-widest transition-all disabled:opacity-40 disabled:grayscale flex items-center justify-center gap-2 group shadow-[0_10px_20px_rgba(10,25,47,0.2)] hover:shadow-[0_10px_25px_rgba(10,25,47,0.3)] hover:-translate-y-0.5"
+                                                suppressHydrationWarning
+                                                className="w-full mt-4 py-4 rounded-xl bg-[#0A192F] hover:bg-black text-white font-black text-[13px] uppercase tracking-widest transition-all disabled:opacity-40 disabled:grayscale flex items-center justify-center gap-2 group shadow-[0_10px_20px_rgba(10,25,47,0.2)] hover:shadow-[0_10px_25px_rgba(10,25,47,0.3)] hover:-translate-y-0.5"
                                             >
                                                 {loading ? 'Processing...' : 'Check Availability'}
                                                 {!loading && <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform stroke-[2.5px]" />}

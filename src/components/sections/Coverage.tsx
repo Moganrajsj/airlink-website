@@ -45,7 +45,7 @@ const Coverage = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-[#F7F7F8] rounded-[2rem] md:rounded-[4rem] p-6 md:p-24 border border-[#E5E7EB] relative overflow-hidden shadow-[0_20px_60px_rgb(0,0,0,0.03)]"
+                    className="bg-[#F7F7F8] rounded-[2rem] md:rounded-[4rem] px-5 py-10 md:p-24 border border-[#E5E7EB] relative overflow-hidden shadow-[0_20px_60px_rgb(0,0,0,0.03)]"
                 >
                     {/* Background Accents (Updated to Navy/Yellow theme) */}
                     <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-l from-[#FBBF24]/5 to-transparent"></div>
@@ -54,14 +54,14 @@ const Coverage = () => {
                     <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 md:gap-20">
                         <div className="lg:w-1/2 text-left">
                             <span className="text-[#FBBF24] font-black text-xs tracking-[0.3em] uppercase mb-8 block">Network Presence</span>
-                            <h2 className="text-3xl md:text-7xl font-black text-[#0A192F] mb-6 md:mb-8 leading-[1.05] tracking-tight text-left">
+                            <h2 className="text-[1.75rem] md:text-7xl font-black text-[#0A192F] mb-6 md:mb-8 leading-[1.1] tracking-tight text-left">
                                 Check Availability <br />
                                 in <span className="text-[#FBBF24]">Your Area.</span>
                             </h2>
                             <p className="text-[#0A192F]/50 text-lg md:text-xl mb-8 md:mb-12 font-medium leading-relaxed text-left">
                                 We are rapidly expanding our fiber footprint across Tamil Nadu. Enter your location to see if Airlink is available at your doorstep.
                             </p>
-                            <div className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-white border border-[#E5E7EB] w-max shadow-sm">
+                            <div className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-white border border-[#E5E7EB] w-full max-w-fit shadow-sm">
                                 <MapPin size={22} className="text-[#FBBF24]" />
                                 <span className="text-sm font-black uppercase tracking-[0.1em] text-[#0A192F]/60">Serving Dharmapuri, Chennai & More</span>
                             </div>
@@ -75,7 +75,7 @@ const Coverage = () => {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
-                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden group"
+                                        className="bg-white p-5 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden group"
                                     >
                                         <form onSubmit={handleSearch} className="space-y-6 md:space-y-10 relative z-10">
                                             <div className="space-y-4">
@@ -95,7 +95,7 @@ const Coverage = () => {
                                                 </div>
                                             </div>
 
-                                            <button type="submit" className="cursor-target w-full group bg-[#FBBF24] text-[#0A192F] py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:translate-y-[-4px] transition-all duration-300 shadow-xl shadow-[#FBBF24]/20 transform active:scale-[0.98]">
+                                            <button type="submit" className="w-full group bg-[#FBBF24] text-[#0A192F] py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:translate-y-[-4px] transition-all duration-300 shadow-xl shadow-[#FBBF24]/20 transform active:scale-[0.98]">
                                                 Verify Coverage <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
                                             </button>
                                         </form>
@@ -108,7 +108,7 @@ const Coverage = () => {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
-                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden"
+                                        className="bg-white p-5 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden"
                                     >
                                         <form onSubmit={handleFinalSubmit} className="space-y-8 relative z-10">
                                             <div className="text-left mb-4">
@@ -150,10 +150,10 @@ const Coverage = () => {
                                                 </div>
                                             </div>
 
-                                            <button type="submit" disabled={loading} className="cursor-target w-full bg-[#0A192F] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:bg-[#1A2F4F] transition-all transform active:scale-[0.98]">
+                                            <button type="submit" disabled={loading} className="w-full bg-[#0A192F] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:bg-[#1A2F4F] transition-all transform active:scale-[0.98]">
                                                 {loading ? 'Processing...' : 'Notify Me Upon Availability'}
                                             </button>
-                                            <button type="button" onClick={() => setStep('search')} className="cursor-target w-full text-[#0A192F]/40 font-bold text-sm hover:text-[#0A192F] transition-colors">Change Location</button>
+                                            <button type="button" onClick={() => setStep('search')} className="w-full text-[#0A192F]/40 font-bold text-sm hover:text-[#0A192F] transition-colors">Change Location</button>
                                         </form>
                                     </motion.div>
                                 )}
@@ -163,7 +163,7 @@ const Coverage = () => {
                                         key="success"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className="bg-white p-6 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] text-center space-y-6 md:space-y-8"
+                                        className="bg-white p-5 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] text-center space-y-6 md:space-y-8"
                                     >
                                         <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
                                             <CheckCircle2 size={48} />
@@ -174,7 +174,7 @@ const Coverage = () => {
                                         </div>
                                         <button
                                             onClick={() => { setStep('search'); setLocation(''); setName(''); setPhone(''); }}
-                                            className="cursor-target w-full bg-[#FBBF24] text-[#0A192F] py-5 rounded-2xl font-black"
+                                            className="w-full bg-[#FBBF24] text-[#0A192F] py-5 rounded-2xl font-black"
                                         >
                                             Check Another Area
                                         </button>

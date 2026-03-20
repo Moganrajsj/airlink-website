@@ -46,7 +46,7 @@ const Footer = () => {
 
                     {/* Brand column */}
                     <div className="space-y-7">
-                        <Link href="/" className="cursor-target group inline-flex flex-col">
+                        <Link href="/" className="group inline-flex flex-col">
                             <img
                                 src="/airlink-logo.png"
                                 alt="Airlink Broadband"
@@ -63,7 +63,7 @@ const Footer = () => {
                             {socialLinks.length > 0 ? (
                                 socialLinks.map((link) => {
                                     const Icon = platformIcons[link.platform] || Globe;
-                                    const iconClass = "cursor-target w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white";
+                                    const iconClass = "w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white";
                                     if (link.url) {
                                         return (
                                             <a
@@ -93,7 +93,7 @@ const Footer = () => {
                                     <a
                                         key={i}
                                         href="#"
-                                        className="cursor-target w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white"
+                                        className="w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white"
                                     >
                                         <Icon size={16} />
                                     </a>
@@ -122,7 +122,7 @@ const Footer = () => {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="cursor-target text-[#0A192F]/55 hover:text-[#0A192F] text-sm font-semibold transition-colors flex items-center gap-2 group"
+                                        className="text-[#0A192F]/55 hover:text-[#0A192F] text-sm font-semibold transition-colors flex items-center gap-2 group"
                                     >
                                         <span className="w-0 group-hover:w-3 h-px bg-[#FBBF24] transition-all duration-300 inline-block" />
                                         {link.name}
@@ -140,7 +140,7 @@ const Footer = () => {
                         <ul className="space-y-4">
                             {['Residential Fiber', 'Business Leased Line', 'SD-WAN Solutions', 'Cloud Connectivity', 'Managed Security', 'Colocation'].map((s) => (
                                 <li key={s}>
-                                    <span className="cursor-target text-[#0A192F]/55 hover:text-[#0A192F] text-sm font-semibold transition-colors flex items-center gap-2 group">
+                                    <span className="text-[#0A192F]/55 hover:text-[#0A192F] text-sm font-semibold transition-colors flex items-center gap-2 group">
                                         <span className="w-0 group-hover:w-3 h-px bg-[#FBBF24] transition-all duration-300 inline-block" />
                                         {s}
                                     </span>
@@ -158,7 +158,7 @@ const Footer = () => {
                             <li>
                                 <a
                                     href="mailto:sales@srirambroadband.com"
-                                    className="cursor-target flex items-start gap-3 group"
+                                    className="flex items-start gap-3 group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center text-[#FBBF24] flex-shrink-0 group-hover:bg-[#FBBF24] group-hover:text-[#0A192F] transition-all duration-300">
                                         <Mail size={15} />
@@ -171,7 +171,7 @@ const Footer = () => {
                             <li>
                                 <a
                                     href="tel:+919344584000"
-                                    className="cursor-target flex items-start gap-3 group"
+                                    className="flex items-start gap-3 group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center text-[#FBBF24] flex-shrink-0 group-hover:bg-[#FBBF24] group-hover:text-[#0A192F] transition-all duration-300">
                                         <Phone size={15} />
@@ -196,7 +196,7 @@ const Footer = () => {
                         {/* Quick CTA */}
                         <Link
                             href="/contact"
-                            className="cursor-target mt-8 inline-flex items-center gap-2 bg-[#FBBF24] text-[#0A192F] font-black text-xs py-3 px-5 rounded-xl uppercase tracking-widest hover:-translate-y-1 transition-all duration-300"
+                            className="mt-8 inline-flex items-center gap-2 bg-[#FBBF24] text-[#0A192F] font-black text-xs py-3 px-5 rounded-xl uppercase tracking-widest hover:-translate-y-1 transition-all duration-300"
                             style={{ boxShadow: '0 6px 20px rgba(251,191,36,0.25)' }}
                         >
                             Get Connected <ArrowUpRight size={14} />
@@ -219,7 +219,7 @@ const Footer = () => {
                             <Link
                                 key={item}
                                 href="#"
-                                className="cursor-target text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.2em] hover:text-[#FBBF24] transition-colors"
+                                className="text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.2em] hover:text-[#FBBF24] transition-colors"
                             >
                                 {item}
                             </Link>

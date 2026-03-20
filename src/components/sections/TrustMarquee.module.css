@@ -23,29 +23,30 @@
     width: max-content;
 }
 
-.marqueeTrack span {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 1);
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
+.logoWrapper {
     display: flex;
     align-items: center;
-    gap: 15px;
-    transition: color 0.3s ease, transform 0.3s ease;
+    justify-content: center;
+    height: 45px;
+    padding: 0 10px;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.marqueeTrack span:hover {
-    color: #FBBF24;
-    transform: scale(1.05);
+.partnerLogo {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.7);
+    transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-.separator {
-    color: #FBBF24 !important;
-    font-size: 14px !important;
-    font-weight: 900 !important;
-    opacity: 0.4;
-    margin: 0 10px;
+.trustMarquee:hover .partnerLogo {
+    filter: grayscale(100%) opacity(0.3); /* Dim all slightly when hovering strip */
+}
+
+.logoWrapper:hover .partnerLogo {
+    filter: grayscale(0%) opacity(1) !important;
+    transform: scale(1.1);
 }
 
 /* Pause on Hover */
@@ -85,16 +86,7 @@
     background: linear-gradient(to left, #000000, transparent);
 }
 
-/* Opacity animation for entering the track items */
-.marqueeTrack span {
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-}
-
-.trustMarquee:hover .marqueeTrack span {
-    opacity: 1;
-}
-
+/* Removed opacity animations for span */
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .trustMarquee {
@@ -106,8 +98,8 @@
         animation: marqueeScroll 22s linear infinite;
     }
 
-    .marqueeTrack span {
-        font-size: 11px;
+    .logoWrapper {
+        height: 35px;
     }
 
     .trustMarquee::before,

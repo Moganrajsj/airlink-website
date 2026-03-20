@@ -93,7 +93,8 @@ const Contact = () => {
                                 <p className="text-[#0A192F]/60 font-medium">Your request has been received. Our team will contact you shortly.</p>
                                 <button
                                     onClick={() => setStatus('idle')}
-                                    className="cursor-target px-6 py-2 bg-[#FBBF24] text-[#0A192F] font-bold rounded-xl"
+                                    suppressHydrationWarning
+                                    className="px-6 py-2 bg-[#FBBF24] text-[#0A192F] font-bold rounded-xl"
                                 >
                                     Send Another Message
                                 </button>
@@ -145,7 +146,8 @@ const Contact = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className={`cursor-target ${styles.submitBtn}`}
+                                    suppressHydrationWarning
+                                    className={`${styles.submitBtn}`}
                                     disabled={status === 'submitting'}
                                 >
                                     {status === 'submitting' ? 'Sending...' : 'Send Message'}

@@ -81,12 +81,14 @@ export default function ServiceAreas() {
                         <div className="lg:col-span-2 flex flex-col gap-4 w-full">
                             <Link
                                 href="/coverage"
+                                suppressHydrationWarning
                                 className="w-full bg-[#FBBF24] text-[#0A192F] font-black py-6 px-10 rounded-2xl text-base uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-2xl shadow-[#FBBF24]/20 flex items-center justify-center gap-3"
                             >
                                 <MapPin size={22} /> Check Availability
                             </Link>
                             <Link
                                 href="/contact"
+                                suppressHydrationWarning
                                 className="w-full border-2 border-white/10 text-white font-black py-6 px-10 rounded-2xl text-base uppercase tracking-widest hover:bg-white hover:text-[#0A192F] transition-all duration-300 flex items-center justify-center gap-3 bg-white/05 backdrop-blur-md"
                             >
                                 Book Free Install <ArrowRight size={22} />

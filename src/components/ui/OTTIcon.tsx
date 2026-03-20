@@ -66,7 +66,7 @@ const OTTIcon: React.FC<OTTIconProps> = ({ name, className = "w-10 h-10" }) => {
 
     if (url && !imageError) {
         return (
-            <div className={`cursor-target flex items-center justify-center rounded-xl p-1 bg-white border border-gray-100 shadow-sm overflow-hidden ${className}`} title={name}>
+            <div className={`flex items-center justify-center rounded-xl p-1 bg-white border border-gray-100 shadow-sm overflow-hidden ${className}`} title={name}>
                 <img
                     src={url}
                     alt={name}
@@ -78,7 +78,7 @@ const OTTIcon: React.FC<OTTIconProps> = ({ name, className = "w-10 h-10" }) => {
     }
 
     return (
-        <div className={`cursor-target flex items-center justify-center rounded-xl p-2 shadow-sm text-center ${getColors(name)} ${className}`} title={name}>
+        <div className={`flex items-center justify-center rounded-xl p-2 shadow-sm text-center ${getColors(name)} ${className}`} title={name}>
             <span className="font-black text-[9px] uppercase tracking-wider leading-tight w-full break-words">{getShortName(name)}</span>
         </div>
     );

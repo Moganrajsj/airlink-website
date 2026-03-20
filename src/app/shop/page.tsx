@@ -256,13 +256,13 @@ export default function ShopPage() {
                             <div className="flex flex-wrap gap-4">
                                 <button
                                     onClick={() => document.getElementById('cctv-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="cursor-target btn-primary"
+                                    className="btn-primary"
                                 >
                                     View Cameras <Camera size={18} />
                                 </button>
                                 <button
                                     onClick={() => document.getElementById('router-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="cursor-target px-8 py-4 bg-[#0A192F]/05 text-[#0A192F] font-bold rounded-full border border-[#0A192F]/10 hover:bg-[#0A192F]/10 transition-all flex items-center gap-2"
+                                    className="px-8 py-4 bg-[#0A192F]/05 text-[#0A192F] font-bold rounded-full border border-[#0A192F]/10 hover:bg-[#0A192F]/10 transition-all flex items-center gap-2"
                                 >
                                     View Routers <Wifi size={18} />
                                 </button>
@@ -323,7 +323,7 @@ export default function ShopPage() {
                         </div>
                         <Link
                             href="/contact"
-                            className="cursor-target bg-[#FBBF24] text-[#0A192F] px-12 py-6 rounded-3xl font-black uppercase tracking-[0.2em] text-sm hover:scale-105 transition-transform duration-300 shadow-2xl shadow-[#0A192F]/50 flex items-center gap-3 whitespace-nowrap"
+                            className="bg-[#FBBF24] text-[#0A192F] px-12 py-6 rounded-3xl font-black uppercase tracking-[0.2em] text-sm hover:scale-105 transition-transform duration-300 shadow-2xl shadow-[#0A192F]/50 flex items-center gap-3 whitespace-nowrap"
                         >
                             Talk to Our Experts <ArrowRight size={20} />
                         </Link>

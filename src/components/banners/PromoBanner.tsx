@@ -47,7 +47,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             transition={{ duration: 0.5, ease: "easeOut" }}
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
-                            className="w-full bg-[#FBBF24] rounded-[20px] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group min-h-[180px] md:min-h-[220px] lg:min-h-[260px] banner-slide"
+                            className="w-full bg-[#FBBF24] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group h-[220px] md:min-h-[220px] md:h-auto lg:min-h-[260px] banner-slide"
                         >
                             {/* Subtle animated moving network background effect inside the text area */}
                             <div
@@ -58,13 +58,13 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             />
 
                             {/* Left Content Area */}
-                            <div className="w-[60%] md:w-3/5 p-6 md:p-10 lg:p-12 relative z-20 flex flex-col items-start text-left justify-center max-w-[520px]">
+                            <div className="w-[55%] md:w-3/5 p-4 md:p-10 lg:p-12 relative z-20 flex flex-col items-start text-left justify-center">
                                 {/* Tag/Badge */}
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.4, delay: 0.2 }}
-                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A192F]/10 border border-[#0A192F]/15 text-[#0A192F] text-xs font-black uppercase tracking-widest mb-6"
+                                    className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A192F]/10 border border-[#0A192F]/15 text-[#0A192F] text-xs font-black uppercase tracking-widest mb-6"
                                 >
                                     <span className="relative flex h-2 w-2">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0A192F] opacity-75"></span>
@@ -77,7 +77,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.3 }}
-                                    className="text-lg md:text-xl lg:text-[28px] font-semibold text-[#0A192F] leading-[1.2] tracking-tight mb-2 md:mb-3"
+                                    className="text-base md:text-xl lg:text-[28px] font-black text-[#0A192F] leading-[1.1] tracking-tight mb-2 md:mb-3 uppercase"
                                 >
                                     {banner.title}
                                 </motion.h2>
@@ -87,7 +87,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.5, delay: 0.4 }}
-                                        className="text-[#0A192F]/80 text-sm md:text-[15px] leading-relaxed mb-6 max-w-lg"
+                                        className="hidden md:block text-[#0A192F]/80 text-sm md:text-[15px] font-medium leading-relaxed mb-4 md:mb-6 max-w-lg"
                                     >
                                         {banner.subtitle}
                                     </motion.p>
@@ -98,7 +98,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.5, delay: 0.5 }}
-                                        className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-xl md:rounded-2xl p-3 md:p-4 mb-6 md:mb-8 inline-block shadow-lg"
+                                        className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-2xl p-4 mb-6 md:mb-8 inline-block shadow-lg"
                                     >
                                         <span className="block text-base md:text-lg font-black text-[#0A192F] tracking-tight">
                                             {banner.offerHighlight}
@@ -115,7 +115,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                     >
                                         <Link
                                             href={banner.ctaLink}
-                                            className="cursor-target inline-flex items-center gap-2 md:gap-3 shrink-0 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-2 md:py-3 px-5 md:px-6 rounded-full font-black text-sm md:text-base uppercase tracking-widest transition-all duration-300 shadow-[0_10px_30px_rgba(10,25,47,0.25)] hover:shadow-[0_10px_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 group-hover:scale-[1.02]"
+                                            className="inline-flex items-center gap-2 md:gap-3 shrink-0 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-3 md:py-3 px-6 md:px-6 rounded-2xl font-black text-sm md:text-base uppercase tracking-widest transition-all duration-300 shadow-[0_10px_30px_rgba(10,25,47,0.25)] hover:shadow-[0_10px_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 group-hover:scale-[1.02]"
                                         >
                                             {banner.ctaText} <ArrowRight className="w-4 h-4 md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform" />
                                         </Link>
@@ -123,7 +123,7 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                                 )}
                             </div>
 
-                            <div className="w-[40%] md:w-2/5 relative z-10 overflow-hidden">
+                            <div className="w-[45%] md:w-2/5 relative z-10 overflow-hidden h-full md:h-auto border-l md:border-l border-[#0A192F]/10">
                                 {banner.imageUrl ? (
                                     <motion.img
                                         key={banner.imageUrl}
@@ -151,7 +151,8 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             <button
                                 key={`dot-${i}`}
                                 onClick={() => setCurrentIndex(i)}
-                                className={`cursor-target h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "w-8 bg-[#0A192F]" : "w-2 bg-[#0A192F]/20 hover:bg-[#0A192F]/40"
+                                suppressHydrationWarning
+                                className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "w-8 bg-[#0A192F]" : "w-2 bg-[#0A192F]/20 hover:bg-[#0A192F]/40"
                                     }`}
                                 aria-label={`Go to slide ${i + 1}`}
                             />

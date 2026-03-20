@@ -20,25 +20,23 @@ import {
 } from 'lucide-react';
 
 const partnersData = [
-    { name: "HPE Aruba", category: "Networking", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/HPE_Aruba_Networking_logo.svg" },
-    { name: "Ubiquiti", category: "Wireless & Routing", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Ubiquiti_Networks_logo.svg" },
-    { name: "Cisco", category: "Core Networking", logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" },
-    { name: "Equinix", category: "Data Center & Colocation", logo: "https://upload.wikimedia.org/wikipedia/commons/1/15/Equinix_logo.svg" },
-    { name: "ST Telemedia", category: "Data Center & Colocation", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/90/ST_Telemedia_logo.svg/512px-ST_Telemedia_logo.svg.png" },
-    { name: "Broadcom", category: "Semiconductor & Software", logo: "https://upload.wikimedia.org/wikipedia/commons/0/03/Broadcom_Logo.svg" },
-    { name: "Zscaler", category: "Cloud Security", logo: "https://upload.wikimedia.org/wikipedia/commons/1/11/Zscaler_logo.svg" },
-    { name: "Cloudflare", category: "CDN & Security", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg" },
-    { name: "Microsoft 365", category: "Enterprise Software", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" },
-    { name: "Google Workspace", category: "Enterprise Software", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" },
-    { name: "Observium", category: "Network Monitoring", logo: "https://cdn.worldvectorlogo.com/logos/observium.svg" },
-    { name: "Cloudstack", category: "Cloud Computing", logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Apache_CloudStack_logo.svg" },
-    { name: "Dell", category: "Server Hardware", logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg" },
-    { name: "HPE", category: "Server Hardware", logo: "https://upload.wikimedia.org/wikipedia/commons/4/46/Hewlett_Packard_Enterprise_logo.svg" },
-    { name: "Extreme Networks", category: "Enterprise Networking", logo: "https://upload.wikimedia.org/wikipedia/commons/d/df/Extreme_Networks_logo.svg" },
-    { name: "D-Link", category: "Networking", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/D-Link_logo.svg" },
-    { name: "Fortinet", category: "Network Security", logo: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Fortinet_logo.svg" },
-    { name: "SonicWall", category: "Network Security", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/SonicWall_Logo.svg" },
-    { name: "Cloud Cube", category: "Cloud Services", logo: "https://cdn-icons-png.flaticon.com/512/9338/9338006.png" }
+    { name: "HPE Aruba", category: "Networking", logo: "/images/partners/HPE aruba networking.png" },
+    { name: "Ubiquiti", category: "Wireless & Routing", logo: "/images/partners/u.png" },
+    { name: "Cisco", category: "Core Networking", logo: "/images/partners/cisco.png" },
+    { name: "Equinix", category: "Data Center & Colocation", logo: "/images/partners/equinix.png" },
+    { name: "ST Telemedia", category: "Data Center & Colocation", logo: "/images/partners/st telemedia global data centres.png" },
+    { name: "Broadcom", category: "Semiconductor", logo: "/images/partners/broadcom.png" },
+    { name: "Zscaler", category: "Cloud Security", logo: "/images/partners/zsaler.png" },
+    { name: "Microsoft 365", category: "Enterprise Software", logo: "/images/partners/microsoft 365.png" },
+    { name: "Google Workspace", category: "Enterprise Software", logo: "/images/partners/google workspace.png" },
+    { name: "Observium", category: "Network Monitoring", logo: "/images/partners/observium.png" },
+    { name: "Cloudstack", category: "Cloud Computing", logo: "/images/partners/cloudstack.png" },
+    { name: "Dell", category: "Server Hardware", logo: "/images/partners/DELL technologies.png" },
+    { name: "HPE", category: "Server Hardware", logo: "/images/partners/HPE.png" },
+    { name: "D-Link", category: "Networking", logo: "/images/partners/d link .png" },
+    { name: "Fortinet", category: "Network Security", logo: "/images/partners/fortinet.png" },
+    { name: "SonicWall", category: "Network Security", logo: "/images/partners/Sonicwall.png" },
+    { name: "Cloud Cube", category: "Cloud Services", logo: "/images/partners/cloud cube .png" }
 ];
 
 const PartnerCard = ({ partner, index }: { partner: any, index: number }) => {
@@ -59,7 +57,7 @@ const PartnerCard = ({ partner, index }: { partner: any, index: number }) => {
                     <img
                         src={partner.logo}
                         alt={`${partner.name} logo`}
-                        className="cursor-target max-h-[80px] max-w-[80%] object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                        className="max-h-[80px] max-w-[80%] object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                         onError={() => setImgError(true)}
                     />
                 ) : (
@@ -425,10 +423,10 @@ const AboutPage = () => {
                                 We combine enterprise-grade infrastructure with a customer-centric service approach, making Sriram Broadband a trusted long-term partner.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-                                <button className="cursor-target px-14 py-6 bg-[#0A192F] text-white font-black rounded-3xl hover:-translate-y-1 transition-all shadow-xl text-lg">
+                                <button className="px-14 py-6 bg-[#0A192F] text-white font-black rounded-3xl hover:-translate-y-1 transition-all shadow-xl text-lg">
                                     Get Started Today
                                 </button>
-                                <button className="cursor-target flex items-center gap-3 text-[#0A192F]/60 font-bold text-lg hover:text-[#0A192F] transition-colors group">
+                                <button className="flex items-center gap-3 text-[#0A192F]/60 font-bold text-lg hover:text-[#0A192F] transition-colors group">
                                     View Our Packages
                                     <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                                 </button>

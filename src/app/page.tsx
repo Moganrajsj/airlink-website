@@ -16,12 +16,17 @@ import AnnouncementBanner from "@/components/banners/AnnouncementBanner";
 import PromoBanner from "@/components/banners/PromoBanner";
 import { prisma } from "@/lib/prisma";
 
+// New Stitch Banners
+import GamingBanner from "@/components/sections/GamingBanner";
+import StreamingBanner from "@/components/sections/StreamingBanner";
+import SmartHomeBanner from "@/components/sections/SmartHomeBanner";
+
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const plans = await prisma.plan.findMany({
     where: { status: true, isBusiness: false },
-    take: 3
+    orderBy: { price: 'asc' }
   });
 
   const announcementBanners = await prisma.banner.findMany({ where: { bannerType: "announcement", status: true }, orderBy: { createdAt: "desc" } });
@@ -37,16 +42,27 @@ export default async function Home() {
       {/* 1. Hero — Emotional hook, trust badges, 3 CTAs */}
       <Hero />
 
-      {/* Promo Banner directly below the Hero component */}
+      {/* New Streaming Banner - Lifestyle Proof */}
+      <StreamingBanner />
+
+      {/* Promo Banner directly below the Hero area */}
       {promoBanners.length > 0 && <PromoBanner banners={promoBanners} />}
 
       {/* 1.5 Trust Strip — Scrolling badges */}
       <TrustMarquee />
+
+      {/* New Gaming Banner - Performance Hook */}
+      <GamingBanner />
+
       {/* 2. Pain→Solution — Conversion psychology: identify problem, offer solution */}
       <PainSolution />
 
       {/* 3. Trust Stats — Social proof with animated counters */}
       <TrustStats />
+
+      {/* New Smart Home Banner - Connectivity Proof */}
+      <SmartHomeBanner />
+
       {/* 4. Features — Why Choose Us / infrastructure credentials */}
       <Features />
       {/* 5. Speed Test — Interactive proof of performance */}

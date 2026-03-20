@@ -61,7 +61,7 @@ export default function StickyCallBar() {
                             >
                                 <Phone size={14} /> Call Now
                             </a>
-                            <button onClick={handleDismiss} className="cursor-target text-gray-500 hover:text-white p-1">
+                            <button onClick={handleDismiss} className="text-gray-500 hover:text-white p-1">
                                 <X size={16} />
                             </button>
                         </div>
@@ -82,7 +82,7 @@ export default function StickyCallBar() {
                             </div>
                             <button
                                 onClick={handleDismiss}
-                                className="cursor-target w-7 h-7 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors flex-shrink-0 self-start"
+                                className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors flex-shrink-0 self-start"
                             >
                                 <X size={14} />
                             </button>
@@ -111,7 +111,7 @@ export default function StickyCallBar() {
                             </a>
                             <Link
                                 href="/contact"
-                                className="cursor-target flex items-center justify-center gap-2 border border-white/10 text-gray-300 font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-widest hover:border-[#FBBF24]/40 hover:text-[#FBBF24] transition-all"
+                                className="flex items-center justify-center gap-2 border border-white/10 text-gray-300 font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-widest hover:border-[#FBBF24]/40 hover:text-[#FBBF24] transition-all"
                             >
                                 Book Online <ArrowRight size={13} />
                             </Link>

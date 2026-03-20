@@ -24,7 +24,7 @@ const FALLBACK: Testimonial[] = [
 ];
 
 const TestimonialCard = ({ t }: { t: Testimonial }) => (
-    <div className="bg-[#FBBF24] p-10 md:p-12 rounded-[2.5rem] border border-[#FBBF24] shadow-[0_10px_40px_rgba(251,191,36,0.15)] relative w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-between transition-all duration-300 hover:border-white/50 hover:shadow-[0_20px_60px_rgba(251,191,36,0.3)] group/card cursor-target overflow-hidden">
+    <div className="bg-[#FBBF24] p-10 md:p-12 rounded-[2.5rem] border border-[#FBBF24] shadow-[0_10px_40px_rgba(251,191,36,0.15)] relative w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-between transition-all duration-300 hover:border-white/50 hover:shadow-[0_20px_60px_rgba(251,191,36,0.3)] group/card overflow-hidden">
         <Quote size={60} className="absolute top-8 right-8 text-[#0A192F]/5 group-hover/card:text-[#0A192F]/10 transition-colors duration-500" />
 
         <div>

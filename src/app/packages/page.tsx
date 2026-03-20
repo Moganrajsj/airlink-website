@@ -227,7 +227,7 @@ const PackagesPage = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="cursor-target w-full px-12 py-8 bg-[#FF6F00] text-white font-black rounded-2xl hover:bg-[#FF8F00] transition-all shadow-[0_10px_30px_rgba(255,111,0,0.3)] text-xl uppercase tracking-widest flex items-center justify-center gap-4 group"
+                                    className="w-full px-12 py-8 bg-[#FF6F00] text-white font-black rounded-2xl hover:bg-[#FF8F00] transition-all shadow-[0_10px_30px_rgba(255,111,0,0.3)] text-xl uppercase tracking-widest flex items-center justify-center gap-4 group"
                                 >
                                     Check Availability
                                     <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
@@ -348,10 +348,10 @@ const PackagesPage = () => {
                                 Seamless connectivity for homes and businesses. Pick your speed and get connected in less than 24 hours.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-10 justify-center items-center">
-                                <button className="cursor-target px-20 py-8 bg-[#FF6F00] text-white font-black rounded-3xl hover:bg-[#FF8F00] transition-all hover:scale-110 active:scale-95 shadow-[0_20px_50px_rgba(255,111,0,0.4)] text-xl uppercase tracking-widest">
+                                <button className="px-20 py-8 bg-[#FF6F00] text-white font-black rounded-3xl hover:bg-[#FF8F00] transition-all hover:scale-110 active:scale-95 shadow-[0_20px_50px_rgba(255,111,0,0.4)] text-xl uppercase tracking-widest">
                                     Order Now
                                 </button>
-                                <button className="cursor-target flex items-center gap-4 text-white font-black text-xl hover:text-[#FF6F00] transition-colors group">
+                                <button className="flex items-center gap-4 text-white font-black text-xl hover:text-[#FF6F00] transition-colors group">
                                     Contact Support <ArrowRight size={28} className="group-hover:translate-x-3 transition-transform duration-500" />
                                 </button>
                             </div>

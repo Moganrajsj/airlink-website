@@ -37,8 +37,8 @@ const Navbar = () => {
             <a href="tel:+919344584000" className="flex items-center gap-2 hover:text-primary transition-colors">
               <Phone size={12} className="text-primary" /> +91 93445 84000 | +91 93452 17979
             </a>
-            <a href="mailto:sales@srirambroadband.com" className="hidden sm:flex items-center gap-2 hover:text-primary transition-colors">
-              <Mail size={12} className="text-primary" /> sales@srirambroadband.com
+            <a href="mailto:info@srirambroadband.com" className="hidden sm:flex items-center gap-2 hover:text-primary transition-colors">
+              <Mail size={12} className="text-primary" /> info@srirambroadband.com
             </a>
           </div>
           <div className="flex items-center gap-4">
@@ -55,7 +55,7 @@ const Navbar = () => {
         <div className="container mx-auto px-6 flex justify-between items-center">
 
           {/* Logo and Brand Line */}
-          <Link href="/" className="cursor-target group flex flex-col pt-1">
+          <Link href="/" className="group flex flex-col pt-1">
             <img
               src="/airlink-logo.png"
               alt="Airlink Broadband"
@@ -71,7 +71,7 @@ const Navbar = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`cursor-target text-[13px] font-black uppercase tracking-widest transition-all duration-300 relative group py-2 
+                    className={`text-[13px] font-black uppercase tracking-widest transition-all duration-300 relative group py-2 
                                             ${isActive ? 'text-primary' : 'text-secondary/70 hover:text-secondary'}`}
                   >
                     {link.name}
@@ -85,14 +85,14 @@ const Navbar = () => {
 
           {/* Right Side Buttons */}
           <div className="hidden xl:flex items-center gap-5">
-            <Link href="/contact" className="cursor-target btn-primary py-2.5 px-6 text-xs flex items-center gap-2">
+            <Link href="/contact" className="btn-primary py-2.5 px-6 text-xs flex items-center gap-2">
               Get Connected <ArrowUpRight size={16} strokeWidth={3} />
             </Link>
           </div>
 
           {/* Mobile Menu Btn */}
           <button
-            className="cursor-target xl:hidden p-2 rounded-xl bg-surface border border-gray-100 text-secondary"
+            className="xl:hidden p-2 rounded-xl bg-surface border border-gray-100 text-secondary"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
@@ -115,7 +115,7 @@ const Navbar = () => {
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`cursor-target text-[15px] font-black p-4 rounded-xl flex items-center justify-between group transition-all duration-300 uppercase tracking-[0.15em]
+                    className={`text-[15px] font-black p-4 rounded-xl flex items-center justify-between group transition-all duration-300 uppercase tracking-[0.15em]
                                             ${pathname === link.href ? 'bg-primary text-secondary shadow-sm' : 'text-secondary/80 hover:bg-surface hover:text-secondary'}`}
                   >
                     {link.name}
@@ -124,7 +124,7 @@ const Navbar = () => {
                 ))}
 
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link href="/contact" onClick={() => setIsOpen(false)} className="cursor-target w-full bg-[#0A192F] text-white py-4 rounded-xl font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-[#FBBF24] hover:text-[#0A192F] transition-colors shadow-md">
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="w-full bg-[#0A192F] text-white py-4 rounded-xl font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-[#FBBF24] hover:text-[#0A192F] transition-colors shadow-md">
                     Get Connected <ArrowUpRight size={18} className="stroke-2" />
                   </Link>
                 </div>

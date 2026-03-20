@@ -16,37 +16,28 @@ interface Plan {
     isBusiness: boolean;
 }
 
-const TARGET_PRICES = [799, 899, 1299];
+
 
 const Packages = ({ plans }: { plans?: Plan[] }) => {
-    const displayPlans = TARGET_PRICES.map(price => {
-        // Try to find it in the DB
-        const dbPlan = plans?.find(p => p.price === price);
-        if (dbPlan) return dbPlan;
-
-        // Try to find it in fallbackPackages
-        const fallbackPlan = fallbackPackages.find(p => p.price === price);
-        if (fallbackPlan) {
-            return {
-                id: fallbackPlan.id,
-                title: "Airlink " + fallbackPlan.speed + " Mbps",
-                speed: parseInt(fallbackPlan.speed),
-                price: fallbackPlan.price,
-                features: JSON.stringify({
-                    benefits: fallbackPlan.benefits,
-                    ottApps: fallbackPlan.ottApps,
-                    isPopular: fallbackPlan.isPopular,
-                    isPremium: fallbackPlan.isPremium,
-                    bestFor: fallbackPlan.bestFor,
-                    positioningLine: fallbackPlan.positioningLine,
-                }),
-                tag: fallbackPlan.isPopular ? "Most Popular" : null,
-                isBusiness: fallbackPlan.isPremium || false
-            } as Plan;
-        }
-
-        return null;
-    }).filter(Boolean) as Plan[];
+    // If we have plans from DB, use them. Otherwise, map all fallback packages.
+    const displayPlans = (plans && plans.length > 0) 
+        ? plans 
+        : fallbackPackages.map(fallbackPlan => ({
+            id: fallbackPlan.id,
+            title: "Airlink " + fallbackPlan.speed + " Mbps",
+            speed: parseInt(fallbackPlan.speed),
+            price: fallbackPlan.price,
+            features: JSON.stringify({
+                benefits: fallbackPlan.benefits,
+                ottApps: fallbackPlan.ottApps,
+                isPopular: fallbackPlan.isPopular,
+                isPremium: fallbackPlan.isPremium,
+                bestFor: fallbackPlan.bestFor,
+                positioningLine: fallbackPlan.positioningLine,
+            }),
+            tag: fallbackPlan.isPopular ? "Most Popular" : null,
+            isBusiness: fallbackPlan.isPremium || false
+        } as Plan));
 
     return (
         <section className="py-32 relative overflow-hidden" id="packages" style={{ background: '#0A192F' }}>

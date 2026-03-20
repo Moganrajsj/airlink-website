@@ -11,7 +11,7 @@ const urgencyOffers = [
         headline: "Free Installation",
         subline: "Exclusive Digital Offer",
         desc: "₹0 installation charges for all new fiber connections booked online this week.",
-        image: "/images/offers/free_installation_bg.png",
+        image: "/images/offers/free_installation_bg.webp",
         badge: "HOT OFFER",
     },
     {
@@ -19,7 +19,7 @@ const urgencyOffers = [
         headline: "Same-Day Activation",
         subline: "Express Provisioning",
         desc: "Get connected within 4-6 hours in supported zones like Salem and Dharmapuri.",
-        image: "/images/offers/fast_activation_bg.png",
+        image: "/images/offers/fast_activation_bg.webp",
         badge: "EXPRESS",
     },
     {
@@ -27,7 +27,7 @@ const urgencyOffers = [
         headline: "Premium Home Wi-Fi",
         subline: "Ultra-Fast Coverage",
         desc: "Experience seamless connectivity in every corner with our dual-band mesh-ready routers.",
-        image: "/images/offers/premium_wifi_bg.png",
+        image: "/images/offers/premium_wifi_bg.webp",
         badge: "GIGA READY",
     },
     {
@@ -35,9 +35,10 @@ const urgencyOffers = [
         headline: "24/7 Priority Support",
         subline: "Enterprise Grade",
         desc: "Dedicated support team ensuring 99.99% uptime for your domestic and business needs.",
-        image: "/images/offers/priority_support_bg.png",
+        image: "/images/offers/priority_support_bg.webp",
         badge: "24/7 NOC",
     },
+
 ];
 
 const plans = [
@@ -97,7 +98,7 @@ export default function UrgencyBlock() {
                             {offer.image ? (
                                 <img
                                     src={offer.image}
-                                    className="cursor-target absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     alt={offer.headline}
                                 />
                             ) : (
@@ -188,7 +189,7 @@ export default function UrgencyBlock() {
 
                                     <Link
                                         href="/plans"
-                                        className={`cursor-target w-full py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all text-center ${plan.popular
+                                        className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all text-center ${plan.popular
                                             ? 'bg-[#0A192F] text-white shadow-xl'
                                             : 'bg-[#FBBF24] text-[#0A192F]'
                                             }`}
@@ -205,13 +206,13 @@ export default function UrgencyBlock() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16">
                     <Link
                         href="/contact"
-                        className="cursor-target group w-full sm:w-auto inline-flex items-center justify-center gap-4 bg-[#FBBF24] text-[#0A192F] font-black py-6 px-12 rounded-[2rem] text-lg uppercase tracking-widest hover:translate-y-[-4px] transition-all duration-500 shadow-[0_20px_40px_rgba(251,191,36,0.3)]"
+                        className="group w-full sm:w-auto inline-flex items-center justify-center gap-4 bg-[#FBBF24] text-[#0A192F] font-black py-6 px-12 rounded-[2rem] text-lg uppercase tracking-widest hover:translate-y-[-4px] transition-all duration-500 shadow-[0_20px_40px_rgba(251,191,36,0.3)]"
                     >
                         Book Free Installation <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
                     </Link>
                     <a
                         href="tel:+919345217979"
-                        className="cursor-target w-full sm:w-auto inline-flex items-center justify-center gap-4 border-2 border-[#0A192F]/10 text-[#0A192F] font-black py-6 px-12 rounded-[2rem] text-lg uppercase tracking-widest hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-500 bg-white"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-4 border-2 border-[#0A192F]/10 text-[#0A192F] font-black py-6 px-12 rounded-[2rem] text-lg uppercase tracking-widest hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-500 bg-white"
                     >
                         <Phone size={20} /> +91 93452 17979
                     </a>

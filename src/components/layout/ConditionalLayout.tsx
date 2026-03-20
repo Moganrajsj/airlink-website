@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -8,9 +7,7 @@ import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import StickyCallBar from "@/components/ui/StickyCallBar";
 import LeadCapturePopup from "@/components/popup/LeadCapturePopup";
 
-const TargetCursor = dynamic(() => import("@/components/animations/TargetCursor"), {
-    ssr: false,
-});
+
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -18,13 +15,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
     return (
         <>
-            <TargetCursor
-                targetSelector="button, a, .cursor-target, .banner-slide, .hero-visual-area, [role='button']"
-                spinDuration={2}
-                hideDefaultCursor
-                parallaxOn
-                hoverDuration={0.2}
-            />
+
             {!isRestricted && <Navbar />}
             <main>
                 {children}

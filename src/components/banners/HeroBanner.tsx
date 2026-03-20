@@ -32,12 +32,12 @@ export default function HeroBanner({ banner }: HeroBannerProps) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.05] tracking-tight mb-6"
+                        className="text-4xl md:text-7xl lg:text-8xl font-black text-white leading-[1.05] tracking-tighter mb-6 uppercase"
                     >
                         {banner.title.split(" ").map((word, i) => (
                             <React.Fragment key={i}>
                                 {i === banner.title.split(" ").length - 1 ? (
-                                    <span className="text-[#FBBF24]">{word}</span>
+                                    <span className="text-[#FBBF24] drop-shadow-[0_0_20px_rgba(251,191,36,0.2)]">{word}</span>
                                 ) : (
                                     `${word} `
                                 )}
