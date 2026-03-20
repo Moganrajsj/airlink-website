@@ -129,9 +129,15 @@ const ContactPage = () => {
                             {[
                                 {
                                     icon: <Phone />,
-                                    title: "Direct Support & Sales",
+                                    title: "Head Office Contact",
                                     value: <span className="block">+91 93445 84000<br />+91 93452 17979</span>,
                                     desc: "Available 24/7"
+                                },
+                                {
+                                    icon: <Phone />,
+                                    title: "Chennai Contact",
+                                    value: <span className="block">+91 93456 74000<br />+91 98406 53599</span>,
+                                    desc: "Regional Office"
                                 },
                                 {
                                     icon: <Mail />,

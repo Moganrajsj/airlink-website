@@ -54,10 +54,20 @@ const Contact = () => {
                             <div className={styles.contactItem}>
                                 <div className={styles.iconWrapper}><Phone size={20} /></div>
                                 <div>
-                                    <h4 className={styles.contactLabel}>Call Us</h4>
+                                    <h4 className={styles.contactLabel}>Head Office</h4>
                                     <p className={styles.contactValue}>
                                         +91 93445 84000<br />
                                         +91 93452 17979
+                                    </p>
+                                </div>
+                            </div>
+                            <div className={styles.contactItem}>
+                                <div className={styles.iconWrapper}><Phone size={20} /></div>
+                                <div>
+                                    <h4 className={styles.contactLabel}>Chennai Contact</h4>
+                                    <p className={styles.contactValue}>
+                                        +91 93456 74000<br />
+                                        +91 98406 53599
                                     </p>
                                 </div>
                             </div>

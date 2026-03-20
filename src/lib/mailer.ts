@@ -23,19 +23,30 @@ interface LeadData {
 export async function sendLeadNotification(lead: LeadData) {
   const submittedAt = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
+  // Determine dynamic subject and header based on source
+  const isPopup = lead.source === 'popup_lead';
+  const subject = isPopup 
+    ? `⚡ New Popup Lead — ${lead.name}`
+    : `🔔 New Website Lead — ${lead.name}`;
+  
+  const headerTitle = isPopup
+    ? "⚡ New Instant Popup Lead"
+    : "🔔 New Website Inquiry";
+
   const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
           <div style="background: #0A192F; padding: 20px 24px; border-radius: 8px 8px 0 0; margin-bottom: 24px;">
-            <h2 style="color: #FBBF24; margin: 0; font-size: 18px;">🔔 New Website Lead — Airlink Broadband</h2>
+            <h2 style="color: #FBBF24; margin: 0; font-size: 18px;">${headerTitle}</h2>
+            <p style="color: #94a3b8; margin: 4px 0 0; font-size: 12px;">Airlink Broadband Network</p>
           </div>
           <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
             <tr style="background: #f1f5f9;">
               <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px; width: 120px;">Name</td>
-              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.name}</td>
+              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px; font-weight: 600;">${lead.name}</td>
             </tr>
             <tr>
               <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">Mobile</td>
-              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.mobile}</td>
+              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px; font-weight: 600;">${lead.mobile}</td>
             </tr>
             <tr style="background: #f1f5f9;">
               <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">Email</td>
@@ -46,8 +57,18 @@ export async function sendLeadNotification(lead: LeadData) {
               <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.interest || '—'}</td>
             </tr>
             <tr style="background: #f1f5f9;">
+              <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">City/Area</td>
+              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.city || '—'}</td>
+            </tr>
+            ${lead.pincode ? `
+            <tr>
+              <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">Pincode</td>
+              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.pincode}</td>
+            </tr>
+            ` : ''}
+            <tr style="background: ${lead.pincode ? '#f1f5f9' : 'white'}">
               <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">Source</td>
-              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px;">${lead.source || '—'}</td>
+              <td style="padding: 12px 16px; color: #1e293b; font-size: 14px; text-transform: capitalize;">${(lead.source || 'contact_form').replace(/_/g, ' ')}</td>
             </tr>
             <tr>
               <td style="padding: 12px 16px; font-weight: bold; color: #0A192F; font-size: 13px;">Submitted At</td>
@@ -62,9 +83,9 @@ export async function sendLeadNotification(lead: LeadData) {
     `;
 
   await transporter.sendMail({
-    from: `"Airlink Broadband" <${process.env.MAIL_FROM}>`,
-    to: process.env.MAIL_TO || 'info@srirambroadband.com',
-    subject: 'New Website Lead – Airlink Broadband',
+    from: `"Airlink Broadband" <${process.env.MAIL_FROM || 'info@srirambroadband.com'}>`,
+    to: 'info@srirambroadband.com',
+    subject: subject,
     html,
   });
 }
@@ -84,7 +105,7 @@ export async function sendPasswordResetEmail(email: string, resetToken: string) 
     `;
 
   await transporter.sendMail({
-    from: `"Airlink Broadband" <${process.env.MAIL_FROM}>`,
+    from: `"Airlink Broadband" <${process.env.MAIL_FROM || 'info@srirambroadband.com'}>`,
     to: email,
     subject: 'Password Reset — Airlink Broadband',
     html,
