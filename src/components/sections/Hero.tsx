@@ -8,7 +8,7 @@ import DynamicBackground from '@/components/animations/DynamicBackground';
 import BlurText from '@/components/animations/BlurText';
 import Magnet from '@/components/animations/Magnet';
 
-const words = ["Homes", "Business", "Enterprise", "Gamers", "Creators"];
+const words = ["Homes", "Business", "Enterprises", "Gamers", "Creators"];
 
 const WordCycle = () => {
     const [index, setIndex] = useState(0);
