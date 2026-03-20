@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
-    const email = 'admin@srirambroadband.com';
+    const email = 'info@srirambroadband.com';
     const password = 'StrongAdminPassword123';
     
     console.log('--- Creating Admin User ---');

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
-    const email = 'admin@srirambroadband.com';
+    const email = 'info@srirambroadband.com';
     const newPassword = 'admin123';
     
     console.log(`--- Resetting Password for ${email} ---`);

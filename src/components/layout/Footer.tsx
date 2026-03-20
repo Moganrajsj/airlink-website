@@ -157,14 +157,14 @@ const Footer = () => {
                         <ul className="space-y-5">
                             <li>
                                 <a
-                                    href="mailto:sales@srirambroadband.com"
+                                    href="mailto:info@srirambroadband.com"
                                     className="flex items-start gap-3 group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center text-[#FBBF24] flex-shrink-0 group-hover:bg-[#FBBF24] group-hover:text-[#0A192F] transition-all duration-300">
                                         <Mail size={15} />
                                     </div>
                                     <span className="text-sm font-semibold text-[#0A192F]/55 group-hover:text-[#0A192F] transition-colors pt-1.5">
-                                        sales@srirambroadband.com
+                                        info@srirambroadband.com
                                     </span>
                                 </a>
                             </li>

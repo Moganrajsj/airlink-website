@@ -23,7 +23,7 @@ async function runTest() {
     
     await transporter.sendMail({
       from: '"Airlink Test" <info@srirambroadband.com>',
-      to: 'sales@srirambroadband.com',
+      to: 'info@srirambroadband.com',
       subject: 'SMTP Diagnostic Test (Office 365)',
       text: 'Working!',
     });

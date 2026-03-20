@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     console.log('--- Re-seeding Admin User ---');
-    const email = 'admin@srirambroadband.com';
+    const email = 'info@srirambroadband.com';
     const password = 'admin123';
     
     try {

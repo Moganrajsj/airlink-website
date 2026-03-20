@@ -306,8 +306,8 @@ const ContactPage = () => {
                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Regional Office</span>
                                 <h3 className="text-2xl font-black text-white mb-3">Chennai</h3>
                                 <p className="text-gray-400 font-medium leading-relaxed">
-                                    No.22, 2nd floor, First Main Road,<br />
-                                    Ambattur Industrial Estate, Chennai – 600058.
+                                    A, 5057A. Golden Tulip Apartments,<br />
+                                    21-st, Main Road, Annanagar, Chennai - 600040.
                                 </p>
                             </div>
                         </motion.div>

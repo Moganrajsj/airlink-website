@@ -84,7 +84,7 @@ export default function AuthPage() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="admin@srirambroadband.com"
+                                    placeholder="info@srirambroadband.com"
                                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-sm font-bold text-white placeholder:text-white/10 outline-none focus:border-[#FBBF24]/50 focus:ring-1 focus:ring-[#FBBF24]/20 transition-all"
                                     suppressHydrationWarning
                                 />

@@ -63,7 +63,7 @@ export async function sendLeadNotification(lead: LeadData) {
 
   await transporter.sendMail({
     from: `"Airlink Broadband" <${process.env.MAIL_FROM}>`,
-    to: process.env.MAIL_TO || 'sales@srirambroadband.com',
+    to: process.env.MAIL_TO || 'info@srirambroadband.com',
     subject: 'New Website Lead – Airlink Broadband',
     html,
   });
