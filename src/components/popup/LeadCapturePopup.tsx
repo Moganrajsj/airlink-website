@@ -36,24 +36,27 @@ export default function LeadCapturePopup() {
     const [form, setForm] = useState<FormData>({
         name: '', mobile: '', email: '', interest: INTEREST_OPTIONS[0]
     });
+    const hasShownOnce = React.useRef(false);
 
     useEffect(() => {
         if (hidePopup || success) return;
 
         let timer: NodeJS.Timeout;
 
-        // If not visible, set a timer to show it after 10 seconds
+        // 1st popup after 10s, subsequent popups after 30s
         if (!isVisible) {
+            const delay = hasShownOnce.current ? 30000 : 10000;
             timer = setTimeout(() => {
+                hasShownOnce.current = true;
                 setIsVisible(true);
-            }, 10000);
+            }, delay);
         }
 
         return () => clearTimeout(timer);
     }, [isVisible, success]);
 
     const closePopup = () => {
-        // Closes the popup, which triggers the useEffect to start a fresh 10s countdown
+        // Closes the popup, which triggers the useEffect — next one shows in 30s
         setIsVisible(false);
     };
 

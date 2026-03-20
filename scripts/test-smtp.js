@@ -24,7 +24,7 @@ console.log('Pass Start:', process.env.SMTP_PASS ? process.env.SMTP_PASS[0] : 'N
 console.log('Pass End:', process.env.SMTP_PASS ? process.env.SMTP_PASS[process.env.SMTP_PASS.length-1] : 'N/A');
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.titan.email',
+  host: process.env.SMTP_HOST || 'smtpout.secureserver.net',
   port: 465,
   secure: true, 
   auth: {

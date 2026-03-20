@@ -27,7 +27,7 @@ export default function ComparisonTable() {
     ];
 
     return (
-        <section className="py-20 bg-white border-t border-gray-100 overflow-hidden relative">
+        <section className="py-20 bg-white border-t border-gray-300 overflow-hidden relative">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
                     <h2 className="text-4xl md:text-5xl font-black text-secondary mb-6 tracking-tight">
@@ -39,24 +39,24 @@ export default function ComparisonTable() {
                 </div>
 
                 <div className="w-full overflow-x-auto pb-8 -mx-6 px-6 lg:mx-0 lg:px-0 scrollbar-hide">
-                    <table className="w-full min-w-[900px] border-collapse bg-white rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/40 border border-gray-100 outline outline-1 outline-gray-100">
+                    <table className="w-full min-w-[900px] border-collapse bg-white rounded-3xl overflow-hidden shadow-2xl shadow-gray-200/40 border border-gray-300 outline outline-1 outline-gray-300">
                         <thead className="bg-[#1F2933] text-white text-left">
                             <tr>
-                                <th className="p-6 font-bold uppercase tracking-widest text-xs border-r border-white/10 w-1/4">Features</th>
+                                <th className="p-6 font-bold uppercase tracking-widest text-xs border-r border-white/20 w-1/4">Features</th>
                                 {packages.map(p => (
-                                    <th key={p.id} className={`p-6 text-center border-r border-white/10 ${p.speed === "200" || p.speed === "500" ? 'bg-primary text-secondary' : ''}`}>
+                                    <th key={p.id} className={`p-6 text-center border-r border-white/20 ${p.speed === "200" || p.speed === "500" ? 'bg-primary text-secondary' : ''}`}>
                                         <div className="text-3xl font-black tracking-tighter leading-none">{p.speed}</div>
                                         <div className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${p.speed === "200" || p.speed === "500" ? 'text-secondary/60' : 'text-gray-400'}`}>Mbps</div>
                                     </th>
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-300">
                             {/* Price Row */}
                             <tr className="bg-surface/50">
-                                <td className="p-6 font-bold text-secondary text-sm border-r border-gray-100">Price</td>
+                                <td className="p-6 font-bold text-secondary text-sm border-r border-gray-300">Price</td>
                                 {packages.map(p => (
-                                    <td key={p.id} className={`p-6 text-center font-black text-lg border-r border-gray-100 ${p.speed === "200" || p.speed === "500" ? 'bg-orange-50/50 text-secondary' : 'text-primary'}`}>
+                                    <td key={p.id} className={`p-6 text-center font-black text-lg border-r border-gray-300 ${p.speed === "200" || p.speed === "500" ? 'bg-orange-50/50 text-secondary' : 'text-primary'}`}>
                                         ₹{p.price}
                                     </td>
                                 ))}
@@ -65,12 +65,12 @@ export default function ComparisonTable() {
                             {/* Mapping Features */}
                             {comparisonFeatures.map((feat, idx) => (
                                 <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                                    <td className="p-4 px-6 font-semibold text-secondary/80 text-sm border-r border-gray-100 flex items-center gap-3">
+                                    <td className="p-4 px-6 font-semibold text-secondary/80 text-sm border-r border-gray-300 flex items-center gap-3">
                                         {feat.ott ? <OTTIcon name={feat.ott} className="w-6 h-6" /> : null}
                                         {feat.label}
                                     </td>
                                     {feat.values.map((val, vIdx) => (
-                                        <td key={vIdx} className={`p-4 text-center border-r border-gray-100 ${packages[vIdx].speed === "200" || packages[vIdx].speed === "500" ? 'bg-orange-50/30' : ''}`}>
+                                        <td key={vIdx} className={`p-4 text-center border-r border-gray-300 ${packages[vIdx].speed === "200" || packages[vIdx].speed === "500" ? 'bg-orange-50/30' : ''}`}>
                                             {typeof val === 'boolean' ? (
                                                 val ? <Check className="mx-auto text-green-500" size={18} strokeWidth={3} /> : <Minus className="mx-auto text-gray-300" size={18} />
                                             ) : (
@@ -83,9 +83,9 @@ export default function ComparisonTable() {
 
                             {/* Bottom Action Row */}
                             <tr className="bg-surface">
-                                <td className="p-6 font-bold text-secondary text-sm border-r border-gray-100">Actions</td>
+                                <td className="p-6 font-bold text-secondary text-sm border-r border-gray-300">Actions</td>
                                 {packages.map(p => (
-                                    <td key={p.id} className={`p-4 text-center border-r border-gray-100 ${p.speed === "200" || p.speed === "500" ? 'bg-orange-50/50' : ''}`}>
+                                    <td key={p.id} className={`p-4 text-center border-r border-gray-300 ${p.speed === "200" || p.speed === "500" ? 'bg-orange-50/50' : ''}`}>
                                         <a href="#booking" className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${p.speed === "200" || p.speed === "500" ? 'bg-primary text-secondary hover:bg-black hover:text-white' : 'bg-secondary text-white hover:bg-primary hover:text-secondary'}`}>
                                             Select
                                         </a>
