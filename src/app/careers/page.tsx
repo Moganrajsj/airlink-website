@@ -107,7 +107,7 @@ const CareersPage = () => {
         <div className="min-h-screen bg-white text-[#0A192F] font-inter">
             {/* 1. Hero Section */}
             <section className="relative pt-60 pb-32 flex items-center justify-center overflow-hidden bg-[#0A192F]">
-                <div className="absolute inset-0 bg-[url('/images/careers_hero_banner.png')] bg-cover bg-fixed bg-center opacity-80"></div>
+                <div className="absolute inset-0 bg-[url('/images/careers_hero_section.avif')] bg-cover bg-fixed bg-center opacity-80"></div>
                 <div className="absolute inset-0 bg-[#0A192F]/40 backdrop-blur-[2px]"></div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
