@@ -27,7 +27,8 @@ const Coverage = () => {
             name,
             mobile: phone,
             city: location,
-            message: `Availability check for: ${location}`
+            message: `Availability check for: ${location}`,
+            source: 'coverage_section'
         });
 
         if (result.success) {

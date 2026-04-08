@@ -16,7 +16,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Plans', href: '/plans' },
@@ -25,6 +24,7 @@ const Navbar = () => {
     { name: 'Coverage', href: '/coverage' },
     { name: 'Shop', href: '/shop' },
     { name: 'About', href: '/about' },
+    { name: 'Careers', href: '/careers' },
     { name: 'Contact', href: '/contact' }
   ];
 
