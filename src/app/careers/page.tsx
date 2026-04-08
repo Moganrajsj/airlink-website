@@ -120,7 +120,7 @@ const CareersPage = () => {
                             <span className="w-2 h-2 rounded-full bg-[#FBBF24] animate-pulse"></span>
                             Join The Network
                         </span>
-                        <h1 className="text-6xl md:text-[6.5rem] font-black text-white mb-8 tracking-[-0.04em] leading-[0.95]">
+                        <h1 className="text-4xl md:text-[6.5rem] font-black text-white mb-8 tracking-[-0.04em] leading-[1.05] md:leading-[0.95]">
                             Build the Future <br />
                             <span className="text-[#FBBF24]">of Connectivity.</span>
                         </h1>

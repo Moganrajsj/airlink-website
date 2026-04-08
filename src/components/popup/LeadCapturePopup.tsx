@@ -137,25 +137,25 @@ export default function LeadCapturePopup() {
                                 </button>
 
                                 {/* Header Area */}
-                                <div className="px-8 pt-10 pb-6 text-center relative z-10">
-                                    <div className="w-12 h-12 bg-[#FEF08A] rounded-full flex items-center justify-center mx-auto mb-5 border border-white/60 shadow-sm relative overflow-hidden">
+                                <div className="px-6 md:px-8 pt-8 md:pt-10 pb-6 text-center relative z-10">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#FEF08A] rounded-full flex items-center justify-center mx-auto mb-4 md:mb-5 border border-white/60 shadow-sm relative overflow-hidden">
                                         <div className="absolute inset-0 bg-white/40 pointer-events-none" />
-                                        <RadioTower className="text-[#0A192F] relative z-10" size={24} />
+                                        <RadioTower className="text-[#0A192F] relative z-10 w-5 h-5 md:w-6 md:h-6" />
                                     </div>
-                                    <h2 className="text-2xl sm:text-3xl font-black text-[#0A192F] mb-3 tracking-tight">Check Fiber / Wireless <br />Availability</h2>
-                                    <p className="text-sm text-[#0A192F]/80 leading-relaxed max-w-[280px] mx-auto font-medium">
-                                        Enter your details to check if high-speed fiber or wireless internet is available in your area.
+                                    <h2 className="text-xl sm:text-3xl font-black text-[#0A192F] mb-3 tracking-tight">Check Fiber / Wireless <br className="hidden sm:inline" /> Availability</h2>
+                                    <p className="text-xs sm:text-sm text-[#0A192F]/80 leading-relaxed max-w-[280px] mx-auto font-medium">
+                                        Enter your details to check if high-speed internet is available in your area.
                                     </p>
-                                    <div className="mt-4 flex justify-center">
-                                        <div className="bg-green-100/90 border border-green-500/30 text-green-800 px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-2 shadow-sm">
-                                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse border border-green-200"></span>
+                                    <div className="mt-3 md:mt-4 flex justify-center">
+                                        <div className="bg-green-100/90 border border-green-500/30 text-green-800 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold inline-flex items-center gap-2 shadow-sm">
+                                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-pulse border border-green-200"></span>
                                             <BlurText text="Free Installation Available ." animateBy="word" delay={200} className="m-0 leading-none" />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Form Body */}
-                                <div className="px-8 pb-10 relative z-10">
+                                <div className="px-5 md:px-8 pb-6 md:pb-10 relative z-10">
                                     {success ? (
                                         <motion.div
                                             initial={{ opacity: 0, scale: 0.9 }}
