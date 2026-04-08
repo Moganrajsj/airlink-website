@@ -327,15 +327,15 @@ const CareersPage = () => {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="max-w-5xl mx-auto border border-[#0A192F]/10 rounded-[4rem] p-16 md:p-24 text-center relative overflow-hidden bg-white/40"
+                        className="max-w-5xl mx-auto border border-[#0A192F]/10 rounded-[2.5rem] md:rounded-[4rem] px-8 py-16 md:p-24 text-center relative overflow-hidden bg-white/40"
                     >
                         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#0A192F]/30 to-transparent" />
 
                         <div className="relative z-10">
-                            <h2 className="text-4xl md:text-6xl font-black text-[#0A192F] mb-8 tracking-tight leading-[1.05]">
+                            <h2 className="text-3xl md:text-6xl font-black text-[#0A192F] mb-6 md:mb-8 tracking-tight leading-[1.1] md:leading-[1.05]">
                                 Don't see a perfect fit?
                             </h2>
-                            <p className="text-xl md:text-2xl text-[#0A192F]/65 max-w-3xl mx-auto mb-16 font-medium leading-relaxed">
+                            <p className="text-lg md:text-2xl text-[#0A192F]/65 max-w-3xl mx-auto mb-10 md:mb-16 font-medium leading-relaxed">
                                 Send us your resume. We are always on the lookout for talented engineering and business professionals.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
