@@ -31,7 +31,7 @@ const TrustMarquee = () => {
                     {/* Render multiple times for seamless infinite scroll */}
                     {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((partner, idx) => (
                         <div key={idx} className={styles.logoWrapper}>
-                            <img src={partner.src} alt={partner.name} className={styles.partnerLogo} />
+                            <img src={partner.src} alt={partner.name} className={styles.partnerLogo} loading="lazy" />
                         </div>
                     ))}
                 </div>

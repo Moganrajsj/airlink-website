@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight, Phone, Mail, MapPin, UserRound } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
@@ -56,10 +57,13 @@ const Navbar = () => {
 
           {/* Logo and Brand Line */}
           <Link href="/" className="group flex flex-col pt-1">
-            <img
+            <Image
               src="/airlink-logo.png"
               alt="Airlink Broadband"
+              width={200}
+              height={64}
               className="h-12 md:h-16 w-auto object-contain"
+              priority
             />
           </Link>
 

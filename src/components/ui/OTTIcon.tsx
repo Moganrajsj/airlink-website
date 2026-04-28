@@ -72,6 +72,7 @@ const OTTIcon: React.FC<OTTIconProps> = ({ name, className = "w-10 h-10" }) => {
                     alt={name}
                     className="w-full h-full object-contain"
                     onError={() => setImageError(true)}
+                    loading="lazy"
                 />
             </div>
         );

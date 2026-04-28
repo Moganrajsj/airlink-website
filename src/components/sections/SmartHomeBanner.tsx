@@ -65,13 +65,13 @@ const SmartHomeBanner = () => {
                             {/* Image side */}
                             <div className="w-[42%] flex-shrink-0 grid grid-cols-2 gap-1 p-1">
                                 <div className="rounded-xl overflow-hidden">
-                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-1.png" alt="Smart home" />
+                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-1.png" alt="Smart home" loading="lazy" />
                                 </div>
                                 <div className="rounded-xl overflow-hidden">
-                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-2.png" alt="Smart doorbell" />
+                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-2.png" alt="Smart doorbell" loading="lazy" />
                                 </div>
                                 <div className="col-span-2 rounded-xl overflow-hidden">
-                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-3.png" alt="Smart home interior" />
+                                    <img className="w-full h-full object-cover" src="/images/stitch/smarthome-3.png" alt="Smart home interior" loading="lazy" />
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@ const SmartHomeBanner = () => {
                                 transition={{ duration: 0.6 }}
                                 className="aspect-square rounded-[2rem] overflow-hidden bg-[#F7F8FA] shadow-lg border border-[#0A192F]/05 group/img"
                             >
-                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-1000" src="/images/stitch/smarthome-1.png" alt="Smart home dashboard" />
+                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-1000" src="/images/stitch/smarthome-1.png" alt="Smart home dashboard" loading="lazy" />
                             </motion.div>
                             <motion.div 
                                 initial={{ opacity: 0, scale: 0.9 }}
@@ -149,7 +149,7 @@ const SmartHomeBanner = () => {
                                 transition={{ duration: 0.6, delay: 0.2 }}
                                 className="aspect-square rounded-[2rem] overflow-hidden bg-[#F7F8FA] shadow-lg border border-[#0A192F]/05 mt-10 group/img"
                             >
-                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-1000" src="/images/stitch/smarthome-2.png" alt="Smart doorbell" />
+                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-1000" src="/images/stitch/smarthome-2.png" alt="Smart doorbell" loading="lazy" />
                             </motion.div>
                             <motion.div 
                                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -157,7 +157,7 @@ const SmartHomeBanner = () => {
                                 transition={{ duration: 0.6, delay: 0.4 }}
                                 className="col-span-2 aspect-[2/1] rounded-[2rem] overflow-hidden bg-[#F7F8FA] shadow-lg border border-[#0A192F]/05 group/img"
                             >
-                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-[3s]" src="/images/stitch/smarthome-3.png" alt="Smart home interior" />
+                                <img className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-[3s]" src="/images/stitch/smarthome-3.png" alt="Smart home interior" loading="lazy" />
                             </motion.div>
                         </div>
                     </div>

@@ -33,6 +33,7 @@ const LogoCard = ({ partner }: { partner: { name: string, logo: string } }) => {
                     alt={`${partner.name} logo`}
                     className="max-h-full max-w-full object-contain opacity-70 group-hover:opacity-100 transition-opacity"
                     onError={() => setImgError(true)}
+                    loading="lazy"
                 />
             ) : (
                 <span className="font-extrabold text-xl text-gray-400 group-hover:text-secondary transition-all text-center leading-tight">

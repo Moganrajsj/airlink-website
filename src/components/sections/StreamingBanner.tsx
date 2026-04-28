@@ -86,6 +86,7 @@ const StreamingBanner = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out" 
                         src="/images/stitch/streaming-side.png" 
                         alt="Cinema experience at home"
+                        loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/20 to-transparent flex items-end p-4 md:p-10">
                         <div className="space-y-1 md:space-y-3">

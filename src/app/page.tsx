@@ -1,27 +1,41 @@
+import dynamic from 'next/dynamic';
 import Hero from "@/components/sections/Hero";
-import TrustMarquee from "@/components/sections/TrustMarquee";
-import PainSolution from "@/components/sections/PainSolution";
-import TrustStats from "@/components/sections/TrustStats";
-import Features from "@/components/sections/Features";
-import SpeedTest from "@/components/sections/SpeedTest";
-import Packages from "@/components/sections/Packages";
-import BusinessSolutions from "@/components/sections/BusinessSolutions";
-import UrgencyBlock from "@/components/sections/UrgencyBlock";
-import ServiceAreas from "@/components/sections/ServiceAreas";
-import Coverage from "@/components/sections/Coverage";
-import PartnersCarousel from "@/components/sections/PartnersCarousel";
-import LocalTestimonials from "@/components/sections/LocalTestimonials";
-import CTA from "@/components/sections/CTA";
-import AnnouncementBanner from "@/components/banners/AnnouncementBanner";
-import PromoBanner from "@/components/banners/PromoBanner";
 import { prisma } from "@/lib/prisma";
 
-// New Stitch Banners
-import GamingBanner from "@/components/sections/GamingBanner";
-import StreamingBanner from "@/components/sections/StreamingBanner";
-import SmartHomeBanner from "@/components/sections/SmartHomeBanner";
+// Critical components (above the fold)
+import AnnouncementBanner from "@/components/banners/AnnouncementBanner";
 
-export const dynamic = 'force-dynamic';
+// Lazy load below-the-fold components
+const TrustMarquee = dynamic(() => import("@/components/sections/TrustMarquee"));
+const PainSolution = dynamic(() => import("@/components/sections/PainSolution"));
+const TrustStats = dynamic(() => import("@/components/sections/TrustStats"));
+const Features = dynamic(() => import("@/components/sections/Features"));
+const SpeedTest = dynamic(() => import("@/components/sections/SpeedTest"));
+const Packages = dynamic(() => import("@/components/sections/Packages"));
+const BusinessSolutions = dynamic(() => import("@/components/sections/BusinessSolutions"));
+const UrgencyBlock = dynamic(() => import("@/components/sections/UrgencyBlock"));
+const ServiceAreas = dynamic(() => import("@/components/sections/ServiceAreas"));
+const Coverage = dynamic(() => import("@/components/sections/Coverage"));
+const PartnersCarousel = dynamic(() => import("@/components/sections/PartnersCarousel"));
+const LocalTestimonials = dynamic(() => import("@/components/sections/LocalTestimonials"));
+const CTA = dynamic(() => import("@/components/sections/CTA"));
+const PromoBanner = dynamic(() => import("@/components/banners/PromoBanner"));
+
+// New Stitch Banners
+const GamingBanner = dynamic(() => import("@/components/sections/GamingBanner"));
+const StreamingBanner = dynamic(() => import("@/components/sections/StreamingBanner"));
+const SmartHomeBanner = dynamic(() => import("@/components/sections/SmartHomeBanner"));
+
+
+export const revalidate = 3600; // Revalidate every hour
+
+export const metadata = {
+  title: "Airlink Broadband | Tamil Nadu's #1 Fiber Internet Provider",
+  description: "Get lightning-fast fiber internet, enterprise leased lines, and smart home solutions with Airlink Broadband. High-speed connectivity across Dharmapuri, Chennai, and Tamil Nadu.",
+  alternates: {
+    canonical: "https://www.srirambroadband.com",
+  },
+};
 
 export default async function Home() {
   const plans = await prisma.plan.findMany({

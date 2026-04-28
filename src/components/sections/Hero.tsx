@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import DynamicBackground from '@/components/animations/DynamicBackground';
 import BlurText from '@/components/animations/BlurText';
 import Magnet from '@/components/animations/Magnet';
@@ -58,7 +59,16 @@ export default function Hero() {
         <section className="relative min-h-[75vh] lg:min-h-[85vh] flex items-center hero-section-offset overflow-hidden bg-black">
             {/* ── Cinematic Background ── */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('/images/home_hero_new.png')] bg-cover bg-fixed bg-center opacity-70 mix-blend-luminosity brightness-90" />
+                <div className="absolute inset-0 opacity-70 mix-blend-luminosity brightness-90">
+                    <Image
+                        src="/images/home_hero_new.webp"
+                        alt="High-speed fiber internet infrastructure showcasing modern connectivity for homes and businesses"
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover object-center"
+                    />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/80" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-40" />
 

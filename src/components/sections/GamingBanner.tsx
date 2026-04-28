@@ -13,6 +13,7 @@ const GamingBanner = () => {
                     className="w-full h-full object-cover opacity-40 md:opacity-50" 
                     src="/images/stitch/gaming-bg.png" 
                     alt="Ultimate Gaming Performance"
+                    loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0A192F] via-[#0A192F]/80 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-transparent to-transparent opacity-60" />

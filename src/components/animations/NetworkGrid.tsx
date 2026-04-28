@@ -41,7 +41,8 @@ const NetworkGrid: React.FC<NetworkGridProps> = ({
 
         const createNodes = () => {
             nodes.length = 0;
-            for (let i = 0; i < nodeCount; i++) {
+            const actualCount = w < 768 ? Math.floor(nodeCount / 2) : nodeCount;
+            for (let i = 0; i < actualCount; i++) {
                 nodes.push({
                     x: Math.random() * w,
                     y: Math.random() * h,

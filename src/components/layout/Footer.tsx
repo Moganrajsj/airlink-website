@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, ArrowUpRight, Wifi, Share2, Youtube, Globe, X as TwitterX, MessageCircle, Send, Music2, Ghost } from 'lucide-react';
 import { LightSectionBg } from '@/components/ui/AnimatedBackground';
 
@@ -47,9 +48,11 @@ const Footer = () => {
                     {/* Brand column */}
                     <div className="space-y-7">
                         <Link href="/" className="group inline-flex flex-col">
-                            <img
+                            <Image
                                 src="/airlink-logo.png"
                                 alt="Airlink Broadband"
+                                width={200}
+                                height={80}
                                 className="h-16 md:h-20 w-auto object-contain"
                             />
                         </Link>
@@ -116,6 +119,7 @@ const Footer = () => {
                                 { name: 'Coverage Map', href: '/coverage' },
                                 { name: 'Shop', href: '/shop' },
                                 { name: 'About', href: '/about' },
+                                { name: 'Blogs', href: '/blogs' },
                                 { name: 'Careers', href: '/careers' },
                                 { name: 'Contact Us', href: '/contact' },
                             ].map((link) => (

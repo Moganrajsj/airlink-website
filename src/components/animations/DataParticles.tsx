@@ -40,7 +40,8 @@ const DataParticles: React.FC<DataParticlesProps> = ({
 
         const createParticles = () => {
             particles.length = 0;
-            for (let i = 0; i < particleCount; i++) {
+            const actualCount = w < 768 ? Math.floor(particleCount / 2) : particleCount;
+            for (let i = 0; i < actualCount; i++) {
                 particles.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
