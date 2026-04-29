@@ -128,7 +128,7 @@ export function LightHeroBg({ particles = true }: { particles?: boolean }) {
    LIGHT SECTION BACKGROUND — Subtle ambient орbs + optional pattern
    Use on white or #F7F7F8 content sections
    ═══════════════════════════════════════════════════════════ */
-export function LightSectionBg({ variant = 'default' }: { variant?: 'default' | 'warm' | 'dots' | 'particles' }) {
+export function LightSectionBg({ variant = 'default' }: { variant?: 'default' | 'warm' | 'dots' | 'particles' | 'grid' }) {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none select-none" style={{ zIndex: 0 }}>
             {/* Top-left orb */}
@@ -155,6 +155,15 @@ export function LightSectionBg({ variant = 'default' }: { variant?: 'default' | 
                     className="absolute inset-0 opacity-[0.02]"
                     style={{
                         backgroundImage: 'linear-gradient(rgba(251,191,36,1) 1px, transparent 1px), linear-gradient(90deg, rgba(251,191,36,1) 1px, transparent 1px)',
+                        backgroundSize: '50px 50px',
+                    }}
+                />
+            )}
+            {variant === 'grid' && (
+                <div
+                    className="absolute inset-0 opacity-[0.025]"
+                    style={{
+                        backgroundImage: 'linear-gradient(rgba(10,25,47,1) 1px, transparent 1px), linear-gradient(90deg, rgba(10,25,47,1) 1px, transparent 1px)',
                         backgroundSize: '50px 50px',
                     }}
                 />
