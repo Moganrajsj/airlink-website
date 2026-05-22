@@ -283,4 +283,4 @@ window.open(`mailto:contact@airlink.com?subject=${subject}&body=${body}`);
 
 ---
 
-**Built with ❤️ by Antigravity AI**
+**Built with MJ WEB DESIGNS ❤️ **
