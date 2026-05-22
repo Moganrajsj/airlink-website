@@ -18,7 +18,7 @@ const SmartHomeBanner = () => {
                 {/* Mobile layout: horizontal rectangle */}
                 <div className="block md:hidden">
                     <div className="bg-white rounded-[1.2rem] overflow-hidden">
-                        <div className="flex flex-row h-[220px]">
+                        <div className="flex flex-row min-h-[230px]">
                             {/* Text side */}
                             <div className="flex-1 p-5 flex flex-col justify-between">
                                 <div className="space-y-2">
@@ -26,17 +26,17 @@ const SmartHomeBanner = () => {
                                         <Sparkles size={10} className="text-[#FBBF24]" />
                                         Smart Home Bundle
                                     </div>
-                                    <h2 className="text-xl font-black text-[#0A192F] leading-[1] tracking-tighter">
+                                    <h2 className="text-[1.25rem] font-black text-[#0A192F] leading-[1.15] tracking-tight">
                                         One Connection. <br />
                                         <span className="text-[#FBBF24]">Total Control.</span>
                                     </h2>
-                                    <p className="text-[#0A192F]/60 text-[11px] font-medium leading-snug">
+                                    <p className="text-[#0A192F]/60 text-[11px] font-medium leading-relaxed">
                                         Connect 100+ devices with military-grade security.
                                     </p>
                                 </div>
 
                                 {/* Mobile Features (2-up) */}
-                                <div className="grid grid-cols-2 gap-y-1 gap-x-2">
+                                <div className="grid grid-cols-2 gap-y-2 gap-x-3 my-2">
                                     {features.slice(0, 4).map((feature, idx) => (
                                         <div key={idx} className="flex items-center gap-1.5">
                                             <div className="w-5 h-5 rounded-lg bg-[#0A192F]/05 flex items-center justify-center flex-shrink-0 text-[#FBBF24]">
@@ -45,7 +45,7 @@ const SmartHomeBanner = () => {
                                                 {idx === 2 && <Leaf size={12} />}
                                                 {idx === 3 && <Headphones size={12} />}
                                             </div>
-                                            <span className="text-[#0A192F] font-bold text-[9px] tracking-tight">{feature.text}</span>
+                                            <span className="text-[#0A192F] font-bold text-[10px] tracking-tight leading-none">{feature.text}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -56,7 +56,11 @@ const SmartHomeBanner = () => {
                                         <p className="text-[#0A192F]/40 text-[8px] font-black uppercase tracking-widest">Starting at</p>
                                         <p className="text-xl font-black text-[#0A192F] tracking-tight">₹499<span className="text-xs font-medium opacity-40">/mo</span></p>
                                     </div>
-                                    <button className="bg-[#0A192F] text-white px-4 py-2 rounded-xl font-black text-xs">
+                                    <button 
+                                        onClick={() => document.getElementById('coverage')?.scrollIntoView({ behavior: 'smooth' })}
+                                        className="bg-[#0A192F] text-white px-4 py-2 rounded-xl font-black text-xs" 
+                                        suppressHydrationWarning
+                                    >
                                         Get Bundle
                                     </button>
                                 </div>
@@ -125,7 +129,9 @@ const SmartHomeBanner = () => {
                                     <motion.button 
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
+                                        onClick={() => document.getElementById('coverage')?.scrollIntoView({ behavior: 'smooth' })}
                                         className="relative z-10 bg-[#0A192F] text-white px-8 py-3 rounded-xl font-black text-base hover:shadow-2xl hover:shadow-[#0A192F]/30 transition-all"
+                                        suppressHydrationWarning
                                     >
                                         Get Bundle
                                     </motion.button>

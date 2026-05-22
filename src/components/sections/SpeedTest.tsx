@@ -342,6 +342,7 @@ const SpeedTest = () => {
                                 <button
                                     onClick={runTest}
                                     disabled={phase !== 'idle' && phase !== 'done'}
+                                    suppressHydrationWarning
                                     className={`cursor-target group relative overflow-hidden p-6 rounded-[2rem] border transition-all duration-500 ${phase === 'idle' || phase === 'done'
                                         ? 'bg-[#0A192F] text-white border-[#0A192F] hover:shadow-[0_20px_40px_rgba(10,25,47,0.2)]'
                                         : 'bg-gray-100 text-gray-400 border-transparent cursor-not-allowed'

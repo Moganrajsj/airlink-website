@@ -2,18 +2,35 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { packages, toPrismaPlan } from "@/data/packages";
 
 // ─── PLAN ACTIONS ─────────────────────────────────────────────────────────────
 
 export async function getPlans(business = false) {
-    return prisma.plan.findMany({
-        where: { isBusiness: business },
-        orderBy: { speed: "asc" },
-    });
+    try {
+        const plans = await prisma.plan.findMany({
+            where: { isBusiness: business, status: true },
+            orderBy: { speed: "asc" },
+        });
+        if (plans.length > 0) return plans;
+        throw new Error("No plans in DB");
+    } catch (error) {
+        console.warn("getPlans: DB unreachable or empty, using static fallbacks");
+        return packages
+            .filter(pkg => !!pkg.isPremium === business)
+            .map(toPrismaPlan);
+    }
 }
 
 export async function getAllPlans() {
-    return prisma.plan.findMany({ orderBy: { speed: "asc" } });
+    try {
+        const plans = await prisma.plan.findMany({ orderBy: { speed: "asc" } });
+        if (plans.length > 0) return plans;
+        throw new Error("No plans in DB");
+    } catch (error) {
+        console.warn("getAllPlans: DB unreachable or empty, using static fallbacks");
+        return packages.map(toPrismaPlan);
+    }
 }
 
 export async function createPlan(data: {
@@ -70,46 +87,71 @@ export async function deleteCoverage(id: string) {
 // ─── TESTIMONIAL ACTIONS ─────────────────────────────────────────────────────
 
 export async function getTestimonials(activeOnly = false) {
-    return prisma.testimonial.findMany({
-        where: activeOnly ? { isActive: true } : {},
-        orderBy: { createdAt: "desc" },
-    });
+    try {
+        return await prisma.testimonial.findMany({
+            where: activeOnly ? { isActive: true } : {},
+            orderBy: { createdAt: "desc" },
+        });
+    } catch (error) {
+        console.warn("getTestimonials: DB unreachable, returning empty array");
+        return [];
+    }
 }
 
 export async function createTestimonial(data: {
     name: string; role?: string; content: string; rating: number; isActive: boolean;
     person?: string; city?: string; tag?: string; metric?: string; color?: string;
 }) {
-    await prisma.testimonial.create({ data });
-    revalidatePath("/admin/testimonials");
-    revalidatePath("/");
-    return { success: true };
+    try {
+        await prisma.testimonial.create({ data });
+        revalidatePath("/admin/testimonials");
+        revalidatePath("/");
+        return { success: true };
+    } catch (error) {
+        console.error("createTestimonial failed:", error);
+        return { success: false, error: "Database unreachable" };
+    }
 }
 
 export async function updateTestimonial(id: string, data: {
     name?: string; role?: string | null; content?: string; rating?: number; isActive?: boolean;
     person?: string; city?: string; tag?: string | null; metric?: string | null; color?: string;
 }) {
-    await prisma.testimonial.update({ where: { id }, data });
-    revalidatePath("/admin/testimonials");
-    revalidatePath("/");
-    return { success: true };
+    try {
+        await prisma.testimonial.update({ where: { id }, data });
+        revalidatePath("/admin/testimonials");
+        revalidatePath("/");
+        return { success: true };
+    } catch (error) {
+        console.error("updateTestimonial failed:", error);
+        return { success: false, error: "Database unreachable" };
+    }
 }
 
 export async function deleteTestimonial(id: string) {
-    await prisma.testimonial.delete({ where: { id } });
-    revalidatePath("/admin/testimonials");
-    revalidatePath("/");
-    return { success: true };
+    try {
+        await prisma.testimonial.delete({ where: { id } });
+        revalidatePath("/admin/testimonials");
+        revalidatePath("/");
+        return { success: true };
+    } catch (error) {
+        console.error("deleteTestimonial failed:", error);
+        return { success: false, error: "Database unreachable" };
+    }
 }
 
 // ─── BLOG ACTIONS ────────────────────────────────────────────────────────────
 
 export async function getBlogs(publishedOnly = false) {
-    return prisma.blog.findMany({
-        where: publishedOnly ? { published: true } : {},
-        orderBy: { createdAt: "desc" },
-    });
+    try {
+        return await prisma.blog.findMany({
+            where: publishedOnly ? { published: true } : {},
+            orderBy: { createdAt: "desc" },
+        });
+    } catch (error) {
+        console.warn("getBlogs: DB unreachable, returning empty array");
+        return [];
+    }
 }
 
 export async function createBlog(data: {

@@ -61,6 +61,7 @@ export default function AnnouncementBanner({ banner, onClose }: AnnouncementBann
                             onClick={handleClose}
                             className="ml-4 p-1 rounded-full hover:bg-black/10 transition-colors shrink-0"
                             aria-label="Close announcement"
+                            suppressHydrationWarning
                         >
                             <X size={16} />
                         </button>

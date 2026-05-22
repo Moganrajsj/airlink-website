@@ -54,6 +54,7 @@ const StreamingBanner = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="bg-[#0A192F] text-white px-8 py-4 rounded-2xl font-black text-base hover:bg-[#112240] transition-all flex items-center gap-3 shadow-xl shadow-[#0A192F]/20"
+                            suppressHydrationWarning
                         >
                             Explore Entertainment Plans
                             <ArrowRight size={18} className="text-[#FBBF24]" />
@@ -65,6 +66,7 @@ const StreamingBanner = () => {
                         <motion.button 
                             whileTap={{ scale: 0.95 }}
                             className="bg-[#0A192F] text-white px-4 py-2 rounded-xl font-black text-xs flex items-center gap-2"
+                            suppressHydrationWarning
                         >
                             Explore Plans
                             <ArrowRight size={12} className="text-[#FBBF24]" />

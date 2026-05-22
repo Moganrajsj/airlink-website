@@ -27,27 +27,51 @@ const StreamingBanner = dynamic(() => import("@/components/sections/StreamingBan
 const SmartHomeBanner = dynamic(() => import("@/components/sections/SmartHomeBanner"));
 
 
+import { staticAnnouncementBanners, staticPromoBanners } from "@/data/banners";
+
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata = {
-  title: "Airlink Broadband | Tamil Nadu's #1 Fiber Internet Provider",
-  description: "Get lightning-fast fiber internet, enterprise leased lines, and smart home solutions with Airlink Broadband. High-speed connectivity across Dharmapuri, Chennai, and Tamil Nadu.",
+  title: "Airlink Broadband | High-Speed Fiber & Wireless Internet in Dharmapuri & Chennai",
+  description: "Get the fastest fiber and wireless internet in Dharmapuri and Chennai. Unlimited high-speed data, leased lines, and dedicated support for homes and businesses in Tamil Nadu.",
   alternates: {
     canonical: "https://www.srirambroadband.com",
   },
+  openGraph: {
+    title: "Airlink Broadband | Fastest Fiber & Wireless Network in Tamil Nadu",
+    description: "Reliable high-speed internet in Dharmapuri and Chennai. Experience zero lag, 99.9% uptime, and wireless broadband solutions.",
+  }
 };
 
 export default async function Home() {
-  const plans = await prisma.plan.findMany({
-    where: { status: true, isBusiness: false },
-    orderBy: { price: 'asc' }
-  });
+  let plans: any[] = [];
+  let announcementBanners = staticAnnouncementBanners;
+  let promoBanners = staticPromoBanners;
 
-  const announcementBanners = await prisma.banner.findMany({ where: { bannerType: "announcement", status: true }, orderBy: { createdAt: "desc" } });
-  const promoBanners = await prisma.banner.findMany({ where: { bannerType: "promo", status: true }, orderBy: { createdAt: "desc" } });
+  try {
+    plans = await prisma.plan.findMany({
+      where: { status: true, isBusiness: false },
+      orderBy: { price: 'asc' }
+    });
+
+    const dbAnnouncements = await prisma.banner.findMany({ 
+      where: { bannerType: "announcement", status: true }, 
+      orderBy: { createdAt: "desc" } 
+    });
+    if (dbAnnouncements.length > 0) announcementBanners = dbAnnouncements as any;
+
+    const dbPromos = await prisma.banner.findMany({ 
+      where: { bannerType: "promo", status: true }, 
+      orderBy: { createdAt: "desc" } 
+    });
+    if (dbPromos.length > 0) promoBanners = dbPromos as any;
+  } catch (error) {
+    console.error("Database connection failed, using static fallbacks:", error);
+  }
+
 
   return (
-    <div className="flex flex-col bg-surface overflow-hidden">
+    <div className="flex flex-col bg-surface overflow-hidden" suppressHydrationWarning>
       {/* Announcement Banner */}
       {announcementBanners.length > 0 && (
         <AnnouncementBanner banner={announcementBanners[0]} />

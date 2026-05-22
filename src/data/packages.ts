@@ -12,6 +12,39 @@ export interface Package {
     bgImage?: string;
 }
 
+export interface PrismaPlan {
+    id: string;
+    title: string;
+    speed: number;
+    price: number;
+    features: string;
+    tag: string | null;
+    isBusiness: boolean;
+    status: boolean;
+    createdAt: Date;
+}
+
+export function toPrismaPlan(pkg: Package): PrismaPlan {
+    return {
+        id: pkg.id,
+        title: `Airlink ${pkg.speed} Mbps`,
+        speed: parseInt(pkg.speed),
+        price: pkg.price,
+        features: JSON.stringify({
+            benefits: pkg.benefits,
+            ottApps: pkg.ottApps,
+            isPopular: pkg.isPopular,
+            isPremium: pkg.isPremium,
+            bestFor: pkg.bestFor,
+            positioningLine: pkg.positioningLine,
+        }),
+        tag: pkg.isPopular ? "Most Popular" : null,
+        isBusiness: pkg.isPremium || false,
+        status: true,
+        createdAt: new Date("2026-05-16T00:00:00Z"),
+    };
+}
+
 export const packages: Package[] = [
     {
         id: "pkg-40",

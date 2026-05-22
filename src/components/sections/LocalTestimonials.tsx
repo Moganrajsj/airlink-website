@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { Star, MapPin, Quote } from 'lucide-react';
 
 interface Testimonial {
     id: string;
-    name: string;       // Business/group name
-    person: string;     // Individual person name
+    name: string;
+    person: string;
     role: string;
     city: string;
     tag: string;
@@ -18,7 +18,6 @@ interface Testimonial {
 
 const COLORS = ['#FBBF24', '#60a5fa', '#34d399', '#a78bfa', '#fb923c', '#f43f5e', '#06b6d4'];
 
-// Fallback local testimonials (Tamil Nadu focused)
 const FALLBACK: Testimonial[] = [
     { id: '1', name: "Murugan Textiles", person: "Mr. K. Muthukumar", role: "Proprietor", city: "Dharmapuri", tag: "Textile Business", content: "We export to buyers in the UK and Japan. Every video call matters. Before Airlink, we were constantly dealing with dropped calls and slow file uploads. Since switching, our communication has been flawless.", rating: 5, color: "#FBBF24", metric: "Zero downtime in 10 months" },
     { id: '2', name: "Priya Shankar", person: "Priya Shankar", role: "Work From Home Professional", city: "Dharmapuri", tag: "Family User", content: "My husband works from home, my son streams OTT and online games, and I have my own tutoring classes online. We used to fight over bandwidth every evening! Airlink solved everything.", rating: 5, color: "#60a5fa", metric: "4 devices, zero buffering" },
@@ -29,21 +28,6 @@ const FALLBACK: Testimonial[] = [
     { id: '7', name: "Lakshmi Vidya Mandir", person: "Mrs. Revathi D.", role: "Principal", city: "Dharmapuri", tag: "Education", content: "Online classes and smart boards required an upgrade from our old broadband. Airlink provided campus-wide coverage with absolute stability. Even during heavy rain, our network stays up.", rating: 5, color: "#60a5fa", metric: "Campus-wide coverage" },
     { id: '8', name: "Senthil Auto Components", person: "Senthil Kumar", role: "Managing Director", city: "Dharmapuri", tag: "Manufacturing", content: "Our CNC machines and ERP software communicate in real-time. Any network latency halts production. Airlink's dedicated fiber line has been the most reliable investment we've made this year.", rating: 5, color: "#a78bfa", metric: "Zero latency spikes" }
 ];
-
-function mapDbToCard(t: any, idx: number): Testimonial {
-    return {
-        id: t.id,
-        name: t.name || t.person || '',
-        person: t.person || t.name || '',
-        role: t.role || '',
-        city: t.city || 'Tamil Nadu',
-        tag: t.tag || t.role || '',
-        content: t.content || '',
-        rating: t.rating || 5,
-        color: t.color || COLORS[idx % COLORS.length],
-        metric: t.metric || '',
-    };
-}
 
 function StarRow({ count, color }: { count: number; color: string }) {
     return (
@@ -57,22 +41,19 @@ function StarRow({ count, color }: { count: number; color: string }) {
 
 const TestimonialCard = ({ t }: { t: Testimonial }) => (
     <div
-        className="bg-white rounded-[2rem] p-7 border relative overflow-hidden group transition-all duration-300 w-[350px] md:w-[450px] flex-shrink-0 flex flex-col justify-between"
+        className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-7 border relative overflow-hidden group transition-all duration-300 w-[290px] md:w-[450px] flex-shrink-0 flex flex-col justify-between"
         style={{ borderColor: `${t.color}30` }}
     >
-        {/* Color top accent */}
-        <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[2rem] transition-opacity duration-300" style={{ background: t.color }} />
+        <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[1.5rem] md:rounded-t-[2rem] transition-opacity duration-300" style={{ background: t.color }} />
         <Quote size={40} className="absolute top-5 right-5 opacity-[0.03]" style={{ color: t.color }} />
 
         <div>
             <StarRow count={t.rating} color={t.color} />
-            {/* Note: Normal text instead of italic per user request */}
-            <p className="text-[#0A192F]/80 text-[15px] font-semibold leading-relaxed my-5 h-36 border-b border-gray-100 pb-4">
+            <p className="text-[#0A192F]/80 text-[14px] md:text-[15px] font-semibold leading-relaxed my-5 h-32 md:h-36 border-b border-gray-100 pb-4">
                 "{t.content.length > 200 ? t.content.slice(0, 200) + '…' : t.content}"
             </p>
         </div>
 
-        {/* Metric pill */}
         {t.metric && (
             <div
                 className="inline-flex items-center text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 self-start"
@@ -106,17 +87,48 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
 
 export default function LocalTestimonials() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>(FALLBACK);
+    const [isPaused, setIsPaused] = useState(false);
+    const controls = useAnimation();
+    const x = useMotionValue(0);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         fetch('/api/testimonials')
             .then(r => r.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    setTestimonials(data.map(mapDbToCard));
+                    setTestimonials(data.map((t, idx) => ({
+                        id: t.id,
+                        name: t.name || t.person || '',
+                        person: t.person || t.name || '',
+                        role: t.role || '',
+                        city: t.city || 'Tamil Nadu',
+                        tag: t.tag || t.role || '',
+                        content: t.content || '',
+                        rating: t.rating || 5,
+                        color: t.color || COLORS[idx % COLORS.length],
+                        metric: t.metric || '',
+                    })));
                 }
             })
-            .catch(() => { /* keep fallback */ });
+            .catch(() => { });
     }, []);
+
+    // Infinite animation loop
+    useEffect(() => {
+        if (!isPaused) {
+            controls.start({
+                x: "-50%",
+                transition: {
+                    duration: 60,
+                    ease: "linear",
+                    repeat: Infinity,
+                },
+            });
+        } else {
+            controls.stop();
+        }
+    }, [isPaused, controls]);
 
     return (
         <section className="py-28 bg-[#F7F8FA] overflow-hidden" id="testimonials">
@@ -150,36 +162,38 @@ export default function LocalTestimonials() {
                 </div>
             </div>
 
-            {/* Infinite Marquee Container */}
-            <div className="relative w-full overflow-hidden flex flex-col py-4 group/marquee">
-                {/* Fade edges */}
-                <div className="absolute top-0 left-0 w-32 md:w-64 h-full bg-gradient-to-r from-[#F7F8FA] via-[#F7F8FA]/90 to-transparent z-10 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-32 md:w-64 h-full bg-gradient-to-l from-[#F7F8FA] via-[#F7F8FA]/90 to-transparent z-10 pointer-events-none" />
-
-                <div className="flex w-max animate-testimonial-marquee group-hover/marquee:[animation-play-state:paused]">
+            <div 
+                className="relative w-full cursor-grab active:cursor-grabbing overflow-hidden flex flex-col py-4"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+            >
+                <motion.div 
+                    ref={containerRef}
+                    className="flex w-max gap-6"
+                    animate={controls}
+                    drag="x"
+                    style={{ x }}
+                    dragConstraints={{ left: -5000, right: 0 }} // Large constraints for smooth drag
+                    onDragStart={() => setIsPaused(true)}
+                    onDragEnd={() => setIsPaused(false)}
+                >
                     <div className="flex w-max gap-6 pr-6">
                         {testimonials.map((t, i) => (
                             <TestimonialCard key={`track1-${i}`} t={t} />
                         ))}
                     </div>
-                    <div className="flex w-max gap-6 pr-6" aria-hidden="true">
+                    <div className="flex w-max gap-6 pr-6">
                         {testimonials.map((t, i) => (
                             <TestimonialCard key={`track2-${i}`} t={t} />
                         ))}
                     </div>
-                </div>
+                    <div className="flex w-max gap-6 pr-6">
+                        {testimonials.map((t, i) => (
+                            <TestimonialCard key={`track3-${i}`} t={t} />
+                        ))}
+                    </div>
+                </motion.div>
             </div>
-
-            <style jsx global>{`
-                @keyframes testimonial-marquee {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
-                .animate-testimonial-marquee {
-                    animation: testimonial-marquee 60s linear infinite;
-                    will-change: transform;
-                }
-            `}</style>
         </section>
     );
 }

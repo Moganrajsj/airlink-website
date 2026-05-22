@@ -60,6 +60,7 @@ const GamingBanner = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="bg-[#FBBF24] text-[#0A192F] px-4 py-2.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl font-black text-xs md:text-lg flex items-center gap-2 md:gap-3 hover:bg-white transition-all shadow-[0_20px_40px_rgba(251,191,36,0.3)]"
+                                suppressHydrationWarning
                             >
                                 Level Up
                                 <Rocket size={14} className="md:w-[22px] md:h-[22px]" />

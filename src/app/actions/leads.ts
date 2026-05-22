@@ -77,34 +77,49 @@ export async function createLead(formData: {
 }
 
 export async function updateLeadStatus(leadId: string, status: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (prisma.lead.update as any)({
-        where: { id: leadId },
-        data: { status },
-    });
-    revalidatePath("/admin/leads");
-    return { success: true };
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (prisma.lead.update as any)({
+            where: { id: leadId },
+            data: { status },
+        });
+        revalidatePath("/admin/leads");
+        return { success: true };
+    } catch (error) {
+        console.error("updateLeadStatus failed:", error);
+        return { success: false, error: "Database unreachable" };
+    }
 }
 
 export async function getRecentLeads(limit = 10) {
-    return prisma.lead.findMany({
-        orderBy: { createdAt: "desc" },
-        take: limit,
-    });
+    try {
+        return await prisma.lead.findMany({
+            orderBy: { createdAt: "desc" },
+            take: limit,
+        });
+    } catch (error) {
+        console.warn("getRecentLeads: DB unreachable, returning empty array");
+        return [];
+    }
 }
 
 export async function getAllLeads(search?: string, interest?: string, status?: string, city?: string) {
-    // Fetch all and filter in JS to avoid stale type errors
-    const all = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
-    return all.filter((l: Record<string, unknown>) => {
-        const q = (search || '').toLowerCase();
-        const matchSearch = !q ||
-            String(l.name).toLowerCase().includes(q) ||
-            String(l.email || '').toLowerCase().includes(q) ||
-            String(l.mobile || l.phone || '').includes(q);
-        const matchInterest = !interest || l.interest === interest;
-        const matchStatus = !status || l.status === status;
-        const matchCity = !city || String(l.city).toLowerCase().includes(city.toLowerCase());
-        return matchSearch && matchInterest && matchStatus && matchCity;
-    });
+    try {
+        // Fetch all and filter in JS to avoid stale type errors
+        const all = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
+        return all.filter((l: Record<string, unknown>) => {
+            const q = (search || '').toLowerCase();
+            const matchSearch = !q ||
+                String(l.name).toLowerCase().includes(q) ||
+                String(l.email || '').toLowerCase().includes(q) ||
+                String(l.mobile || l.phone || '').includes(q);
+            const matchInterest = !interest || l.interest === interest;
+            const matchStatus = !status || l.status === status;
+            const matchCity = !city || String(l.city).toLowerCase().includes(city.toLowerCase());
+            return matchSearch && matchInterest && matchStatus && matchCity;
+        });
+    } catch (error) {
+        console.warn("getAllLeads: DB unreachable, returning empty array");
+        return [];
+    }
 }

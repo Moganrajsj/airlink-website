@@ -1,9 +1,9 @@
 .trustMarquee {
     overflow: hidden;
-    background: #000000;
-    padding: 8px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0A192F; /* Navy Background */
+    padding: 15px 0;
+    border-top: 1px solid rgba(251, 191, 36, 0.2);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
     position: relative;
     z-index: 10;
 }
@@ -16,52 +16,50 @@
 
 .marqueeTrack {
     display: flex;
-    gap: 60px;
+    gap: 40px;
     white-space: nowrap;
-    animation: marqueeScroll 28s linear infinite;
+    animation: marqueeScroll 40s linear infinite;
     align-items: center;
     width: max-content;
 }
 
-.logoWrapper {
+.textWrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 45px;
-    padding: 0 10px;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    gap: 40px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.partnerLogo {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
-    filter: grayscale(100%) opacity(0.7);
-    transition: filter 0.3s ease, transform 0.3s ease;
+.textWrapper:hover {
+    transform: scale(1.08);
 }
 
-.trustMarquee:hover .partnerLogo {
-    filter: grayscale(100%) opacity(0.3); /* Dim all slightly when hovering strip */
+.promoText {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-poppins);
+    transition: all 0.3s ease;
 }
 
-.logoWrapper:hover .partnerLogo {
-    filter: grayscale(0%) opacity(1) !important;
-    transform: scale(1.1);
+.textWrapper:hover .promoText {
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
 }
 
-/* Pause on Hover */
-.trustMarquee:hover .marqueeTrack {
-    animation-play-state: paused;
+/* Alternate colors for high impact */
+.textWrapper:nth-child(even) .promoText {
+    color: #FBBF24; /* Airlink Yellow */
 }
 
-@keyframes marqueeScroll {
-    0% {
-        transform: translateX(0);
-    }
+.textWrapper:nth-child(even):hover .promoText {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
 
-    100% {
-        transform: translateX(-50%);
-    }
+.separatorIcon {
+    flex-shrink: 0;
+    opacity: 0.8;
 }
 
 /* Premium Edge Fade Effect */
@@ -70,7 +68,7 @@
     content: "";
     position: absolute;
     top: 0;
-    width: 120px;
+    width: 150px;
     height: 100%;
     z-index: 2;
     pointer-events: none;
@@ -78,32 +76,45 @@
 
 .trustMarquee::before {
     left: 0;
-    background: linear-gradient(to right, #000000, transparent);
+    background: linear-gradient(to right, #0A192F, transparent);
 }
 
 .trustMarquee::after {
     right: 0;
-    background: linear-gradient(to left, #000000, transparent);
+    background: linear-gradient(to left, #0A192F, transparent);
 }
 
-/* Removed opacity animations for span */
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .trustMarquee {
-        padding: 5px 0;
+        padding: 12px 0;
+    }
+
+    .promoText {
+        font-size: 13px;
+        letter-spacing: 0.05em;
     }
 
     .marqueeTrack {
-        gap: 40px;
-        animation: marqueeScroll 22s linear infinite;
+        gap: 25px;
+        animation-duration: 30s;
     }
 
-    .logoWrapper {
-        height: 35px;
+    .textWrapper {
+        gap: 25px;
     }
 
     .trustMarquee::before,
     .trustMarquee::after {
-        width: 50px;
+        width: 60px;
     }
 }

@@ -92,11 +92,12 @@ const Coverage = () => {
                                                         onChange={(e) => setLocation(e.target.value)}
                                                         className="w-full bg-[#F7F7F8] border border-[#E5E7EB] rounded-3xl py-6 pl-16 pr-8 text-[#0A192F] text-xl font-bold outline-none focus:border-[#FBBF24] transition-all focus:bg-white"
                                                         required
+                                                        suppressHydrationWarning
                                                     />
                                                 </div>
                                             </div>
 
-                                            <button type="submit" className="w-full group bg-[#FBBF24] text-[#0A192F] py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:translate-y-[-4px] transition-all duration-300 shadow-xl shadow-[#FBBF24]/20 transform active:scale-[0.98]">
+                                            <button type="submit" suppressHydrationWarning className="w-full group bg-[#FBBF24] text-[#0A192F] py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:translate-y-[-4px] transition-all duration-300 shadow-xl shadow-[#FBBF24]/20 transform active:scale-[0.98]">
                                                 Verify Coverage <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
                                             </button>
                                         </form>
@@ -130,6 +131,7 @@ const Coverage = () => {
                                                         onChange={(e) => setName(e.target.value)}
                                                         className="w-full bg-[#F7F7F8] border border-[#E5E7EB] rounded-2xl py-4 pl-14 pr-8 text-[#0A192F] font-bold outline-none focus:border-[#FBBF24] transition-all focus:bg-white"
                                                         required
+                                                        suppressHydrationWarning
                                                     />
                                                 </div>
                                             </div>
@@ -147,11 +149,12 @@ const Coverage = () => {
                                                         onChange={(e) => setPhone(e.target.value)}
                                                         className="w-full bg-[#F7F7F8] border border-[#E5E7EB] rounded-2xl py-4 pl-14 pr-8 text-[#0A192F] font-bold outline-none focus:border-[#FBBF24] transition-all focus:bg-white"
                                                         required
+                                                        suppressHydrationWarning
                                                     />
                                                 </div>
                                             </div>
 
-                                            <button type="submit" disabled={loading} className="w-full bg-[#0A192F] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:bg-[#1A2F4F] transition-all transform active:scale-[0.98]">
+                                            <button type="submit" disabled={loading} suppressHydrationWarning className="w-full bg-[#0A192F] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:bg-[#1A2F4F] transition-all transform active:scale-[0.98]">
                                                 {loading ? 'Processing...' : 'Notify Me Upon Availability'}
                                             </button>
                                             <button type="button" onClick={() => setStep('search')} className="w-full text-[#0A192F]/40 font-bold text-sm hover:text-[#0A192F] transition-colors">Change Location</button>

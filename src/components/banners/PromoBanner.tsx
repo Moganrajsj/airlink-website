@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -13,6 +13,7 @@ interface PromoBannerProps {
 export default function PromoBanner({ banners }: PromoBannerProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
+    const [direction, setDirection] = useState(0);
 
     // Auto-advance
     useEffect(() => {
@@ -21,35 +22,90 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
         let interval: NodeJS.Timeout;
         if (!isPaused) {
             interval = setInterval(() => {
-                setCurrentIndex((prev) => (prev + 1) % banners.length);
-            }, 5000);
+                paginate(1);
+            }, 6000);
         }
 
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [banners, isPaused]);
+    }, [banners, isPaused, currentIndex]);
 
     if (!banners || banners.length === 0) return null;
 
     const banner = banners[currentIndex];
 
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? "100%" : "-100%",
+            opacity: 0,
+            scale: 0.95
+        }),
+        center: {
+            zIndex: 1,
+            x: 0,
+            opacity: 1,
+            scale: 1
+        },
+        exit: (direction: number) => ({
+            zIndex: 0,
+            x: direction < 0 ? "100%" : "-100%",
+            opacity: 0,
+            scale: 0.95
+        })
+    };
+
+    const swipeConfidenceThreshold = 10000;
+    const swipePower = (offset: number, velocity: number) => {
+        return Math.abs(offset) * velocity;
+    };
+
+    const paginate = (newDirection: number) => {
+        setDirection(newDirection);
+        setCurrentIndex((prevIndex) => {
+            let nextIndex = prevIndex + newDirection;
+            if (nextIndex < 0) nextIndex = banners.length - 1;
+            if (nextIndex >= banners.length) nextIndex = 0;
+            return nextIndex;
+        });
+    };
+
     return (
         <section className="w-full py-4 md:py-6 lg:py-8 bg-[#F7F8FA] relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="relative w-full z-10">
-                    <AnimatePresence mode="wait">
+                <div 
+                    className="relative w-full z-10 h-[220px] md:h-[260px] lg:h-[300px]"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
+                    <AnimatePresence initial={false} custom={direction}>
                         <motion.div
-                            key={banner.id}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
-                            onMouseEnter={() => setIsPaused(true)}
-                            onMouseLeave={() => setIsPaused(false)}
-                            className="w-full bg-[#FBBF24] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden relative shadow-2xl flex flex-row items-stretch justify-between group h-[220px] md:min-h-[220px] md:h-auto lg:min-h-[260px] banner-slide"
+                            key={currentIndex}
+                            custom={direction}
+                            variants={variants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{
+                                x: { type: "spring", stiffness: 300, damping: 30 },
+                                opacity: { duration: 0.2 },
+                                scale: { duration: 0.3 }
+                            }}
+                            drag={banners.length > 1 ? "x" : false}
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={1}
+                            dragMomentum={false}
+                            onDragEnd={(e, { offset, velocity }) => {
+                                const swipe = swipePower(offset.x, velocity.x);
+
+                                if (swipe < -swipeConfidenceThreshold) {
+                                    paginate(1);
+                                } else if (swipe > swipeConfidenceThreshold) {
+                                    paginate(-1);
+                                }
+                            }}
+                            className="absolute inset-0 w-full h-full bg-[#FBBF24] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-row items-stretch justify-between group"
                         >
-                            {/* Subtle animated moving network background effect inside the text area */}
                             <div
                                 className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay z-0"
                                 style={{
@@ -58,81 +114,45 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                             />
 
                             {/* Left Content Area */}
-                            <div className="w-[55%] md:w-3/5 p-4 md:p-10 lg:p-12 relative z-20 flex flex-col items-start text-left justify-center">
-                                {/* Tag/Badge */}
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.4, delay: 0.2 }}
-                                    className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A192F]/10 border border-[#0A192F]/15 text-[#0A192F] text-xs font-black uppercase tracking-widest mb-6"
-                                >
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0A192F] opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0A192F]"></span>
-                                    </span>
+                            <div className="w-[55%] md:w-3/5 p-4 md:p-8 lg:p-12 relative z-20 flex flex-col items-start text-left justify-center select-none">
+                                <div className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A192F]/10 border border-[#0A192F]/15 text-[#0A192F] text-xs font-black uppercase tracking-widest mb-4">
                                     <Sparkles size={14} /> Limited Time Offer
-                                </motion.div>
+                                </div>
 
-                                <motion.h2
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.3 }}
-                                    className="text-base md:text-xl lg:text-[28px] font-black text-[#0A192F] leading-[1.1] tracking-tight mb-2 md:mb-3 uppercase"
-                                >
+                                <h2 className="text-base md:text-xl lg:text-3xl font-black text-[#0A192F] leading-[1.1] tracking-tight mb-2 uppercase">
                                     {banner.title}
-                                </motion.h2>
+                                </h2>
 
                                 {banner.subtitle && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.4 }}
-                                        className="hidden md:block text-[#0A192F]/80 text-sm md:text-[15px] font-medium leading-relaxed mb-4 md:mb-6 max-w-lg"
-                                    >
+                                    <p className="hidden md:block text-[#0A192F]/80 text-sm font-medium leading-relaxed mb-4 max-w-lg">
                                         {banner.subtitle}
-                                    </motion.p>
+                                    </p>
                                 )}
 
                                 {banner.offerHighlight && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.5, delay: 0.5 }}
-                                        className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-2xl p-4 mb-6 md:mb-8 inline-block shadow-lg"
-                                    >
-                                        <span className="block text-base md:text-lg font-black text-[#0A192F] tracking-tight">
+                                    <div className="bg-[#0A192F]/10 border border-[#0A192F]/20 rounded-2xl p-3 md:p-4 mb-4 md:mb-6 inline-block shadow-lg">
+                                        <span className="block text-sm md:text-lg font-black text-[#0A192F] tracking-tight">
                                             {banner.offerHighlight}
                                         </span>
-                                    </motion.div>
+                                    </div>
                                 )}
 
-                                {/* CTA Button */}
                                 {banner.ctaText && banner.ctaLink && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.6 }}
+                                    <Link
+                                        href={banner.ctaLink}
+                                        className="inline-flex items-center gap-2 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-2 md:py-3 px-4 md:px-8 rounded-2xl font-black text-[10px] md:text-base uppercase tracking-widest transition-all duration-300 shadow-xl"
                                     >
-                                        <Link
-                                            href={banner.ctaLink}
-                                            className="inline-flex items-center gap-2 md:gap-3 shrink-0 bg-[#0A192F] hover:bg-white text-white hover:text-[#0A192F] py-3 md:py-3 px-6 md:px-6 rounded-2xl font-black text-sm md:text-base uppercase tracking-widest transition-all duration-300 shadow-[0_10px_30px_rgba(10,25,47,0.25)] hover:shadow-[0_10px_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 group-hover:scale-[1.02]"
-                                        >
-                                            {banner.ctaText} <ArrowRight className="w-4 h-4 md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform" />
-                                        </Link>
-                                    </motion.div>
+                                        {banner.ctaText} <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                                    </Link>
                                 )}
                             </div>
 
-                            <div className="w-[45%] md:w-2/5 relative z-10 overflow-hidden h-full md:h-auto border-l md:border-l border-[#0A192F]/10">
+                            <div className="w-[45%] md:w-2/5 relative z-10 overflow-hidden h-full border-l border-[#0A192F]/10">
                                 {banner.imageUrl ? (
-                                    <motion.img
-                                        key={banner.imageUrl}
-                                        initial={{ opacity: 0, scale: 1.05 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.6 }}
+                                    <img
                                         src={banner.imageUrl}
                                         alt={banner.title}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover pointer-events-none"
                                     />
                                 ) : (
                                     <div className="w-full h-full bg-[#0A192F]/5 flex items-center justify-center">
@@ -150,8 +170,10 @@ export default function PromoBanner({ banners }: PromoBannerProps) {
                         {banners.map((_, i) => (
                             <button
                                 key={`dot-${i}`}
-                                onClick={() => setCurrentIndex(i)}
-                                suppressHydrationWarning
+                                onClick={() => {
+                                    setDirection(i > currentIndex ? 1 : -1);
+                                    setCurrentIndex(i);
+                                }}
                                 className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "w-8 bg-[#0A192F]" : "w-2 bg-[#0A192F]/20 hover:bg-[#0A192F]/40"
                                     }`}
                                 aria-label={`Go to slide ${i + 1}`}
