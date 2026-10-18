@@ -49,8 +49,11 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
 
         <div>
             <StarRow count={t.rating} color={t.color} />
-            <p className="text-[#0A192F]/80 text-[14px] md:text-[15px] font-semibold leading-relaxed my-5 h-32 md:h-36 border-b border-gray-100 pb-4">
-                "{t.content.length > 200 ? t.content.slice(0, 200) + '…' : t.content}"
+            <p
+                className="text-[#0A192F]/80 text-[14px] md:text-[15px] font-semibold leading-relaxed my-5 line-clamp-5 border-b border-gray-100 pb-4"
+                title={t.content}
+            >
+                &ldquo;{t.content}&rdquo;
             </p>
         </div>
 
@@ -177,19 +180,16 @@ export default function LocalTestimonials() {
                     onDragStart={() => setIsPaused(true)}
                     onDragEnd={() => setIsPaused(false)}
                 >
+                    {/* Primary track — screen readers see this one */}
                     <div className="flex w-max gap-6 pr-6">
                         {testimonials.map((t, i) => (
                             <TestimonialCard key={`track1-${i}`} t={t} />
                         ))}
                     </div>
-                    <div className="flex w-max gap-6 pr-6">
+                    {/* Duplicate track for seamless loop — hidden from assistive tech */}
+                    <div className="flex w-max gap-6 pr-6" aria-hidden="true">
                         {testimonials.map((t, i) => (
                             <TestimonialCard key={`track2-${i}`} t={t} />
-                        ))}
-                    </div>
-                    <div className="flex w-max gap-6 pr-6">
-                        {testimonials.map((t, i) => (
-                            <TestimonialCard key={`track3-${i}`} t={t} />
                         ))}
                     </div>
                 </motion.div>

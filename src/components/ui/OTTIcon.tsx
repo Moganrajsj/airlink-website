@@ -13,22 +13,22 @@ const OTTIcon: React.FC<OTTIconProps> = ({ name, className = "w-10 h-10" }) => {
 
     // Reliable public CDN URLs for actual OTT logos
     const logoUrls: Record<string, string> = {
-        'amazon prime': '/images/ott-logos/Amazon Prime logo.webp',
-        'sun nxt': '/images/ott-logos/sun nxt logo.webp',
-        'zee5': '/images/ott-logos/Zee5 logo.webp',
-        'sony liv': '/images/ott-logos/Sony Liv logo.webp',
-        'aha': '/images/ott-logos/aha logo.webp',
-        'jio hotstar': '/images/ott-logos/jio hotstar logo.webp',
-        'fancode': '/images/ott-logos/Fancode logo.webp',
-        'distro tv': '/images/ott-logos/Distro TV logo.webp',
-        'om tv': '/images/ott-logos/OM_TV logo.webp',
+        'amazon prime': '/images/ott-logos/amazon-prime-logo.webp',
+        'sun nxt': '/images/ott-logos/sun-nxt-logo.webp',
+        'zee5': '/images/ott-logos/zee5-logo.webp',
+        'sony liv': '/images/ott-logos/sony-liv-logo.webp',
+        'aha': '/images/ott-logos/aha-logo.webp',
+        'jio hotstar': '/images/ott-logos/jio-hotstar-logo.webp',
+        'fancode': '/images/ott-logos/fancode-logo.webp',
+        'distro tv': '/images/ott-logos/distro-tv-logo.webp',
+        'om tv': '/images/ott-logos/om-tv-logo.webp',
         'dollywood play': '/images/ott-logos/Dollywood-Play-logo.webp',
-        'playflix': '/images/ott-logos/PlayFlix logo.webp',
-        'hubhopper': '/images/ott-logos/Hubhopper logo.webp',
-        'friday': '/images/ott-logos/fiday logo.webp',
-        'fridaay': '/images/ott-logos/fiday logo.webp',
-        'sun next': '/images/ott-logos/sun nxt logo.webp',
-        'sonyliv': '/images/ott-logos/Sony Liv logo.webp'
+        'playflix': '/images/ott-logos/playflix-logo.webp',
+        'hubhopper': '/images/ott-logos/hubhopper-logo.webp',
+        'friday': '/images/ott-logos/fiday-logo.webp',
+        'fridaay': '/images/ott-logos/fiday-logo.webp',
+        'sun next': '/images/ott-logos/sun-nxt-logo.webp',
+        'sonyliv': '/images/ott-logos/sony-liv-logo.webp'
     };
 
     const url = logoUrls[brand];

@@ -91,17 +91,7 @@ const Footer = () => {
                                         </span>
                                     );
                                 })
-                            ) : (
-                                [Facebook, TwitterX, Instagram, Linkedin].map((Icon, i) => (
-                                    <a
-                                        key={i}
-                                        href="#"
-                                        className="w-10 h-10 rounded-xl border border-[#0A192F]/10 flex items-center justify-center text-[#0A192F]/40 hover:border-[#FBBF24]/50 hover:text-[#FBBF24] transition-all duration-300 hover:-translate-y-1 bg-white"
-                                    >
-                                        <Icon size={16} />
-                                    </a>
-                                ))
-                            )}
+                            ) : null}
                         </div>
                     </div>
 
@@ -210,28 +200,32 @@ const Footer = () => {
 
                 {/* Bottom bar */}
                 <div className="pt-8 border-t border-[#0A192F]/06 flex flex-col md:flex-row justify-between items-center gap-6">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
-                    <div className="w-7 h-7 rounded-lg bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center">
-                      <Wifi size={12} className="text-[#FBBF24]" />
+                    <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
+                        <div className="w-7 h-7 rounded-lg bg-[#FBBF24]/10 border border-[#FBBF24]/20 flex items-center justify-center">
+                            <Wifi size={12} className="text-[#FBBF24]" />
+                        </div>
+                        <p className="text-[9px] md:text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.3em] text-center md:text-left">
+                            © {year} Sriram Broadband Services Pvt. Ltd. All Rights Reserved.
+                        </p>
+                        <a href="mailto:mjwebdesigns.in@gmail.com"
+                            className="mt-1 md:mt-0 text-[9px] md:text-[10px] font-black text-[#FBBF24] uppercase tracking-[0.3em] hover:text-[#FBBF24] transition-colors text-center md:text-left">
+                            Crafted by MJ Web Designs
+                        </a>
                     </div>
-                    <p className="text-[9px] md:text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.3em] text-center md:text-left">
-                      © {year} Sriram Broadband Services Pvt. Ltd. All Rights Reserved.
-                    </p>
-                    <a href="mailto:mjwebdesigns.in@gmail.com"
-                       className="mt-1 md:mt-0 text-[9px] md:text-[10px] font-black text-[#FBBF24] uppercase tracking-[0.3em] hover:text-[#FBBF24] transition-colors text-center md:text-left">
-                      Crafted by MJ Web Designs
-                    </a>
-                  </div>
-                  <div className="flex gap-8">
-                    {['Privacy', 'Terms', 'Cookies'].map((item) => (
-                      <Link
-                        key={item}
-                        href="#"
-                        className="text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.2em] hover:text-[#FBBF24] transition-colors">
-                        {item}
-                      </Link>
-                    ))}
-                  </div>
+                    <div className="flex gap-8">
+                        {[
+                            { label: 'Privacy', href: '/privacy' },
+                            { label: 'Terms', href: '/terms' },
+                            { label: 'Cookies', href: '/cookies' },
+                        ].map((item) => (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                className="text-[10px] font-black text-[#0A192F]/30 uppercase tracking-[0.2em] hover:text-[#FBBF24] transition-colors">
+                                {item.label}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         </footer>

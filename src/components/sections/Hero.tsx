@@ -105,7 +105,7 @@ export default function Hero() {
                                 className="font-black tracking-tighter leading-[0.9] uppercase flex items-center flex-wrap"
                                 style={{ fontSize: 'clamp(3.5rem, 8.5vw, 8.5rem)' }}
                             >
-                                <span className="text-white/70 mr-0 sm:mr-4">FIBER FOR</span> <WordCycle />
+                                <span className="text-white/70 mr-0 sm:mr-4">Fiber for</span> <WordCycle />
                             </motion.h1>
                         </div>
 

@@ -3,23 +3,23 @@ import React, { useState } from 'react';
 
 // Using direct reliable SVG/PNG urls to avoid ad-blocker or clearbit issues
 const partners = [
-    { name: "HPE Aruba", logo: "/images/partners/HPE aruba networking.png" },
+    { name: "HPE Aruba", logo: "/images/partners/hpe-aruba-networking.png" },
     { name: "Ubiquiti", logo: "/images/partners/u.png" },
     { name: "Cisco", logo: "/images/partners/cisco.png" },
     { name: "Equinix", logo: "/images/partners/equinix.png" },
-    { name: "ST Telemedia", logo: "/images/partners/st telemedia global data centres.png" },
+    { name: "ST Telemedia", logo: "/images/partners/st-telemedia.png" },
     { name: "Broadcom", logo: "/images/partners/broadcom.png" },
     { name: "Zscaler", logo: "/images/partners/zsaler.png" },
-    { name: "Microsoft 365", logo: "/images/partners/microsoft 365.png" },
-    { name: "Google Workspace", logo: "/images/partners/google workspace.png" },
+    { name: "Microsoft 365", logo: "/images/partners/microsoft-365.png" },
+    { name: "Google Workspace", logo: "/images/partners/google-workspace.png" },
     { name: "Observium", logo: "/images/partners/observium.png" },
     { name: "Cloudstack", logo: "/images/partners/cloudstack.png" },
-    { name: "Dell", logo: "/images/partners/DELL technologies.png" },
+    { name: "Dell", logo: "/images/partners/dell-technologies.png" },
     { name: "HPE", logo: "/images/partners/HPE.png" },
-    { name: "D-Link", logo: "/images/partners/d link .png" },
+    { name: "D-Link", logo: "/images/partners/d-link.png" },
     { name: "Fortinet", logo: "/images/partners/fortinet.png" },
     { name: "SonicWall", logo: "/images/partners/Sonicwall.png" },
-    { name: "Cloud Cube", logo: "/images/partners/cloud cube .png" }
+    { name: "Cloud Cube", logo: "/images/partners/cloud-cube.png" }
 ];
 
 const LogoCard = ({ partner }: { partner: { name: string, logo: string } }) => {

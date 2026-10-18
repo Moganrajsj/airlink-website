@@ -15,8 +15,8 @@ const SmartHomeBanner = () => {
     return (
         <section className="container mx-auto px-4 md:px-6 my-8 md:my-16">
             <div className="bg-[#0A192F] rounded-[1.5rem] md:rounded-[3rem] p-1 shadow-2xl overflow-hidden group hover:shadow-[#FBBF24]/10 transition-all duration-700">
-                {/* Mobile layout: horizontal rectangle */}
-                <div className="block md:hidden">
+                {/* Mobile layout — hidden from assistive tech (desktop version below is the primary) */}
+                <div className="block md:hidden" aria-hidden="true">
                     <div className="bg-white rounded-[1.2rem] overflow-hidden">
                         <div className="flex flex-row min-h-[230px]">
                             {/* Text side */}

@@ -19,6 +19,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.srirambroadband.com'),
   title: {
     default: "Airlink Broadband | High-Speed Fiber Internet Tamil Nadu",
     template: "%s | Airlink Broadband"
