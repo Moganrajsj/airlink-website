@@ -75,10 +75,13 @@ export async function POST(request: Request) {
             }
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Login API Error:", error);
         return NextResponse.json(
-            { error: "Internal server error" },
+            { 
+                error: error?.message || "Internal server error",
+                details: error?.code || error?.name || "Unknown error"
+            },
             { status: 500 }
         );
     }
