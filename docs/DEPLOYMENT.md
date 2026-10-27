@@ -104,12 +104,20 @@ The SQL file is UTF-8 **without BOM** and uses only `ADD COLUMN IF NOT EXISTS`
 ## 3. Build and deploy
 
 ```bash
-npm ci
+npm ci --include=dev
 npm run build
 ```
 
+> **`--include=dev` is not optional.** The cPanel Node.js App panel sets
+> `NODE_ENV=production`, and npm treats that as `--omit=dev`. Without the flag
+> `npm ci` installs ~115 packages instead of ~507, `tailwindcss` and `postcss`
+> are never installed, and `next build` fails with `Cannot find module
+> 'tailwindcss'`. `typescript`, `postcss`, `tailwindcss` and the Prisma CLI are
+> all devDependencies, so they are build-time requirements.
+
 `next.config.js` uses `output: "standalone"` and the app is started through
-Passenger with `node app.js` (`npm start`).
+Passenger with `node app.js` (`npm start`). The standalone folder is **not**
+used on this host — see §3.1.
 
 On cPanel:
 
@@ -119,7 +127,7 @@ On cPanel:
    versions.
 2. Add the environment variables from step 1.
 3. Get the source onto the server — see §3.1 for the Git flow.
-4. Run `npm ci && npm run build` from the cPanel terminal.
+4. Run `npm ci --include=dev && npm run build` from the cPanel terminal.
 5. Restart the application.
 
 ### 3.1 Pulling from GitHub (cPanel → Git™ Version Control)
@@ -152,6 +160,16 @@ Steps:
    *Application startup file* to `app.js`, and add an `LSN`/`.htaccess` restart.
 6. Terminal: `cd ~/airlink-app && npm ci && npm run build`, then **Restart** in
    the Node.js App panel.
+
+Step 5 above in full:
+
+```bash
+cd ~/<clone-dir>
+npm ci --include=dev   # NOT plain `npm ci` - see the note in §3
+npm run build
+```
+
+Then press **Restart** in the Node.js App panel.
 
 Notes specific to this repo:
 
@@ -248,6 +266,8 @@ continue and nothing breaks.
 | --- | --- |
 | `JWT_SECRET is not configured` | Missing env var in production (intentional fail-closed) |
 | `Database connection failed, using static fallbacks` during build | `.env.production` placeholder overriding `.env` — section 0 |
+| `Cannot find module 'tailwindcss'` during build | `npm ci` ran with `NODE_ENV=production` and skipped devDependencies — re-run `npm ci --include=dev` |
+| `"next start" does not work with "output: standalone"` warning | Expected/benign on this host. `app.js` calls `next({ dev: false })` and serves fine; the standalone folder is unused. Verified: `/` → 200, `/admin/*` → 307, `/api/cron/retention` → 401 |
 | Admin emails fail with a certificate name mismatch | Set `SMTP_TLS_SERVERNAME=prod.sin2.secureserver.net`; do **not** disable TLS verification |
 | AI features silent | Quota exhausted (`AiUsage`) or `AI_LEAD_SCORING_ENABLED=false`; heuristics still work |
 | `prisma generate` fails on Windows | Stop the dev server on port 3000 first |
