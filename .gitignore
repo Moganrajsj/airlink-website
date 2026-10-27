@@ -32,6 +32,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# the template is the one env file that SHOULD be committed
+!.env.example
+
+# one-off admin/credential scripts and debug output (never commit these)
+/admin-info.json
+/admin-users-in-user-table.json
+/reset-admin.js
+/check-admins.js
+/check-user-admins.js
+/export-admins.js
+/*.txt
 
 # vercel
 .vercel
