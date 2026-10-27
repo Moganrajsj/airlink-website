@@ -50,6 +50,14 @@ const nextConfig = {
         ],
       },
       {
+        // The login page is public but must never be indexed.
+        source: '/auth',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+          { key: 'Cache-Control', value: 'no-store' },
+        ],
+      },
+      {
         source: '/api/admin/:path*',
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex, nofollow' },

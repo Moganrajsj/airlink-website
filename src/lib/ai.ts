@@ -81,7 +81,13 @@ function buildHeaders(apiKey: string, baseUrl: string): Record<string, string> {
  */
 export async function streamChatCompletion(
     messages: AiMessage[],
-    options?: { temperature?: number; maxTokens?: number; signal?: AbortSignal }
+    options?: {
+        temperature?: number;
+        maxTokens?: number;
+        model?: string;
+        reasoningEffort?: "low" | "medium" | "high";
+        signal?: AbortSignal;
+    }
 ): Promise<Response> {
     const apiKey = getApiKey();
     if (!apiKey) {
@@ -90,16 +96,26 @@ export async function streamChatCompletion(
 
     const baseUrl = getBaseUrl();
     const headers = buildHeaders(apiKey, baseUrl);
+    const model = options?.model || getAiModel();
+
+    // Reasoning models (gpt-oss on Groq) spend part of the token budget on
+    // hidden reasoning. Without an explicit effort level they can burn the
+    // whole budget and return an empty `content`, which looks like a failure
+    // to the visitor. Only send the field to models that understand it.
+    const supportsReasoningEffort = /gpt-oss/i.test(model);
 
     return fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
         headers,
         body: JSON.stringify({
-            model: getAiModel(),
+            model,
             messages,
             temperature: options?.temperature ?? 0.4,
-            max_tokens: options?.maxTokens ?? 500,
+            max_tokens: options?.maxTokens ?? 800,
             stream: true,
+            ...(supportsReasoningEffort
+                ? { reasoning_effort: options?.reasoningEffort ?? "low" }
+                : {}),
         }),
         signal: options?.signal ?? AbortSignal.timeout(45_000),
     });
