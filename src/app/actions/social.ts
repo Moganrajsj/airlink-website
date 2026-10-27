@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdminAction } from "@/lib/auth/admin-session";
 
 export async function getSocialLinks() {
     try {
@@ -18,6 +19,7 @@ export async function getSocialLinks() {
 }
 
 export async function upsertSocialLink(data: { id?: string, platform: string, url: string, status?: boolean }) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         if (data.id) {
             await prisma.socialLink.update({
@@ -48,6 +50,7 @@ export async function upsertSocialLink(data: { id?: string, platform: string, ur
 }
 
 export async function deleteSocialLink(id: string) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         await prisma.socialLink.delete({
             where: { id }
@@ -62,6 +65,7 @@ export async function deleteSocialLink(id: string) {
 }
 
 export async function toggleSocialLinkStatus(id: string, currentStatus: boolean) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         await prisma.socialLink.update({
             where: { id },

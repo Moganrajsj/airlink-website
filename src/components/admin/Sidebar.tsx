@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
     LayoutDashboard, Wifi, MapPin,
-    Users, MessageSquare, Newspaper,
-    Settings, Image as ImageIcon, Sparkles,
-    LogOut, ChevronRight, BarChart3, Share2
+    MessageSquare, Newspaper, Settings, Image as ImageIcon, Sparkles,
+    LogOut, ChevronRight, BarChart3, Share2,
+    BrainCircuit, BookOpen
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -15,12 +15,14 @@ const Sidebar = () => {
 
     const menuItems = [
         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: "/admin" },
+        { icon: <BarChart3 size={20} />, label: "Leads", href: "/admin/leads" },
+        { icon: <BrainCircuit size={20} />, label: "Intelligence", href: "/admin/intelligence" },
         { icon: <Sparkles size={20} />, label: "Backgrounds", href: "/admin/backgrounds" },
         { icon: <Wifi size={20} />, label: "Broadband Plans", href: "/admin/plans" },
         { icon: <MapPin size={20} />, label: "Coverage Areas", href: "/admin/coverage" },
         { icon: <MessageSquare size={20} />, label: "Testimonials", href: "/admin/testimonials" },
         { icon: <Newspaper size={20} />, label: "Blog Posts", href: "/admin/blogs" },
-        { icon: <BarChart3 size={20} />, label: "Leads", href: "/admin/leads" },
+        { icon: <BookOpen size={20} />, label: "Assistant Knowledge", href: "/admin/knowledge" },
         { icon: <ImageIcon size={20} />, label: "Media Library", href: "/admin/media" },
         { icon: <ImageIcon size={20} />, label: "Banners", href: "/admin/banners" },
         { icon: <Share2 size={20} />, label: "Social Media", href: "/admin/social" },

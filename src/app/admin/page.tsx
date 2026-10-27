@@ -1,6 +1,8 @@
 import React from 'react';
+import type { Lead } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import DashboardView from '@/components/admin/DashboardView';
+import { getLeadAiStats, type LeadAiStats } from '@/lib/lead-intelligence';
 
 // Force dynamic ensures we always get the latest data from the DB
 export const dynamic = 'force-dynamic';
@@ -24,6 +26,25 @@ export default async function AdminDashboard() {
         take: 5
     });
 
+    // AI lead intelligence: free heuristics + optional free-model enrichment.
+    let aiStats: LeadAiStats | null = null;
+    let hotLeads: Lead[] = [];
+    try {
+        [aiStats, hotLeads] = await Promise.all([
+            getLeadAiStats(),
+            prisma.lead.findMany({
+                where: {
+                    aiTier: 'hot',
+                    status: { notIn: ['converted', 'closed'] },
+                },
+                orderBy: [{ aiScore: 'desc' }, { createdAt: 'desc' }],
+                take: 5,
+            }),
+        ]);
+    } catch (error) {
+        console.warn('Dashboard: AI lead intelligence unavailable:', error);
+    }
+
     // Stats for the view
     const stats = {
         totalLeads: totalLeads.toString(),
@@ -33,6 +54,12 @@ export default async function AdminDashboard() {
     };
 
     return (
-        <DashboardView leads={leads} stats={stats} activeAssets={activeAssets} />
+        <DashboardView
+            leads={leads}
+            stats={stats}
+            activeAssets={activeAssets}
+            aiStats={aiStats}
+            hotLeads={hotLeads}
+        />
     );
 }

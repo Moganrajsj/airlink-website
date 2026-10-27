@@ -1,14 +1,63 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
-    Users, BarChart3, TrendingUp, Sparkles,
-    ArrowUpRight, ArrowDownRight, UserPlus, Calendar,
-    ChevronRight, CheckCircle2, AlertCircle, Clock, MapPin
+    Users, BarChart3, Sparkles,
+    ArrowUpRight, ArrowDownRight, Calendar,
+    MapPin, Flame, Phone, Loader2, Brain
 } from 'lucide-react';
+import { scoreUnscoredLeads } from '@/app/actions/lead-ai';
 
-const StatCard = ({ icon, label, value, trend, isUp, color }: any) => {
+interface AiStats {
+    requestsToday: number;
+    dailyLimit: number;
+    remaining: number;
+    hotCount: number;
+    unscoredCount: number;
+    avgScore: number | null;
+    scoringEnabled: boolean;
+    aiConfigured: boolean;
+}
+
+interface DashboardLead {
+    id?: string;
+    name: string;
+    phone?: string | null;
+    mobile?: string | null;
+    email?: string | null;
+    city?: string | null;
+    interest?: string | null;
+    status?: string | null;
+    aiScore?: number | null;
+    aiSummary?: string | null;
+    aiNextAction?: string | null;
+}
+
+interface DashboardAsset {
+    sectionName: string;
+    animationType: string;
+}
+
+interface DashboardStats {
+    totalLeads: string;
+    totalPlans: string;
+    totalCoverage: string;
+    activeBanners: string;
+}
+
+interface StatCardProps {
+    icon: React.ReactNode;
+    label: string;
+    value: string;
+    trend?: string;
+    isUp?: boolean;
+    color: string;
+}
+
+const StatCard = ({ icon, label, value, trend, isUp, color }: StatCardProps) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -37,13 +86,66 @@ const StatCard = ({ icon, label, value, trend, isUp, color }: any) => {
     );
 };
 
-export default function DashboardView({ leads, stats: serverStats, activeAssets = [] }: { leads: any[], stats: any, activeAssets?: any[] }) {
+function ScoreChip({ score }: { score?: number | null }) {
+    if (typeof score !== 'number') return null;
+    const style = score >= 70
+        ? 'bg-red-500/10 text-red-600'
+        : score >= 40
+            ? 'bg-amber-500/10 text-amber-600'
+            : 'bg-slate-500/10 text-slate-500';
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black tabular-nums ${style}`}>
+            {score >= 70 && <Flame size={10} />}
+            {score}
+        </span>
+    );
+}
+
+export default function DashboardView({
+    leads,
+    stats: serverStats,
+    activeAssets = [],
+    aiStats = null,
+    hotLeads = [],
+}: {
+    leads: DashboardLead[],
+    stats: DashboardStats,
+    activeAssets?: DashboardAsset[],
+    aiStats?: AiStats | null,
+    hotLeads?: DashboardLead[],
+}) {
+    const router = useRouter();
+    const [busy, setBusy] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
+
     const stats = [
         { icon: <BarChart3 size={24} />, label: "Total Leads", value: serverStats.totalLeads, trend: "Capture", isUp: true, color: "text-[#FBBF24]" },
         { icon: <Users size={24} />, label: "Broadband Plans", value: serverStats.totalPlans, trend: "Active", isUp: true, color: "text-blue-500" },
         { icon: <MapPin size={24} />, label: "Coverage Areas", value: serverStats.totalCoverage, trend: "Zones", isUp: true, color: "text-green-500" },
         { icon: <Sparkles size={24} />, label: "Active Banners", value: serverStats.activeBanners, trend: "Live", isUp: true, color: "text-purple-500" },
     ];
+
+    const handleScoreBacklog = async () => {
+        setBusy(true);
+        setMessage(null);
+        try {
+            const result = await scoreUnscoredLeads(5);
+            if (result.ok) {
+                setMessage(
+                    result.scored > 0
+                        ? `Scored ${result.scored} lead${result.scored === 1 ? '' : 's'}${result.stoppedByQuota ? ' — daily AI quota reached, rules only' : ''}${result.remaining > 0 ? ` · ${result.remaining} pending` : ''}`
+                        : 'No leads waiting to be scored.'
+                );
+                router.refresh();
+            } else {
+                setMessage(result.error);
+            }
+        } catch {
+            setMessage('Could not score the backlog.');
+        } finally {
+            setBusy(false);
+        }
+    };
 
     return (
         <div className="space-y-10">
@@ -61,6 +163,42 @@ export default function DashboardView({ leads, stats: serverStats, activeAssets 
                 </div>
             </div>
 
+            {/* AI lead intelligence status */}
+            {aiStats && (
+                <div className="bg-white rounded-3xl border border-[#0A192F]/10 shadow-[0_8px_32px_rgba(10,25,47,0.04)] px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-2xl bg-[#FBBF24]/15 text-[#FBBF24] flex items-center justify-center shrink-0">
+                            <Brain size={20} />
+                        </div>
+                        <div>
+                            <p className="text-sm font-black text-[#0A192F] flex items-center gap-2">
+                                AI lead intelligence
+                                <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${aiStats.aiConfigured && aiStats.scoringEnabled ? 'bg-green-500/10 text-green-600' : 'bg-amber-500/10 text-amber-600'}`}>
+                                    {aiStats.aiConfigured && aiStats.scoringEnabled ? 'Active' : 'Rules only'}
+                                </span>
+                            </p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#0A192F]/40 mt-0.5">
+                                {aiStats.hotCount} hot · {aiStats.unscoredCount} unscored · {aiStats.requestsToday}/{aiStats.dailyLimit} free AI calls today
+                                {aiStats.avgScore !== null ? ` · avg score ${aiStats.avgScore}` : ''}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        {message && (
+                            <span className="text-[11px] font-bold text-[#0A192F]/50">{message}</span>
+                        )}
+                        <button
+                            onClick={handleScoreBacklog}
+                            disabled={busy}
+                            className="inline-flex items-center gap-2 bg-[#0A192F] hover:bg-[#0A192F]/90 disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all"
+                        >
+                            {busy ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} className="text-[#FBBF24]" />}
+                            Score new leads
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {stats.map((stat, idx) => (
@@ -76,6 +214,9 @@ export default function DashboardView({ leads, stats: serverStats, activeAssets 
                             <h3 className="text-2xl font-black text-[#0A192F] tracking-tighter mb-1">Recent Leads</h3>
                             <p className="text-[#0A192F]/40 text-xs font-bold uppercase tracking-widest">Captured from Contact & Availability forms</p>
                         </div>
+                        <Link href="/admin/leads" className="text-[10px] font-black uppercase tracking-widest text-[#0A192F]/40 hover:text-[#0A192F] transition-colors">
+                            View all
+                        </Link>
                     </div>
 
                     <div className="overflow-x-auto">
@@ -85,7 +226,7 @@ export default function DashboardView({ leads, stats: serverStats, activeAssets 
                                     <th className="text-left py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A192F]/30">Customer</th>
                                     <th className="text-left py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A192F]/30">Location</th>
                                     <th className="text-left py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A192F]/30">Status</th>
-                                    <th className="text-right py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A192F]/30">Actions</th>
+                                    <th className="text-right py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#0A192F]/30">AI</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#0A192F]/02 mt-4">
@@ -108,14 +249,12 @@ export default function DashboardView({ leads, stats: serverStats, activeAssets 
                                             </td>
                                             <td className="py-6">
                                                 <div className="flex items-center gap-1.5">
-                                                    <div className={`w-2 h-2 rounded-full ${lead.status === 'New' ? 'bg-[#FBBF24]' : 'bg-blue-500'} animate-pulse`} />
+                                                    <div className={`w-2 h-2 rounded-full ${lead.status === 'new' ? 'bg-[#FBBF24]' : 'bg-blue-500'} animate-pulse`} />
                                                     <span className="text-[11px] font-black leading-none text-[#0A192F]/60 uppercase">{lead.status}</span>
                                                 </div>
                                             </td>
                                             <td className="py-6 text-right">
-                                                <button className="w-9 h-9 bg-[#F7F8FA] rounded-xl flex items-center justify-center text-[#0A192F]/20 hover:text-[#0A192F] hover:bg-[#FBBF24] transition-all">
-                                                    <ChevronRight size={18} />
-                                                </button>
+                                                <ScoreChip score={lead.aiScore} />
                                             </td>
                                         </tr>
                                     ))
@@ -126,6 +265,50 @@ export default function DashboardView({ leads, stats: serverStats, activeAssets 
                 </div>
 
                 <div className="space-y-10">
+                    {/* Hot leads */}
+                    <div className="bg-[#0A192F] rounded-[2.5rem] p-8 text-white shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-[#FBBF24]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                        <div className="flex items-center justify-between mb-6 relative z-10">
+                            <h3 className="text-xl font-black text-white tracking-tighter flex items-center gap-2.5">
+                                <Flame size={20} className="text-red-400" />
+                                Hot Leads
+                            </h3>
+                            <Link href="/admin/leads" className="text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#FBBF24] transition-colors">
+                                View all
+                            </Link>
+                        </div>
+                        <div className="space-y-3 relative z-10">
+                            {hotLeads.length === 0 ? (
+                                <p className="text-white/40 text-xs font-bold text-center py-4 italic uppercase tracking-widest">No hot leads right now</p>
+                            ) : hotLeads.map((lead) => (
+                                <div key={lead.id} className="p-4 bg-white/5 border border-white/10 rounded-2xl">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                            <p className="text-sm font-black text-white truncate">{lead.name}</p>
+                                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest truncate">
+                                                {lead.city} · {lead.interest || 'Broadband'}
+                                            </p>
+                                        </div>
+                                        <span className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-500/20 text-red-300 text-[11px] font-black tabular-nums">
+                                            <Flame size={10} /> {lead.aiScore}
+                                        </span>
+                                    </div>
+                                    {(lead.aiNextAction || lead.aiSummary) && (
+                                        <p className="mt-2 text-[11px] text-white/60 leading-snug line-clamp-2">
+                                            {lead.aiNextAction || lead.aiSummary}
+                                        </p>
+                                    )}
+                                    <a
+                                        href={`tel:+91${String(lead.mobile || lead.phone || '').replace(/\D/g, '').slice(-10)}`}
+                                        className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[#FBBF24] hover:text-white transition-colors"
+                                    >
+                                        <Phone size={11} /> Call now
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="bg-[#0A192F] rounded-[2.5rem] p-10 text-white shadow-xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-48 h-48 bg-[#FBBF24]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                         <h3 className="text-xl font-black text-white tracking-tighter mb-8 relative z-10 flex items-center gap-2.5">

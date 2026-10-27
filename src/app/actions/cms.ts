@@ -3,6 +3,9 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { packages, toPrismaPlan } from "@/data/packages";
+import { requireAdminAction } from "@/lib/auth/admin-session";
+
+const NOT_AUTHORISED = { success: false as const, error: "Not authorised." };
 
 // ─── PLAN ACTIONS ─────────────────────────────────────────────────────────────
 
@@ -37,6 +40,7 @@ export async function createPlan(data: {
     title: string; speed: number; price: number;
     features: string; tag?: string | null; isBusiness: boolean; status: boolean;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.plan.create({ data });
     revalidatePath("/plans");
     revalidatePath("/admin/plans");
@@ -47,6 +51,7 @@ export async function updatePlan(id: string, data: {
     title?: string; speed?: number; price?: number;
     features?: string; tag?: string | null; isBusiness?: boolean; status?: boolean;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.plan.update({ where: { id }, data });
     revalidatePath("/plans");
     revalidatePath("/admin/plans");
@@ -54,6 +59,7 @@ export async function updatePlan(id: string, data: {
 }
 
 export async function deletePlan(id: string) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.plan.delete({ where: { id } });
     revalidatePath("/plans");
     revalidatePath("/admin/plans");
@@ -67,18 +73,21 @@ export async function getCoverageAreas() {
 }
 
 export async function createCoverage(data: { cityName: string; status: string }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.coverage.create({ data: { ...data, leadsCount: 0 } });
     revalidatePath("/admin/coverage");
     return { success: true };
 }
 
 export async function updateCoverage(id: string, data: { cityName?: string; status?: string }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.coverage.update({ where: { id }, data });
     revalidatePath("/admin/coverage");
     return { success: true };
 }
 
 export async function deleteCoverage(id: string) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.coverage.delete({ where: { id } });
     revalidatePath("/admin/coverage");
     return { success: true };
@@ -102,6 +111,7 @@ export async function createTestimonial(data: {
     name: string; role?: string; content: string; rating: number; isActive: boolean;
     person?: string; city?: string; tag?: string; metric?: string; color?: string;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     try {
         await prisma.testimonial.create({ data });
         revalidatePath("/admin/testimonials");
@@ -117,6 +127,7 @@ export async function updateTestimonial(id: string, data: {
     name?: string; role?: string | null; content?: string; rating?: number; isActive?: boolean;
     person?: string; city?: string; tag?: string | null; metric?: string | null; color?: string;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     try {
         await prisma.testimonial.update({ where: { id }, data });
         revalidatePath("/admin/testimonials");
@@ -129,6 +140,7 @@ export async function updateTestimonial(id: string, data: {
 }
 
 export async function deleteTestimonial(id: string) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     try {
         await prisma.testimonial.delete({ where: { id } });
         revalidatePath("/admin/testimonials");
@@ -158,6 +170,7 @@ export async function createBlog(data: {
     title: string; slug: string; excerpt: string;
     content: string; image?: string; published: boolean;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
     await prisma.blog.create({ data: { ...data, slug } });
     revalidatePath("/admin/blogs");
@@ -169,6 +182,7 @@ export async function updateBlog(id: string, data: {
     title?: string; slug?: string; excerpt?: string;
     content?: string; image?: string; published?: boolean;
 }) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.blog.update({ where: { id }, data });
     revalidatePath("/admin/blogs");
     revalidatePath("/blog");
@@ -176,6 +190,7 @@ export async function updateBlog(id: string, data: {
 }
 
 export async function deleteBlog(id: string) {
+    if (!(await requireAdminAction("admin"))) return NOT_AUTHORISED;
     await prisma.blog.delete({ where: { id } });
     revalidatePath("/admin/blogs");
     revalidatePath("/blog");

@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdminAction } from "@/lib/auth/admin-session";
 
 // Type definition for creating/updating a banner
 export type BannerInput = {
@@ -19,6 +20,9 @@ export type BannerInput = {
  * Fetch all banners
  */
 export async function getBanners() {
+    if (!(await requireAdminAction("viewer"))) {
+        return { success: false, error: "Not authorised." };
+    }
     try {
         const banners = await prisma.banner.findMany({
             orderBy: { createdAt: "desc" },
@@ -53,6 +57,9 @@ export async function getActiveBannersByType(type: "hero" | "promo" | "announcem
  * Create a new banner
  */
 export async function createBanner(data: BannerInput) {
+    if (!(await requireAdminAction("admin"))) {
+        return { success: false, error: "Not authorised." };
+    }
     try {
         const banner = await prisma.banner.create({
             data,
@@ -70,6 +77,9 @@ export async function createBanner(data: BannerInput) {
  * Update an existing banner
  */
 export async function updateBanner(id: string, data: Partial<BannerInput>) {
+    if (!(await requireAdminAction("admin"))) {
+        return { success: false, error: "Not authorised." };
+    }
     try {
         const banner = await prisma.banner.update({
             where: { id },
@@ -88,6 +98,9 @@ export async function updateBanner(id: string, data: Partial<BannerInput>) {
  * Delete a banner
  */
 export async function deleteBanner(id: string) {
+    if (!(await requireAdminAction("admin"))) {
+        return { success: false, error: "Not authorised." };
+    }
     try {
         await prisma.banner.delete({
             where: { id },
@@ -105,6 +118,9 @@ export async function deleteBanner(id: string) {
  * Toggle banner status (Active/Inactive)
  */
 export async function toggleBannerStatus(id: string, currentStatus: boolean) {
+    if (!(await requireAdminAction("admin"))) {
+        return { success: false, error: "Not authorised." };
+    }
     try {
         const banner = await prisma.banner.update({
             where: { id },

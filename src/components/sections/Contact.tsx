@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import styles from './Contact.module.css';
 import { createLead } from '@/app/actions/leads';
+import { getLeadFormToken } from '@/app/actions/lead-token';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -12,28 +13,40 @@ const Contact = () => {
         email: '',
         phone: '',
         message: '',
-        city: 'Not Specified' // Default
+        city: ''
     });
 
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [honeypot, setHoneypot] = useState('');
+    const [formToken, setFormToken] = useState('');
+
+    React.useEffect(() => {
+        getLeadFormToken().then(setFormToken).catch(() => {});
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('submitting');
+        setErrorMessage('');
 
         const result = await createLead({
             name: formData.name,
-            email: formData.email,
+            email: formData.email || undefined,
             mobile: formData.phone,
             message: formData.message,
-            city: formData.city
+            city: formData.city || undefined,
+            source: 'contact_form',
+            honeypot,
+            formToken,
         });
 
         if (result.success) {
             setStatus('success');
-            setFormData({ name: '', email: '', phone: '', message: '', city: 'Not Specified' });
+            setFormData({ name: '', email: '', phone: '', message: '', city: '' });
         } else {
             setStatus('error');
+            setErrorMessage(result.error);
         }
     };
 
@@ -111,6 +124,18 @@ const Contact = () => {
                             </div>
                         ) : (
                             <form className={styles.form} onSubmit={handleSubmit}>
+                                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                                    <label htmlFor="contact-company-website">Company website</label>
+                                    <input
+                                        id="contact-company-website"
+                                        type="text"
+                                        name="company_website"
+                                        tabIndex={-1}
+                                        autoComplete="off"
+                                        value={honeypot}
+                                        onChange={(e) => setHoneypot(e.target.value)}
+                                    />
+                                </div>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Full Name</label>
                                     <input
@@ -146,6 +171,16 @@ const Contact = () => {
                                     </div>
                                 </div>
                                 <div className={styles.formGroup}>
+                                    <label className={styles.label}>Area / PIN Code (Optional)</label>
+                                    <input
+                                        type="text"
+                                        className={styles.input}
+                                        placeholder="Dharmapuri or 636701"
+                                        value={formData.city}
+                                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
                                     <label className={styles.label}>Message</label>
                                     <textarea
                                         className={styles.textarea}
@@ -164,7 +199,9 @@ const Contact = () => {
                                     <Send size={18} />
                                 </button>
                                 {status === 'error' && (
-                                    <p className="text-red-500 text-sm font-bold mt-2">Failed to send message. Please try again.</p>
+                                    <p className="text-red-500 text-sm font-bold mt-2">
+                                        {errorMessage || 'Failed to send message. Please try again.'}
+                                    </p>
                                 )}
                             </form>
                         )}

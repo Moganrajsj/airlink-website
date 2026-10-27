@@ -2,26 +2,38 @@ import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
 import { existsSync } from 'fs'
+import { guardApi } from '@/lib/auth/api-guard'
+
+const ALLOWED_TYPES: Record<string, string> = {
+    'image/jpeg': 'jpg',
+    'image/jpg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif',
+    'image/webp': 'webp',
+}
 
 export async function POST(req: NextRequest) {
+    const denied = await guardApi('admin')
+    if (denied) return denied
+
     try {
         const formData = await req.formData()
-        const file = formData.get('file') as File
+        const file = formData.get('file') as File | null
 
         if (!file) {
             return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 })
         }
 
-        // Validate file type
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-        if (!allowedTypes.includes(file.type)) {
+        // Extension is derived from the declared MIME type, never from the
+        // client-supplied filename, so an "image.php" cannot be stored.
+        const ext = ALLOWED_TYPES[file.type]
+        if (!ext) {
             return NextResponse.json(
                 { success: false, error: 'Only image files are allowed (jpg, png, gif, webp)' },
                 { status: 400 }
             )
         }
 
-        // Validate file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
             return NextResponse.json(
                 { success: false, error: 'File size must be less than 5MB' },
@@ -29,25 +41,18 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // Generate unique filename
-        const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
         const filename = `banner-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-        // Ensure upload directory exists
         const uploadDir = path.join(process.cwd(), 'public', 'images', 'banners')
         if (!existsSync(uploadDir)) {
             await mkdir(uploadDir, { recursive: true })
         }
 
-        // Write file to disk
         const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        await writeFile(path.join(uploadDir, filename), buffer)
+        await writeFile(path.join(uploadDir, filename), Buffer.from(bytes))
 
-        const imageUrl = `/images/banners/${filename}`
-        return NextResponse.json({ success: true, imageUrl })
-    } catch (error) {
-        console.error('Error uploading image:', error)
+        return NextResponse.json({ success: true, imageUrl: `/images/banners/${filename}` })
+    } catch {
         return NextResponse.json({ success: false, error: 'Failed to upload image' }, { status: 500 })
     }
 }

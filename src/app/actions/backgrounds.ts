@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdminAction } from "@/lib/auth/admin-session";
 
 export type BackgroundAssetInput = {
     sectionName: string;
@@ -25,6 +26,7 @@ export async function getBackgroundAssets() {
 }
 
 export async function createBackgroundAsset(data: BackgroundAssetInput) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         const asset = await prisma.backgroundAsset.create({ data });
         revalidatePath("/admin/backgrounds");
@@ -36,6 +38,7 @@ export async function createBackgroundAsset(data: BackgroundAssetInput) {
 }
 
 export async function updateBackgroundAsset(id: string, data: Partial<BackgroundAssetInput>) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         const asset = await prisma.backgroundAsset.update({
             where: { id },
@@ -50,6 +53,7 @@ export async function updateBackgroundAsset(id: string, data: Partial<Background
 }
 
 export async function deleteBackgroundAsset(id: string) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         await prisma.backgroundAsset.delete({ where: { id } });
         revalidatePath("/admin/backgrounds");
@@ -61,6 +65,7 @@ export async function deleteBackgroundAsset(id: string) {
 }
 
 export async function toggleBackgroundAssetStatus(id: string, currentStatus: boolean) {
+    if (!(await requireAdminAction("admin"))) return { success: false, error: "Not authorised." };
     try {
         const asset = await prisma.backgroundAsset.update({
             where: { id },

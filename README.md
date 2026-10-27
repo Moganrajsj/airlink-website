@@ -258,6 +258,82 @@ const body = encodeURIComponent('Company details...');
 window.open(`mailto:contact@airlink.com?subject=${subject}&body=${body}`);
 ```
 
+## 🤖 **AI Sales Assistant**
+
+The public site ships with "Airlink AI", a grounded sales assistant that recommends plans, explains OTT benefits and checks coverage, then hands buying-intent visitors to your team.
+
+- **Grounded answers** - the model may only use active plans and coverage from the database (with the static catalogue as fallback), so prices and speeds stay accurate.
+- **Lead capture** - the "Talk to an expert" form writes to the existing `Lead` table with `source: "ai_assistant"`, transcript attached, and triggers the usual email notification.
+- **Streaming replies** - token-by-token responses with quick-start suggestions.
+- **Bilingual** - replies in English, Tamil or Tanglish based on the visitor's language.
+- **Guarded** - 25 messages per IP per 10 minutes, input validation, and no collection of Aadhaar, card or banking details.
+- **Graceful fallback** - if no API key is set, the widget offers WhatsApp and phone instead of failing.
+
+### **Setup**
+
+1. Add the AI variables to `.env` (see `.env.example`):
+
+```bash
+# Groq (recommended — create a key at https://console.groq.com/keys)
+AI_API_KEY=gsk_...
+AI_BASE_URL=https://api.groq.com/openai/v1
+AI_MODEL=openai/gpt-oss-20b
+
+# Stronger reasoning:  AI_MODEL=openai/gpt-oss-120b
+# Multilingual/Tamil:  AI_MODEL=qwen/qwen3.8-27b
+#
+# ...or OpenRouter
+# AI_BASE_URL=https://openrouter.ai/api/v1
+# AI_MODEL=openai/gpt-4o-mini
+```
+
+`GROQ_API_KEY` is also accepted as an alias for `AI_API_KEY`. Use `.env.local` for local development and your host's environment panel for production, then restart the server.
+
+2. The assistant appears on all public pages (not on `/admin`, `/auth` or `/portal`).
+
+### **Key files**
+
+- `src/components/ai/AiAssistant.tsx` - chat widget and callback form
+- `src/app/api/ai/assistant/route.ts` - streaming endpoint, validation, rate limiting
+- `src/lib/ai.ts` - provider-agnostic OpenAI-compatible client
+- `src/lib/ai-knowledge.ts` - builds the grounded system prompt from plans and coverage
+
+### **AI lead intelligence (admin)**
+Every new lead is scored 0-100 and shown in `/admin/leads` and on the dashboard.
+
+- **Rules first, always free:** `src/lib/lead-scoring.ts` scores contactability, coverage
+  status, interest, source, message strength, freshness, duplicates and spam signals.
+  It records the reasons for every point, so admins can see why a lead scored 82.
+- **Optional free-model summary:** `src/lib/ai-leads.ts` asks a free Groq model for a
+  one-line summary, intent, recommended plan and next action. Phone numbers and emails
+  are never sent. If the model is rate-limited or the daily quota is gone, the lead keeps
+  its rule-based score and is retried later (`aiStatus = heuristic`).
+- **One admin email per lead:** sent after the response (`after()`), so the public form
+  stays instant. Hot leads (70+) get an urgent subject, the AI summary, a call button and
+  a deep link into the admin panel. Recipients come from `LEAD_NOTIFY_EMAILS`, then
+  `MAIL_TO`.
+- **Quota guard:** `src/lib/ai-usage.ts` stores a daily counter in the `AiUsage` table, so
+  restarts and multiple Passenger processes share the same free-tier budget.
+
+Relevant env vars (see `.env.example`):
+
+```bash
+AI_LEAD_SCORING_ENABLED=true
+AI_MODEL_FALLBACKS=openai/gpt-oss-120b,qwen/qwen3.8-27b
+AI_SCORE_DAILY_LIMIT=150
+AI_ENRICH_MIN_SCORE=40
+LEAD_NOTIFY_EMAILS=
+```
+
+If delivery fails with `Hostname/IP does not match certificate's altnames` (common on
+GoDaddy/cPanel mail), set `SMTP_TLS_SERVERNAME` to the name printed in the certificate
+(for example `prod.sin2.secureserver.net`). This keeps TLS verification enabled; never
+fix this by setting `rejectUnauthorized: false`.
+
+In `/admin/leads` you can filter by score tier, sort by score, expand a lead for the AI
+detail and press **Re-score with AI**. **Score new leads** backfills the backlog in small
+batches using the same daily quota.
+
 ## 📈 **Future Enhancements**
 
 - [ ] Real backend API integration
@@ -276,6 +352,44 @@ window.open(`mailto:contact@airlink.com?subject=${subject}&body=${body}`);
 - [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
 - [GSAP Documentation](https://greensock.com/docs/)
 - [Framer Motion](https://www.framer.com/motion/)
+
+---
+
+## Lead pipeline, AI assistant and admin intelligence
+
+The site includes a hardened lead pipeline and an admin intelligence panel built
+on the existing `Lead` table (no parallel database).
+
+- Public forms validate on the server, normalise `+91` phone numbers, flag
+  (never reject) suspicious names, detect duplicates, and record bot-risk
+  signals. Suspicious leads are stored for review; nothing is silently deleted.
+- Every lead gets a deterministic, explainable quality score plus a separate
+  spam-risk score. A free Groq model adds a summary and next action when the
+  daily quota allows it, in observation mode only.
+- `/admin/intelligence` shows real database metrics, a review workflow, duplicate
+  management and business questions answered from live queries.
+- `/admin/knowledge` lets admins edit the assistant's approved answers without
+  a code change.
+
+### Documentation
+
+| Document | Contents |
+| --- | --- |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Request flow, modules, scoring, data model, retention |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Env vars, GoDaddy/cPanel steps, cron, smoke test, rollback |
+| [`docs/SECURITY.md`](docs/SECURITY.md) | Threat model, authz matrix, PII handling, residual risks |
+| [`docs/TEST-REPORT.md`](docs/TEST-REPORT.md) | Unit/integration results, live smoke test, gaps |
+
+### Tests
+
+```bash
+npm test                   # unit tests
+npm run test:integration   # real-database intake tests (see docs/TEST-REPORT.md)
+```
+
+> The demo credentials listed earlier in this file belong to the legacy customer
+> portal seed data. They must not be used for the admin panel, and should be
+> removed from any production deployment.
 
 ## 📄 **License**
 

@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="mb-12">
           <span className="text-[#FBBF24] font-black text-xs tracking-[0.3em] uppercase mb-4 block">Legal</span>
           <h1 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tight mb-4">Privacy Policy</h1>
-          <p className="text-[#0A192F]/50 text-sm font-medium">Last updated: 18 October 2026 · Sri Ram Broadband Services Pvt. Ltd. | Airlink Broadband</p>
+          <p className="text-[#0A192F]/50 text-sm font-medium">Last updated: 27 October 2026 · Sri Ram Broadband Services Pvt. Ltd. | Airlink Broadband</p>
         </div>
 
         <div className="bg-white rounded-[2rem] border border-[#E5E7EB] p-8 md:p-12 space-y-8 text-[#0A192F]/70 leading-relaxed">
@@ -54,7 +54,23 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">3. Leads from Facebook and Instagram</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">3. Automated Checks and AI Assistance</h2>
+            <p className="mb-3">
+              When you submit an enquiry, our systems automatically check it for obvious errors, repeated submissions and automated abuse. These checks help us reply to genuine enquiries faster and keep junk out of our sales queue. A failed check does not delete your enquiry: anything uncertain is kept and reviewed by a person.
+            </p>
+            <p className="mb-3">
+              We also use a rules-based score and, where available, an AI language model to draft a short internal summary of the enquiry and suggest the next action for our staff. The AI assists our team; it does not decide whether you get service, and it does not contact you on its own.
+            </p>
+            <p className="mb-3">
+              To produce that summary, the details you typed &mdash; such as your name, company, locality, PIN code, service interest, message and the form you used &mdash; may be sent to our AI model provider for processing under its API terms. We do not send your mobile number or email address to the AI provider, and we do not use the AI to make automated decisions that have a legal or similarly significant effect on you.
+            </p>
+            <p>
+              If you would prefer that your enquiry is handled without AI assistance, tell us using the contact details below and our team will review it manually.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">4. Leads from Facebook and Instagram</h2>
             <p className="mb-3">
               If you submit a lead form on Facebook or Instagram, the information you enter may be shared with us by Meta so that we can respond to your enquiry. Meta also processes information under its own privacy terms. Please review Meta&rsquo;s privacy policy on its official website.
             </p>
@@ -64,7 +80,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">4. When We Share Information</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">5. When We Share Information</h2>
             <p className="mb-3">We may share relevant information only when reasonably needed with:</p>
             <ul className="list-disc list-inside space-y-2 ml-2">
               <li>Our authorised staff and service personnel handling your enquiry or connection.</li>
@@ -75,56 +91,59 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">5. Cookies and Website Analytics</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">6. Cookies and Website Analytics</h2>
             <p>
               Our website or third-party tools may use cookies or similar technologies to support website functions, understand usage, or measure advertising performance. The technologies actually used may depend on the website configuration. You can manage cookies through your browser settings. If advertising pixels or analytics tools are enabled, their providers may process technical or usage data under their own policies.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">6. How Long We Keep Information</h2>
-            <p>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">7. How Long We Keep Information</h2>
+            <p className="mb-3">
               We keep personal information only for as long as reasonably necessary to respond to enquiries, provide services, maintain business records, resolve disputes, meet legal obligations, and protect our legitimate interests. Retention periods may vary depending on the type of record and whether you become a customer.
+            </p>
+            <p>
+              Technical abuse signals linked to an enquiry &mdash; such as a hashed IP address and a hashed browser identifier, which cannot be read back as your actual address or device details &mdash; are removed automatically 90 days after the enquiry is received. Security and rate-limit logs are kept for up to 180 days and then deleted. Enquiry records themselves are not deleted automatically; our team reviews them periodically and removes records that are no longer needed.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">7. Security</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">8. Security</h2>
             <p>
               We take reasonable steps intended to protect personal information from unauthorised access, loss, misuse, or disclosure. However, no website, email, or online transmission can be guaranteed to be completely secure.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">8. Your Choices and Requests</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">9. Your Choices and Requests</h2>
             <p>
               You may contact us to request access to, correction of, or deletion of personal information you have provided, or to ask us to stop contacting you about marketing. We may need to retain some information where required by law or for legitimate business records. We will review and respond to requests as required by applicable law.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">9. Children&rsquo;s Privacy</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">10. Children&rsquo;s Privacy</h2>
             <p>
               Our broadband enquiry services are intended for adults. Please do not submit a child&rsquo;s personal information through our enquiry forms. If you believe a child has provided personal information to us, contact us so we can review the matter.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">10. Third-Party Websites and Services</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">11. Third-Party Websites and Services</h2>
             <p>
               Our website or communications may refer to third-party websites or services. Their privacy practices are governed by their own policies, and we are not responsible for their independent practices.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">11. Changes to This Policy</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">12. Changes to This Policy</h2>
             <p>
               We may update this Privacy Policy from time to time. The revised version will be posted on this page with an updated &ldquo;Last updated&rdquo; date.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-black text-[#0A192F] mb-3">12. Contact Us</h2>
+            <h2 className="text-lg font-black text-[#0A192F] mb-3">13. Contact Us</h2>
             <p className="mb-3">
               For privacy questions or requests, contact:
             </p>

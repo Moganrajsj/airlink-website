@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Search, ArrowRight, CheckCircle2, Phone, User } from 'lucide-react';
 import { createLead } from '@/app/actions/leads';
+import { checkCoverage, getLeadFormToken } from '@/app/actions/lead-token';
 
 const Coverage = () => {
     const [step, setStep] = useState<'search' | 'info' | 'success'>('search');
@@ -11,30 +12,51 @@ const Coverage = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [coverageNote, setCoverageNote] = useState('');
+    const [honeypot, setHoneypot] = useState('');
+    const [formToken, setFormToken] = useState('');
 
-    const handleSearch = (e: React.FormEvent) => {
+    React.useEffect(() => {
+        getLeadFormToken().then(setFormToken).catch(() => {});
+    }, []);
+
+    const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (location.trim()) {
+        if (!location.trim() || loading) return;
+        setLoading(true);
+        try {
+            const result = await checkCoverage(location);
+            setCoverageNote(result.message);
             setStep('info');
+        } catch {
+            setCoverageNote('Coverage lookup is temporarily unavailable. Leave your number and our team will confirm.');
+            setStep('info');
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleFinalSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loading) return;
         setLoading(true);
+        setError('');
 
         const result = await createLead({
             name,
             mobile: phone,
             city: location,
             message: `Availability check for: ${location}`,
-            source: 'coverage_section'
+            source: 'coverage_section',
+            honeypot,
+            formToken,
         });
 
         if (result.success) {
             setStep('success');
         } else {
-            alert("Something went wrong. Please try again.");
+            setError(result.error);
         }
         setLoading(false);
     };
@@ -113,9 +135,26 @@ const Coverage = () => {
                                         className="bg-white p-5 md:p-14 rounded-[2rem] md:rounded-[3rem] border border-[#E5E7EB] shadow-[0_15px_50px_rgb(0,0,0,0.05)] relative overflow-hidden"
                                     >
                                         <form onSubmit={handleFinalSubmit} className="space-y-8 relative z-10">
+                                            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                                                <label htmlFor="coverage-company-website">Company website</label>
+                                                <input
+                                                    id="coverage-company-website"
+                                                    type="text"
+                                                    name="company_website"
+                                                    tabIndex={-1}
+                                                    autoComplete="off"
+                                                    value={honeypot}
+                                                    onChange={(e) => setHoneypot(e.target.value)}
+                                                />
+                                            </div>
                                             <div className="text-left mb-4">
                                                 <h3 className="text-2xl font-black text-[#0A192F]">Contact Info</h3>
-                                                <p className="text-[#0A192F]/40 text-sm font-bold">Location identified: {location}. Tell us who you are so we can confirm availability.</p>
+                                                <p className="text-[#0A192F]/40 text-sm font-bold">
+                                                    {coverageNote || `Location identified: ${location}. Tell us who you are so we can confirm availability.`}
+                                                </p>
+                                                <p className="text-[#0A192F]/30 text-xs font-semibold mt-2">
+                                                    Area-level availability only — our team confirms coverage at your exact address.
+                                                </p>
                                             </div>
 
                                             <div className="space-y-4 text-left">
@@ -154,6 +193,11 @@ const Coverage = () => {
                                                 </div>
                                             </div>
 
+                                            {error && (
+                                                <p className="text-red-600 bg-red-50 border border-red-200 rounded-2xl px-4 py-3 text-sm font-bold text-left">
+                                                    {error}
+                                                </p>
+                                            )}
                                             <button type="submit" disabled={loading} suppressHydrationWarning className="w-full bg-[#0A192F] text-white py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-3 hover:bg-[#1A2F4F] transition-all transform active:scale-[0.98]">
                                                 {loading ? 'Processing...' : 'Notify Me Upon Availability'}
                                             </button>

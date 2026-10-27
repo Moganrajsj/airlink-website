@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, RadioTower } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { createLead } from '@/app/actions/leads';
+import { getLeadFormToken } from '@/app/actions/lead-token';
 import Aurora from '@/components/animations/Aurora';
 import BlurText from '@/components/animations/BlurText';
 
@@ -21,6 +22,7 @@ interface FormData {
     mobile: string;
     email: string;
     interest: string;
+    locality: string;
 }
 
 export default function LeadCapturePopup() {
@@ -33,10 +35,22 @@ export default function LeadCapturePopup() {
     const hidePopup = pathname.startsWith("/admin") || pathname.startsWith("/auth");
     
     const [mobileError, setMobileError] = useState('');
+    const [formError, setFormError] = useState('');
     const [form, setForm] = useState<FormData>({
-        name: '', mobile: '', email: '', interest: INTEREST_OPTIONS[0]
+        name: '', mobile: '', email: '', interest: INTEREST_OPTIONS[0], locality: ''
     });
+    // Hidden honeypot: only scripts fill this. Never shown to real visitors.
+    const [honeypot, setHoneypot] = useState('');
+    const [formToken, setFormToken] = useState('');
     const hasShownOnce = React.useRef(false);
+
+    useEffect(() => {
+        let cancelled = false;
+        getLeadFormToken()
+            .then((token) => { if (!cancelled) setFormToken(token); })
+            .catch(() => { /* timing is a signal, not a requirement */ });
+        return () => { cancelled = true; };
+    }, []);
 
     useEffect(() => {
         if (hidePopup || success) return;
@@ -74,13 +88,16 @@ export default function LeadCapturePopup() {
         if (!validateMobile(form.mobile)) return;
 
         setLoading(true);
+        setFormError('');
         const result = await createLead({
             name: form.name,
             mobile: form.mobile,
             email: form.email || undefined,
-            city: "N/A",
+            city: form.locality.trim() || undefined,
             interest: form.interest,
             source: 'popup_lead',
+            honeypot,
+            formToken,
         });
         setLoading(false);
 
@@ -90,6 +107,9 @@ export default function LeadCapturePopup() {
             setTimeout(() => {
                 setIsVisible(false);
             }, 500);
+        } else {
+            setFormError(result.error);
+            if (result.field === 'phone') setMobileError(result.error);
         }
     };
 
@@ -172,6 +192,18 @@ export default function LeadCapturePopup() {
                                         </motion.div>
                                     ) : (
                                         <form onSubmit={handleSubmit} className="space-y-4">
+                                            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: 1, height: 1, overflow: 'hidden' }}>
+                                                <label htmlFor="popup-company-website">Company website</label>
+                                                <input
+                                                    id="popup-company-website"
+                                                    type="text"
+                                                    name="company_website"
+                                                    tabIndex={-1}
+                                                    autoComplete="off"
+                                                    value={honeypot}
+                                                    onChange={(e) => setHoneypot(e.target.value)}
+                                                />
+                                            </div>
                                             <div>
                                                 <input
                                                     type="text"
@@ -207,6 +239,15 @@ export default function LeadCapturePopup() {
                                                     className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
                                                 />
                                             </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Area / PIN code"
+                                                    value={form.locality}
+                                                    onChange={e => setForm(f => ({ ...f, locality: e.target.value }))}
+                                                    className="w-full bg-white/50 border border-white/40 focus:border-[#0A192F] focus:bg-white text-[#0A192F] placeholder-[#0A192F]/50 rounded-xl px-5 py-3.5 text-sm outline-none transition-all font-semibold"
+                                                />
+                                            </div>
                                             <div className="relative">
                                                 <select
                                                     required
@@ -224,6 +265,11 @@ export default function LeadCapturePopup() {
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                                 </div>
                                             </div>
+                                            {formError && (
+                                                <p className="text-red-700 bg-white/70 border border-red-500/30 rounded-xl px-4 py-2.5 text-xs font-bold">
+                                                    {formError}
+                                                </p>
+                                            )}
                                             <button
                                                 type="submit"
                                                 disabled={!form.name.trim() || !form.mobile || loading}

@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 const FloatingWhatsApp = dynamic(() => import("@/components/ui/FloatingWhatsApp"), { ssr: false });
 const StickyCallBar = dynamic(() => import("@/components/ui/StickyCallBar"), { ssr: false });
 const LeadCapturePopup = dynamic(() => import("@/components/popup/LeadCapturePopup"), { ssr: false });
+const AiAssistant = dynamic(() => import("@/components/ai/AiAssistant"), { ssr: false });
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -23,6 +24,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
             {!isRestricted && <FloatingWhatsApp />}
             {!isRestricted && <StickyCallBar />}
             {!isRestricted && <LeadCapturePopup />}
+            {!isRestricted && <AiAssistant />}
         </>
     );
 }

@@ -49,6 +49,8 @@ model Coverage {
   id         String   @id @default(cuid())
   cityName   String
   status     String
+  /** Comma-separated PIN codes served by this area (optional). */
+  pincodes   String?
   leadsCount Int      @default(0)
   updatedAt  DateTime @updatedAt
 }
@@ -96,6 +98,120 @@ model Lead {
   planId     String?
   message    String?
   createdAt  DateTime @default(now())
+
+  // Validation & anti-abuse (additive, nullable except statuses)
+  rawName            String?
+  rawPhone           String?
+  nameNormalized     String?
+  phoneNormalized    String?
+  validationStatus   String   @default("valid")
+  validationFlags    String?  @db.Text
+  verificationStatus String   @default("unverified")
+  botRisk            Int      @default(0)
+  botSignals         String?  @db.Text
+  campaign           String?
+  ipHash             String?
+  userAgentHash      String?
+  duplicateOfId      String?
+
+  // AI lead intelligence (all nullable / additive)
+  aiScore           Int?
+  aiTier            String?
+  aiSummary         String?   @db.Text
+  aiIntent          String?
+  aiRecommendedPlan String?
+  aiNextAction      String?
+  aiTags            String?
+  aiReasons         String?   @db.Text
+  aiStatus          String    @default("pending")
+  aiScoredAt        DateTime?
+  aiModel           String?
+
+  // Lead quality vs abuse risk are deliberately separate scores.
+  qualityScore   Int?
+  spamRisk       Int?
+  classification String?
+  confidence     String?
+  reviewOutcome  String?
+  followUpOwner  String?
+  lastContactAt  DateTime?
+  reviewedBy     String?
+  reviewedAt     DateTime?
+
+  events LeadEvent[]
+
+  @@index([aiScore])
+  @@index([aiStatus])
+  @@index([createdAt])
+  @@index([phoneNormalized])
+  @@index([validationStatus])
+  @@index([classification])
+  @@index([duplicateOfId])
+}
+
+model AiUsage {
+  id         String   @id @default(cuid())
+  day        DateTime @unique @db.Date
+  requests   Int      @default(0)
+  failures   Int      @default(0)
+  tokensIn   Int      @default(0)
+  tokensOut  Int      @default(0)
+  updatedAt  DateTime @updatedAt
+}
+
+/// Immutable audit trail for a lead: creation, validation, scoring, review,
+/// status changes and duplicate links. Never overwritten.
+model LeadEvent {
+  id        String   @id @default(cuid())
+  leadId    String
+  type      String
+  actor     String?
+  payload   String?  @db.Text
+  createdAt DateTime @default(now())
+
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId, createdAt])
+  @@index([type, createdAt])
+}
+
+/// Durable rate limiting (in-memory counters reset on every deploy/restart).
+model RateLimitBucket {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@index([windowStart])
+}
+
+/// Security-relevant events (auth failures, rate-limit blocks, honeypot hits).
+/// Contains only hashed IPs — never raw addresses or customer details.
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  kind      String
+  ipHash    String?
+  detail    String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([kind, createdAt])
+}
+
+/// Admin-editable approved knowledge for the public assistant.
+model KnowledgeEntry {
+  id        String   @id @default(cuid())
+  category  String
+  question  String
+  answer    String   @db.Text
+  keywords  String?  @db.Text
+  priority  Int      @default(0)
+  isActive  Boolean  @default(true)
+  updatedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([isActive])
 }
 
 model User {

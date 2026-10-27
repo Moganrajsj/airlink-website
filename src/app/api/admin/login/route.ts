@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-dev-only";
+import { ADMIN_COOKIE_NAME, signAdminToken } from "@/lib/auth/admin-session";
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
-        const { email, password } = body;
+        const body = await request.json().catch(() => null);
+        const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+        const password = typeof body?.password === "string" ? body.password : "";
 
         if (!email || !password) {
             return NextResponse.json(
@@ -18,51 +17,32 @@ export async function POST(request: Request) {
             );
         }
 
-        // Find admin - Canonicalize email to lowercase
-        const admin = await prisma.admin.findUnique({
-            where: { email: email.toLowerCase() }
+        const admin = await prisma.admin.findUnique({ where: { email } });
+
+        // Always run a bcrypt comparison so a missing account and a wrong
+        // password take a similar amount of time.
+        const hash = admin?.password ?? "$2a$10$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidinvalid";
+        const isPasswordValid = await bcrypt.compare(password, hash).catch(() => false);
+
+        if (!admin || !isPasswordValid) {
+            return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+        }
+
+        const token = await signAdminToken({
+            id: admin.id,
+            email: admin.email,
+            role: admin.role,
         });
 
-        if (!admin) {
-            return NextResponse.json(
-                { error: "Invalid credentials" },
-                { status: 401 }
-            );
-        }
-
-        // Compare password
-        const isPasswordValid = await bcrypt.compare(password, admin.password);
-
-        if (!isPasswordValid) {
-            return NextResponse.json(
-                { error: "Invalid credentials" },
-                { status: 401 }
-            );
-        }
-
-        // Create JWT token with explicit algorithm
-        const token = jwt.sign(
-            { 
-                id: admin.id, 
-                email: admin.email, 
-                role: admin.role 
-            },
-            JWT_SECRET,
-            { expiresIn: "1d", algorithm: "HS256" }
-        );
- 
-        // Set secure cookie - handle local dev vs production
         const isProduction = process.env.NODE_ENV === "production";
-        const isLocalhost = request.headers.get("host")?.includes("localhost");
-        
-        console.log(`[Login API] Creating session for ${admin.email}. Production: ${isProduction}, Localhost: ${isLocalhost}`);
+        const isLocalhost = request.headers.get("host")?.includes("localhost") ?? false;
 
         const cookieStore = await cookies();
-        cookieStore.set("admin_session", token, {
+        cookieStore.set(ADMIN_COOKIE_NAME, token, {
             httpOnly: true,
-            secure: isProduction && !isLocalhost, // Only secure if production AND not localhost
+            secure: isProduction && !isLocalhost,
             sameSite: "lax",
-            maxAge: 60 * 60 * 24, // 1 day
+            maxAge: 60 * 60 * 24,
             path: "/",
         });
 
@@ -71,18 +51,11 @@ export async function POST(request: Request) {
             user: {
                 name: admin.name,
                 email: admin.email,
-                role: admin.role
-            }
-        });
-
-    } catch (error: any) {
-        console.error("Login API Error:", error);
-        return NextResponse.json(
-            { 
-                error: error?.message || "Internal server error",
-                details: error?.code || error?.name || "Unknown error"
+                role: admin.role,
             },
-            { status: 500 }
-        );
+        });
+    } catch (error) {
+        console.error("Login API Error:", error instanceof Error ? error.message : error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

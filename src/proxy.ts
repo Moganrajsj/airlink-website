@@ -1,41 +1,60 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "fallback-secret-for-dev-only"
-);
+/**
+ * Edge guard for admin navigation and admin APIs.
+ *
+ * This is a first line of defence only. Every server action and route handler
+ * re-checks the session with `requireAdmin()` because middleware matchers can
+ * be bypassed and because read-only viewers need finer-grained checks.
+ */
+
+const DEV_FALLBACK_SECRET = "fallback-secret-for-dev-only";
+const PUBLIC_ADMIN_PATHS = ["/api/admin/login", "/api/admin/logout"];
+
+function secretKey(): Uint8Array | null {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        if (process.env.NODE_ENV === "production") return null; // fail closed
+        return new TextEncoder().encode(DEV_FALLBACK_SECRET);
+    }
+    return new TextEncoder().encode(secret);
+}
+
+async function isValidSession(request: NextRequest): Promise<boolean> {
+    const token = request.cookies.get("admin_session")?.value;
+    if (!token) return false;
+
+    const key = secretKey();
+    if (!key) return false;
+
+    try {
+        await jwtVerify(token, key, { algorithms: ["HS256"] });
+        return true;
+    } catch {
+        return false;
+    }
+}
 
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // Only protect /admin routes
-    if (pathname.startsWith('/admin')) {
-        const session = request.cookies.get('admin_session');
-        console.log(`[Middleware] Path: ${pathname}, Session Cookie: ${session ? 'Found' : 'Missing'}`);
+    if (PUBLIC_ADMIN_PATHS.some((path) => pathname === path)) {
+        return NextResponse.next();
+    }
 
-        if (!session) {
-            console.log("[Middleware] No session cookie, redirecting to /auth");
-            // Redirect to login if no session
-            const url = new URL('/auth', request.url);
-            return NextResponse.redirect(url);
+    if (!(await isValidSession(request))) {
+        // API callers get JSON, browsers get the login page.
+        if (pathname.startsWith("/api/")) {
+            return NextResponse.json({ success: false, error: "Not authorised." }, { status: 401 });
         }
-
-        try {
-            // Verify JWT token using jose (edge compatible)
-            const { payload } = await jwtVerify(session.value, JWT_SECRET, { algorithms: ['HS256'] });
-            console.log("[Middleware] JWT Verified successfully for:", payload.email);
-            return NextResponse.next();
-        } catch (error) {
-            console.error("[Middleware] JWT Verification failed:", error instanceof Error ? error.message : error);
-            const url = new URL('/auth', request.url);
-            return NextResponse.redirect(url);
-        }
+        return NextResponse.redirect(new URL("/auth", request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/admin/:path*'],
+    matcher: ["/admin/:path*", "/api/admin/:path*"],
 };
