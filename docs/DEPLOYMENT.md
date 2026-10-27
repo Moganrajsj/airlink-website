@@ -1,8 +1,55 @@
 # Airlink AI — Deployment Guide
 
-Target: **GoDaddy cPanel + Phusion Passenger** (Node.js app), MySQL 8.
+Target: **Vercel** (Next.js app) with a **GoDaddy MySQL 8** database.
 
 Last updated: 27 October 2026
+
+---
+
+## 0a. Production hosting is Vercel (read this first)
+
+Live traffic is served by Vercel, **not** by the GoDaddy cPanel account:
+
+| Item | Value |
+| --- | --- |
+| Vercel project | `airlink-website` (`prj_5cWyXpaeZ7AgLveWDB8NJLXi835J`) |
+| Git source | `github.com/Moganrajsj/airlink-website`, branch `main` |
+| Domains | `srirambroadband.com`, `www.srirambroadband.com` |
+| Runtime | Node 24.x |
+| Database | GoDaddy MySQL, `148.66.138.142:3306/airlink_db` |
+
+**Pushing to `airlink-website` `main` is the deploy.** Vercel builds and promotes
+automatically; a failed build leaves the previous deployment live.
+
+> **The `airlink-broadband` GitHub repo is a mirror, not the deploy source.**
+> Pushing there deploys nothing. Keep both in sync with:
+> `git push origin main && git push airlink-website main`
+
+Environment variables live in **Vercel → Project → Settings → Environment
+Variables** (Production + Preview), not in a file. A fresh checkout has no
+`.env*`, which is intended. Required: `DATABASE_URL`, `JWT_SECRET`,
+`FORM_TOKEN_SECRET`, `IP_HASH_SALT`, `APP_URL`, `NODE_ENV`, `SMTP_HOST`,
+`SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `AI_API_KEY`,
+`CRON_SECRET`.
+
+The daily retention job is defined in `vercel.json` (`crons`), which runs
+`/api/cron/retention` at 03:00 UTC. Vercel automatically sends
+`Authorization: Bearer $CRON_SECRET`, so the route authenticates without extra
+configuration. Hobby plan allows one run per day — do not make it more frequent.
+
+### Deploy checklist (Vercel)
+
+1. `npm test` and `npx tsc --noEmit`.
+2. `git push origin main && git push airlink-website main`.
+3. Watch the deployment reach **READY**.
+4. Smoke test: `/` and `/contact` → 200; `/admin/intelligence` → 307 to `/auth`
+   with `X-Robots-Tag: noindex` and `Cache-Control: no-store`;
+   `/api/cron/retention` → 401 without the bearer token.
+5. Roll back by promoting the previous deployment in the Vercel dashboard
+   (Deployments → older build → Promote to Production).
+
+Sections 1–7 below describe the **legacy GoDaddy cPanel/Passenger** path. It is
+kept for reference only — nothing in production currently runs on it.
 
 ---
 
