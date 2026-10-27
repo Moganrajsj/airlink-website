@@ -8,13 +8,14 @@ Last updated: 27 October 2026
 
 ## 0. Before you deploy — two things that will bite you
 
-1. **`.env.production` in this repo is a template.** It currently contains
+1. **A local `.env.production` can silently poison a build.** The copy in the
+   working tree is a template and contains
    `DATABASE_URL="mysql://user:password@localhost:3306/YOUR_DB_NAME"`. Next.js
-   loads `.env.production` *before* `.env` during `next build`, so a local build
-   falls back to static data (you will see
-   `Database connection failed, using static fallbacks`). Delete that file on the
-   server, or replace its values with the real production ones. Do not leave the
-   placeholder in place.
+   loads `.env.production` *before* `.env` during `next build`, so a build with
+   that file present falls back to static data (you will see
+   `Database connection failed, using static fallbacks`). It is **gitignored**
+   and therefore never on the server — keep it that way, and delete it locally
+   before any build that must hit the real database.
 2. **Rotate the Groq API key** before going live if it has ever been pasted into
    a chat, ticket or commit. Keys must only ever exist in the hosting env panel.
 
@@ -114,10 +115,60 @@ On cPanel:
 
 1. **Setup Node.js App** → create the application pointing at the project
    directory, startup file `app.js`, `NODE_ENV=production`.
+   Pick **Node 20.9+** (22 LTS preferred); Next.js 16 will not run on older
+   versions.
 2. Add the environment variables from step 1.
-3. Upload the source (excluding `node_modules`, `.next`, `.env*`) or `git pull`.
+3. Get the source onto the server — see §3.1 for the Git flow.
 4. Run `npm ci && npm run build` from the cPanel terminal.
 5. Restart the application.
+
+### 3.1 Pulling from GitHub (cPanel → Git™ Version Control)
+
+`app.js` boots Next.js via `next({ dev: false })`, so a normal `next build` is
+all the server needs. `output: "standalone"` is also set, but the Passenger
+entry point does **not** use `.next/standalone`, so do not copy that folder
+into place or point the app root at it.
+
+**The repo is private**, so cPanel needs read access. Pick one:
+
+- **Deploy key (read-only, recommended)** — cPanel → *SSH Access* → *Manage SSH
+  Keys* → generate a key → *Authorize* it. Copy the **public** key into GitHub →
+  repo → *Settings* → *Deploy keys* → *Add deploy key* (leave write access off).
+  Use the SSH clone URL `git@github.com:Moganrajsj/airlink-broadband.git`.
+- **Personal access token** — create a GitHub token with `repo` read scope and
+  use `https://<TOKEN>@github.com/Moganrajsj/airlink-broadband.git` as the clone
+  URL. The token is stored in cPanel's git config; rotate it if it ever leaks.
+
+Steps:
+
+1. cPanel → **Files → Git™ Version Control → Create**.
+2. Clone URL as above. **Clone directory must be empty** — if the site already
+   lives at `~/airlink`, clone to a fresh path (e.g. `~/airlink-app`) or back
+   the old directory up and remove it first.
+3. Branch: `main`. Create.
+4. Open the repo → **Manage** → **Update from Remote**, then **Deploy HEAD
+   Commit**. Confirm the HEAD commit shown matches the one you pushed.
+5. In **Setup Node.js App**, set *Application root* to that clone directory,
+   *Application startup file* to `app.js`, and add an `LSN`/`.htaccess` restart.
+6. Terminal: `cd ~/airlink-app && npm ci && npm run build`, then **Restart** in
+   the Node.js App panel.
+
+Notes specific to this repo:
+
+- `node_modules`, `.next` and **every `.env*` file are gitignored**, so a fresh
+  clone contains no secrets at all. All configuration must come from the
+  *Setup Node.js App → Environment variables* panel. That is intended — do not
+  copy a local `.env` into the clone.
+- Consequently the `.env.production` trap in §0 cannot reach the server unless
+  you upload it by hand. Don't.
+- `npm ci` runs `postinstall: prisma generate`. This needs the Linux engine,
+  which is already in `binaryTargets` (`rhel-openssl-3.0.x`,
+  `debian-openssl-3.0.x`); no extra step is required.
+- To update later: **Update from Remote** → **Deploy HEAD Commit** → `npm ci`
+  (only when dependencies changed) → `npm run build` → **Restart**.
+- To roll back: check out the previous commit in cPanel's Git UI, rebuild, and
+  restart. The migration is additive (§6), so older code runs fine against the
+  newer schema.
 
 ### Build sanity check
 
